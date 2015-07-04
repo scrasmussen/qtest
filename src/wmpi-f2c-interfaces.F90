@@ -2,14 +2,24 @@
 ! This file contains interfaces describing the C
 ! MPI handle handle translators.  I think the normal
 ! conversion routines in Fortran are broken because
-! Fortran has now way of declaring the C handles.
+! Fortran has no way of declaring the C handles.  The
+! WMPI Fortran handles should be declared with the
+! SAME size as the C handles.  This means they will be
+! library dependent.
 !
 ! These handles (WMPI) are declared in wmpi-types.F90
+!
+
+!
+! NOTE: Create this file by hand for all handles.
 !
 
 module wmpi_f2c_interfaces
 
   interface
+
+! NOTE: This BINDC name should be changed to MPI_Comm_f2c after testing
+! is completed.
 
     function WMPI_Comm_f2c(f_comm) result(c_comm) bind(C,name="WMPI_Comm_f2c")
       use ISO_C_BINDING
