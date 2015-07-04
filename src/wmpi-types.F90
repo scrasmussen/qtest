@@ -7,8 +7,9 @@
 
 module WMPI_types
    use :: ISO_C_BINDING
+   implicit none
 
-   integer, parameter :: LEN_MPI_COMM = 8
+   include "wmpi-handle-size.h"
 
    !!
    ! Need to worry about extra padding and alignment
