@@ -1,0 +1,14 @@
+This machine is cab32
+My jobid is 771947
+
+-------------Job Output Below-------------
+App launch reported: 1 (out of 1) daemons - 1 (out of 1) procs
+ MAIN: before MPI_Finalize
+ MPI_Finalize_f08 BEFORE C CALL
+ C-tool Before WMPI_Finalize_C
+ C-wrapper Before PMPI_Finalize
+ C-wrapper After PMPI_Finalize
+ C-tool After WMPI_Finalize_C
+ MPI_Finalize_f08 AFTER C CALL
+ MAIN: after MPI_Finalize
+--------------Job Is Finished-------------
