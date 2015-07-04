@@ -1,0 +1,154 @@
+OfpProgram(
+  None()
+, [ OfpModule(
+      "mpi_f08_interfaces"
+    , OfpScope(
+        OfpSpecPart(
+          [ InterfaceBlock(
+              InterfaceStmt(no-label(), "MPI_Send", eos("\n"))
+            , [ InterfaceBody(
+                  SubroutineStmt(
+                    no-label()
+                  , no-prefix()
+                  , "MPI_Send_f08"
+                  , ["buf", "count", "datatype", "dest", "tag", "comm", "ierror"]
+                  , LanguageBindingSpec("MPI_Send_f08")
+                  , eos("\n   ")
+                  )
+                , OfpSpecPart(
+                    [ UseOnlyStmt(
+                        no-label()
+                      , no-module-nature()
+                      , "mpi_f08_types"
+                      , OnlyList(["MPI_Datatype", "MPI_Comm"])
+                      , eos("\n   ")
+                      )
+                    , ImplicitNoneStmt(no-label(), eos("\n   "))
+                    , TypeDeclarationStmt(
+                        no-label()
+                      , AssumedType()
+                      , [Dimension(AssumedRank()), Intent(IN())]
+                      , [EntityDecl("buf", [], [], no-char-length(), no-init())]
+                      , eos("\n   ")
+                      )
+                    , TypeDeclarationStmt(
+                        no-label()
+                      , IntrinsicType(INTEGER(no-kind()))
+                      , [Intent(IN())]
+                      , [ EntityDecl("count", [], [], no-char-length(), no-init())
+                        , EntityDecl("dest", [], [], no-char-length(), no-init())
+                        , EntityDecl("tag", [], [], no-char-length(), no-init())
+                        ]
+                      , eos("\n   ")
+                      )
+                    , TypeDeclarationStmt(
+                        no-label()
+                      , DerivedType("MPI_Datatype", [])
+                      , [Intent(IN())]
+                      , [EntityDecl("datatype", [], [], no-char-length(), no-init())]
+                      , eos("\n   ")
+                      )
+                    , TypeDeclarationStmt(
+                        no-label()
+                      , DerivedType("MPI_Comm", [])
+                      , [Intent(IN())]
+                      , [EntityDecl("comm", [], [], no-char-length(), no-init())]
+                      , eos("\n   ")
+                      )
+                    , TypeDeclarationStmt(
+                        no-label()
+                      , IntrinsicType(INTEGER(no-kind()))
+                      , [OPTIONAL(), Intent(OUT())]
+                      , [EntityDecl("ierror", [], [], no-char-length(), no-init())]
+                      , eos("\n")
+                      )
+                    ]
+                  )
+                , EndSubroutineStmt(no-label(), "MPI_Send_f08", eos("\n"))
+                )
+              ]
+            , EndInterfaceStmt(no-label(), "MPI_Send", eos("\n\n"))
+            )
+          , InterfaceBlock(
+              InterfaceStmt(no-label(), "MPI_Recv", eos("\n"))
+            , [ InterfaceBody(
+                  SubroutineStmt(
+                    no-label()
+                  , no-prefix()
+                  , "MPI_Recv_f08"
+                  , ["buf", "count", "datatype", "source", "tag", "comm", "status", "ierror"]
+                  , LanguageBindingSpec("MPI_Recv_f08")
+                  , eos("\n   ")
+                  )
+                , OfpSpecPart(
+                    [ UseOnlyStmt(
+                        no-label()
+                      , no-module-nature()
+                      , "mpi_f08_types"
+                      , OnlyList(["MPI_Datatype", "MPI_Comm", "MPI_Status"])
+                      , eos("\n   ")
+                      )
+                    , ImplicitNoneStmt(no-label(), eos("\n   "))
+                    , TypeDeclarationStmt(
+                        no-label()
+                      , AssumedType()
+                      , [Dimension(AssumedRank())]
+                      , [EntityDecl("buf", [], [], no-char-length(), no-init())]
+                      , eos("\n   ")
+                      )
+                    , TypeDeclarationStmt(
+                        no-label()
+                      , IntrinsicType(INTEGER(no-kind()))
+                      , [Intent(IN())]
+                      , [ EntityDecl("count", [], [], no-char-length(), no-init())
+                        , EntityDecl("source", [], [], no-char-length(), no-init())
+                        , EntityDecl("tag", [], [], no-char-length(), no-init())
+                        ]
+                      , eos("\n   ")
+                      )
+                    , TypeDeclarationStmt(
+                        no-label()
+                      , DerivedType("MPI_Datatype", [])
+                      , [Intent(IN())]
+                      , [EntityDecl("datatype", [], [], no-char-length(), no-init())]
+                      , eos("\n   ")
+                      )
+                    , TypeDeclarationStmt(
+                        no-label()
+                      , DerivedType("MPI_Comm", [])
+                      , [Intent(IN())]
+                      , [EntityDecl("comm", [], [], no-char-length(), no-init())]
+                      , eos("\n   ")
+                      )
+                    , TypeDeclarationStmt(
+                        no-label()
+                      , DerivedType("MPI_Status", [])
+                      , []
+                      , [EntityDecl("status", [], [], no-char-length(), no-init())]
+                      , eos("\n   ")
+                      )
+                    , TypeDeclarationStmt(
+                        no-label()
+                      , IntrinsicType(INTEGER(no-kind()))
+                      , [OPTIONAL(), Intent(OUT())]
+                      , [EntityDecl("ierror", [], [], no-char-length(), no-init())]
+                      , eos("\n")
+                      )
+                    ]
+                  )
+                , EndSubroutineStmt(no-label(), "MPI_Recv_f08", eos("\n"))
+                )
+              ]
+            , EndInterfaceStmt(no-label(), "MPI_Recv", eos("\n\n"))
+            )
+          ]
+        )
+      , OfpExecPart([])
+      , OfpFuncPart([])
+      , ModuleStmt(no-label(), "mpi_f08_interfaces", eos("\n\n"))
+      , None()
+      , EndModuleStmt(no-label(), "mpi_f08_interfaces", eos("\n"))
+      )
+    )
+  ]
+)

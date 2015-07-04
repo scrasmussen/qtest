@@ -1,0 +1,27 @@
+#
+# Lawrence Livermore National Lab June, 2015
+#
+#
+
+======================
+Current Fortran Chain:
+======================
+main -> qmpi -> ctool -> pmpi_x -> pmpi -> pmpi_x -> ctool -> qmpi -> main
+
+example/ is the directory that has the example files that use print statements to show this path.
+
+========
+qwrap.py
+========
+qwrap.py will read in the aterms and c-tool call and create the two wrappers to follow the chain. It currently also creates the ctools file.
+
+=====
+TO DO
+=====
+-add more mpi calls to example. send, receive, and two others that are on the wiki
+-add header file for the second wrappers c functions. Intel's compiler doesn't currently complain but other will probably be more picky
+-which lead to: When example is complete test on all three openmpi compilers
+-create a c function to return the size of handles. Status type is an important one to inspect
+-read mpi manual on opque data types
+
+MORE DOCUMENTATION TO COME
