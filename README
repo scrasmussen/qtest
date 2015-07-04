@@ -18,10 +18,16 @@ qwrap.py will read in the aterms and c-tool call and create the two wrappers to 
 =====
 TO DO
 =====
--add more mpi calls to example. send, receive, and two others that are on the wiki
+-create c file to calculate size of handles. In fortran just create space for them and if you have space you can allocate space. We'll have prototypes for the c and then the Fortran can just call those. Give presentation 
+-add more mpi calls to example. send, receive, and comm_size, comm_rank
+-write sizeof in c to create a file with all the types definitions
+   - declare types and pass them to c
+   - use mpi_comm_world. check to see how things are copied, ie value reference
+   - use ==
 -add header file for the second wrappers c functions. Intel's compiler doesn't currently complain but other will probably be more picky
 -which lead to: When example is complete test on all three openmpi compilers
 -create a c function to return the size of handles. Status type is an important one to inspect
 -read mpi manual on opque data types
+-Final product must have testing and documentation for everything
 
 MORE DOCUMENTATION TO COME
