@@ -2,19 +2,31 @@
 #include <mpi.h>
 
 /* This direct call to PMPI_Finalize is temporary, should call WMPI_Finalize_ctool? */
-int WMPI_Finalize(int lflag)
+int WMPI_Init(int fflag)
 {
   int ierror;
 
-  printf(" C-wrapper Before PMPI_Finalize\n");
+  printf(" WMPI_Init: Before PMPI_Init\n");
+  ierror = PMPI_Init(0, NULL);
+  printf(" WMPI_Init: After PMPI_Init\n");
+
+  return ierror;
+}
+
+/* This direct call to PMPI_Finalize is temporary, should call WMPI_Finalize_ctool? */
+int WMPI_Finalize(int fflag)
+{
+  int ierror;
+
+  printf(" WMPI_Finalize: Before PMPI_Finalize\n");
   ierror = PMPI_Finalize();
-  printf(" C-wrapper After PMPI_Finalize\n");
+  printf(" WMPI_Finalize: After PMPI_Finalize\n");
 
   return ierror;
 }
 
 /* This direct call to PMPI_Comm_rank is temporary, should call WMPI_Comm_rank_ctool? */
-int WMPI_Comm_rank(MPI_Comm comm, int * rank, int lflag)
+int WMPI_Comm_rank(MPI_Comm comm, int * rank, int fflag)
 {
   int ierror;
 

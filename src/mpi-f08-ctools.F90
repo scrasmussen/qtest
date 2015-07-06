@@ -1,18 +1,28 @@
 !===== WRAPPER 1 =====
 
+subroutine MPI_Init_f08(ierror)
+  use, intrinsic :: ISO_C_BINDING, only : C_INT
+  use wmpi_ctool_interfaces, only : WMPI_Init
+  implicit none
+  INTEGER, OPTIONAL, INTENT(OUT) :: ierror
+  INTEGER(C_INT) :: c_ierr
+
+  print *,'MPI_Init_f08 wrapper before c call'
+  c_ierr = WMPI_Init(1_C_INT)
+  print *, 'MPI_Init_f08 wrapper after c call'
+end subroutine MPI_Init_f08
+
 subroutine MPI_Finalize_f08(ierror)
   use, intrinsic :: ISO_C_BINDING, only : C_INT
   use wmpi_ctool_interfaces, only : WMPI_Finalize
   implicit none
   INTEGER, OPTIONAL, INTENT(OUT) :: ierror
-  INTEGER(C_INT) :: lflag, c_ierr
+  INTEGER(C_INT) :: c_ierr
 
-  lflag = 1_C_INT
-  print *,'F-wrapper before c call'
-  c_ierr = WMPI_Finalize(lflag)
-  print *, 'F-wrapper after c call'
+  print *,'MPI_Finalize_f08 wrapper before c call'
+  c_ierr = WMPI_Finalize(1_C_INT)
+  print *, 'MPI_Finalize_f08 wrapper after c call'
 end subroutine MPI_Finalize_f08
-
 
 subroutine MPI_Comm_rank_f08(comm,rank,ierror)
   use, intrinsic :: ISO_C_BINDING, only : C_INT
