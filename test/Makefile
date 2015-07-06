@@ -7,8 +7,9 @@ SRC_DIR = ../src
 
 FFLAGS = -I $(SRC_DIR)
 
-OBJS = wmpi-f2c.o test-wmpi-types.o
-SRC_OBJS = $(SRC_DIR)/wmpi-types.o $(SRC_DIR)/wmpi-f2c-interfaces.o
+OBJS = wmpi-f2c.o
+SRC_OBJS = $(SRC_DIR)/wmpi-types.o $(SRC_DIR)/wmpi-f2c-interfaces.o \
+           $(SRC_DIR)/mpi-f08-ctools.o $(SRC_DIR)/wmpi_c.o
 
 .SUFFIXES: .F90 .c .o
 
@@ -18,13 +19,16 @@ SRC_OBJS = $(SRC_DIR)/wmpi-types.o $(SRC_DIR)/wmpi-f2c-interfaces.o
 .c.o:
 	$(CC) -c $(@:.o=.c)
 
-all: $(OBJS) test-wmpi-types
+all: $(OBJS) test-wmpi-types test-wmpi
 
-test-wmpi-types: $(OBJS)
-	$(FC) -o test-wmpi-types $(OBJS) $(SRC_OBJS)
+test-wmpi-types: test-wmpi-types.o $(OBJS)
+	$(FC) -o test-wmpi-types test-wmpi-types.o $(OBJS) $(SRC_OBJS)
 
-check: test-wmpi-types
-	@test-wmpi-types
+test-wmpi: test-wmpi.o $(OBJS)
+	$(FC) -o test-wmpi test-wmpi.o $(OBJS) $(SRC_OBJS)
+
+check: test-wmpi-types test-wmpi
+	@mpirun -np 2 test-wmpi
 
 clean:
 	rm -f $(OBJS) test-wmpi-types
