@@ -13,5 +13,9 @@ OBJS = wmpi-types.o wmpi-f2c-interfaces.o wmpi-ctool-interfaces.o mpi-f08-ctools
 
 all: $(OBJS)
 
+create: create-wmpi-handle-size.c
+	$(CC) create-wmpi-handle-size.c -o create-wmpi-handle-size.exe
+	./create-wmpi-handle-size.exe
+
 clean:
-	rm -f $(OBJS) *.mod
+	rm -f $(OBJS) *.mod *.exe
