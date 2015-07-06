@@ -21,9 +21,10 @@ module WMPI_types
    !   - NOTE: CER-2015.7.4 - it appears that character with
    !           len=sizeof_C_handle_type should work.  Still
    !           need to worry about alignment?
+   !   - NOTE: CER-2015.7.6 - switched to array of integer(kind=C_SIGNED_CHAR)
    !
    type, BIND(C) :: WMPI_Comm
-      character(len=LEN_MPI_COMM,kind=C_CHAR) :: padding
+      integer(kind=C_SIGNED_CHAR) :: padding(LEN_MPI_COMM)
    end type WMPI_Comm
 
    ! TODO - fill in the rest
