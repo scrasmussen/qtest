@@ -37,6 +37,28 @@ module wmpi_f2c_interfaces
       integer :: f_comm
     end function WMPI_Comm_c2f
 
+
+! NOTE: This BINDC name should be changed to MPI_Datatype_f2c after testing
+! is completed.
+
+    function WMPI_Datatype_f2c(f_datatype) result(c_datatype) &
+      bind(C,name="WMPI_Datatype_f2c")
+      use ISO_C_BINDING
+      use wmpi_types
+      implicit none
+      integer, value  :: f_datatype
+      type(WMPI_Datatype) :: c_datatype
+    end function WMPI_Datatype_f2c
+
+    function WMPI_Datatype_c2f(c_datatype) result(f_datatype) &
+      bind(C,name="MPI_Datatype_c2f")
+      use ISO_C_BINDING
+      use wmpi_types
+      implicit none
+      type(WMPI_Datatype), value :: c_datatype
+      integer :: f_datatype
+    end function WMPI_Datatype_c2f
+
   end interface      
 
 end module wmpi_f2c_interfaces

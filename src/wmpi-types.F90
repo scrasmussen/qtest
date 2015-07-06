@@ -27,6 +27,10 @@ module WMPI_types
       integer(kind=C_SIGNED_CHAR) :: padding(LEN_MPI_COMM)
    end type WMPI_Comm
 
+   type, BIND(C) :: WMPI_Datatype
+      integer(kind=C_SIGNED_CHAR) :: padding(LEN_MPI_DATATYPE)
+   end type WMPI_Datatype
+
    ! TODO - fill in the rest
 
 end module WMPI_types
