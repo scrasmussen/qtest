@@ -31,5 +31,8 @@ test-wmpi: test-wmpi.o $(OBJS)
 check: test-wmpi-types test-wmpi
 	@mpirun -np 2 test-wmpi
 
+job: moabjob
+	@msub -V moabjob
+
 clean:
-	rm -f $(OBJS) $(EXES) *.o
+	rm -f $(OBJS) $(EXES) *.o output.moabjob
