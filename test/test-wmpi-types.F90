@@ -10,9 +10,7 @@ program test_wmpi_types
 
    call MPI_Init()
 
-   c_comm%padding = "12345678"
-
-   ! looks like using character(len= ) will work
+   ! check size of c_comm
    !
    print *, c_comm, c_sizeof(c_comm)
 
