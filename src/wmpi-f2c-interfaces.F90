@@ -80,6 +80,33 @@ module wmpi_f2c_interfaces
       integer :: f_errhandler
     end function WMPI_Errhandler_c2f
 
+! NOTE: This BINDC name should be changed to MPI_Group_f2c after testing
+! is completed.
+
+    function WMPI_Group_f2c(f_group) result(c_group) &
+      bind(C,name="WMPI_Group_f2c")
+      use ISO_C_BINDING
+      use wmpi_types
+      implicit none
+      integer, value  :: f_group
+      type(WMPI_Group) :: c_group
+    end function WMPI_Group_f2c
+
+    function WMPI_Group_c2f(c_group) result(f_group) &
+      bind(C,name="MPI_Group_c2f")
+      use ISO_C_BINDING
+      use wmpi_types
+      implicit none
+      type(WMPI_Group), value :: c_group
+      integer :: f_group
+    end function WMPI_Group_c2f
+
+
+
+!
+! TODO: MPI_FILE, MPI_GROUP, MPI_INFO, MPI_MESSAGE, MPI_OP, MPI_REQUEST, MPI_WIN,
+!       MPI_STATUS
+!
 
   end interface      
 

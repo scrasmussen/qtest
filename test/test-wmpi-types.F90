@@ -14,9 +14,13 @@ program test_wmpi_types
    integer :: f_errhandler, call_errhandler
    type(WMPI_Errhandler) :: c_errhandler
 
+   integer :: f_group, call_group
+   type(WMPI_Group) :: c_group
+
    call_comm = 0
    call_type = 0
-   call_errhandler = 1
+   call_errhandler = 0
+   call_group = 1
 
 
    call MPI_Init()
@@ -41,10 +45,19 @@ program test_wmpi_types
    ! check size of c_errhandler
    if (call_errhandler) then
       print *, c_errhandler, c_sizeof(c_errhandler)
-      c_errhandler = WMPI_Errhandler_f2c(MPI_ERRORS_ARE_FATAL%MPI_VAL)
+      c_errhandler = WMPI_Errhandler_f2c(MPI_ERRHANDLER_NULL%MPI_VAL)
       f_errhandler = WMPI_Errhandler_c2f(c_errhandler)
-      print *, "(MPI_ERRORS_ARE_FATAL%MPI_VAL,f_errhandler)", &
-           MPI_ERRORS_ARE_FATAL%MPI_VAL, f_errhandler
+      print *, "(MPI_ERRHANDLER_NULL%MPI_VAL,f_errhandler)", &
+           MPI_ERRHANDLER_NULL%MPI_VAL, f_errhandler
+   end if
+
+   ! check size of c_group
+   if (call_group) then
+      print *, c_group, c_sizeof(c_group)
+      c_group = WMPI_Group_f2c(MPI_GROUP_NULL%MPI_VAL)
+      f_group = WMPI_Group_c2f(c_group)
+      print *, "(MPI_GROUP_NULL%MPI_VAL,f_group)", &
+           MPI_GROUP_NULL%MPI_VAL, f_group
    end if
 
 

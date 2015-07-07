@@ -52,12 +52,31 @@ MPI_Errhandler WMPI_Errhandler_f2c(MPI_Fint f_errhandler)
    printf("\nf_errhandler == %d, sizeof(MPI_Fint) == %ld\n", f_errhandler, sizeof(MPI_Fint));
    printf("sizeof(MPI_Errhandler) == %ld\n", sizeof(MPI_Errhandler));
 
-   if (c_errhandler == MPI_ERRORS_ARE_FATAL) {
-      printf("YEA!, MPI_ERRORS_ARE_FATAL==MPI_ERRORS_ARE_FATAL!\n");
+   if (c_errhandler == MPI_ERRHANDLER_NULL) {
+      printf("YEA!, MPI_ERRHANDLER_NULL==MPI_ERRHANDLER_NULL!\n");
    } else {
-      printf("BOO!, MPI_ERRORS_ARE_FATAL!=MPI_ERRORS_ARE_FATAL!\n");
+      printf("BOO!, MPI_ERRHANDLER_NULL!=MPI_ERRHANDLER_NULL!\n");
    }
 
 
    return c_errhandler;
+}
+
+MPI_Group WMPI_Group_f2c(MPI_Fint f_group)
+{
+   MPI_Group c_group;
+
+   c_group = MPI_Group_f2c(f_group);
+
+   printf("\nf_group == %d, sizeof(MPI_Fint) == %ld\n", f_group, sizeof(MPI_Fint));
+   printf("sizeof(MPI_Group) == %ld\n", sizeof(MPI_Group));
+
+   if (c_group == MPI_GROUP_NULL) {
+      printf("YEA!, MPI_GROUP_NULL==MPI_GROUP_NULL!\n");
+   } else {
+      printf("BOO!, MPI_GROUP_NULL!=MPI_GROUP_NULL!\n");
+   }
+
+
+   return c_group;
 }
