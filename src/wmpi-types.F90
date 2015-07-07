@@ -31,6 +31,42 @@ module WMPI_types
       integer(kind=C_SIGNED_CHAR) :: padding(LEN_MPI_DATATYPE)
    end type WMPI_Datatype
 
-   ! TODO - fill in the rest
+   type, BIND(C) :: WMPI_Errhandler
+      integer(kind=C_SIGNED_CHAR) :: padding(LEN_MPI_ERRHANDLER)
+   end type WMPI_Errhandler
+
+   type, BIND(C) :: WMPI_File
+      integer(kind=C_SIGNED_CHAR) :: padding(LEN_MPI_FILE)
+   end type WMPI_File
+
+   type, BIND(C) :: WMPI_Group
+      integer(kind=C_SIGNED_CHAR) :: padding(LEN_MPI_GROUP)
+   end type WMPI_Group
+
+   type, BIND(C) :: WMPI_Info
+      integer(kind=C_SIGNED_CHAR) :: padding(LEN_MPI_INFO)
+   end type WMPI_Info
+
+   type, BIND(C) :: WMPI_Message
+      integer(kind=C_SIGNED_CHAR) :: padding(LEN_MPI_MESSAGE)
+   end type WMPI_Message
+
+   type, BIND(C) :: WMPI_Op
+      integer(kind=C_SIGNED_CHAR) :: padding(LEN_MPI_OP)
+   end type WMPI_Op
+
+   type, BIND(C) :: WMPI_Request
+      integer(kind=C_SIGNED_CHAR) :: padding(LEN_MPI_REQUEST)
+   end type WMPI_Request
+
+   type, BIND(C) :: WMPI_Win
+      integer(kind=C_SIGNED_CHAR) :: padding(LEN_MPI_WIN)
+   end type WMPI_Win
+
+   type, BIND(C) :: WMPI_Status
+      integer(kind=C_SIGNED_CHAR) :: padding(LEN_MPI_STATUS)
+   end type WMPI_Status
+
+   ! Should all be filled in: *check* TODO - fill in the rest
 
 end module WMPI_types
