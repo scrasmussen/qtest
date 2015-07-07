@@ -30,17 +30,15 @@ MPI_Datatype WMPI_Type_f2c(MPI_Fint f_datatype)
 
    c_datatype = MPI_Type_f2c(f_datatype);
 
-   printf("f_datatype == %d, sizeof(MPI_Fint) == %ld\n", f_datatype, sizeof(MPI_Fint));
+   printf("\nf_datatype == %d, sizeof(MPI_Fint) == %ld\n", f_datatype, sizeof(MPI_Fint));
    printf("sizeof(MPI_Datatype) == %ld\n", sizeof(MPI_Datatype));
 
-   // WARNING - this comparison won't work because there is no direct mapping between the two
-   //         - the comparison (c_comm == MPI_COMM_WORLD) above works because MPI_COMM_WORLD is
-   //           a C handle (in the C world) so can be compared to c_comm
-   //   if (c_datatype == f_datatype) {
-   //      printf("YEA!, F_DATATYPE==C_DATATYPE!\n");
-   //   } else {
-   //      printf("BOO!, F_DATATYPE!=C_DATATYPE!\n");
-   //   }
+   if (c_datatype == MPI_DATATYPE_NULL) {
+      printf("YEA!, MPI_DATATYPE_NULL==MPI_DATATYPE_NULL!\n");
+   } else {
+      printf("BOO!, MPI_DATATYPE_NULL!=MPI_DATATYPE_NULL!\n");
+   }
+
 
    return c_datatype;
 }

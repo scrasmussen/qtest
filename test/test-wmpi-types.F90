@@ -22,14 +22,15 @@ program test_wmpi_types
 
    print *, "(MPI_COMM_WORLD%MPI_VAL,f_comm)", MPI_COMM_WORLD%MPI_VAL, f_comm
 
-
-   ! check size of c_type
+   ! check size of c_datatype
    !
    print *, c_type, c_sizeof(c_type)
-   !c_type = WMPI_Datatype_f2c(MPI_DATATYPE%MPI_VAL)
-   c_type = WMPI_Type_f2c(f_type)
-   !f_type = WMPI_Type_c2f(c_type)
-   !print *, "(MPI_DATATYPE%MPI_VAL,f_type)", MPI_DATATYPE%MPI_VAL, f_type
+
+   c_type = WMPI_Type_f2c(MPI_DATATYPE_NULL%MPI_VAL)
+   f_type = WMPI_Type_c2f(c_type)
+
+   print *, "(MPI_DATATYPE_NULL%MPI_VAL,f_type)", MPI_DATATYPE_NULL%MPI_VAL, f_type
+
 
    call MPI_Finalize()
 
