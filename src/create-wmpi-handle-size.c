@@ -16,7 +16,7 @@ int main()
   fprintf(f, "!  and will calculate all of the sizes of the C handle types\n");
   fprintf(f, "!  for a particular library.\n");
   fprintf(f, "!\n");
-  fprintf(f, "!  WARNING: This file is LIBRARY DEPEDENT\n");
+  fprintf(f, "!  WARNING: This file is LIBRARY DEPENDENT\n");
   fprintf(f, "!\n\n");
 
   
@@ -50,8 +50,8 @@ int main()
   fprintf(f, "integer, parameter :: LEN_MPI_WIN = %i\n", \
           sizeof(MPI_WIN_NULL));
 
-  fprintf(f, "integer, parameter :: LEN_MPI_STATUS = %i\n", \
-          sizeof(MPI_STATUS_IGNORE));
+  fprintf(f, "integer, parameter :: LEN_MPI_STATUS = %ld\n", \
+          sizeof(MPI_Status));
 
 
   return 0;
