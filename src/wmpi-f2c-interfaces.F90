@@ -38,7 +38,7 @@ module wmpi_f2c_interfaces
     end function WMPI_Comm_c2f
 
 
-! NOTE: This BINDC name should be changed to MPI_Datatype_f2c after testing
+! NOTE: This BINDC name should be changed to MPI_Type_f2c after testing
 ! is completed.
 
     function WMPI_Type_f2c(f_datatype) result(c_datatype) &
