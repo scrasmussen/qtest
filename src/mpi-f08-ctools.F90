@@ -34,9 +34,10 @@ subroutine MPI_Comm_rank_f08(comm,rank,ierror)
   TYPE(MPI_Comm), INTENT(IN) :: comm
   INTEGER, INTENT(OUT) :: rank
   INTEGER, OPTIONAL, INTENT(OUT) :: ierror
-  INTEGER(C_INT) :: c_ierror
-  INTEGER(C_INT) :: c_rank
-  TYPE(WMPI_Comm) :: c_comm
+
+  integer(C_INT) :: c_ierror
+  integer(C_INT) :: c_rank
+  type(WMPI_Comm) :: c_comm
 
   print *,'MPI_Comm_rank_f08 wrapper before c calls'
 
@@ -63,9 +64,10 @@ subroutine MPI_Send_f08(buf,count,datatype,dest,tag,comm,ierror)
   TYPE(MPI_Datatype), INTENT(IN) :: datatype
   TYPE(MPI_Comm), INTENT(IN) :: comm
   INTEGER, OPTIONAL, INTENT(OUT) :: ierror
-  integer :: c_count, c_dest, c_tag, c_ierror
-  TYPE(WMPI_Datatype) :: c_datatype
-  TYPE(WMPI_Comm) :: c_comm
+
+  integer(C_INT) :: c_count, c_dest, c_tag, c_ierror
+  type(WMPI_Datatype) :: c_datatype
+  type(WMPI_Comm) :: c_comm
 
   print *,'MPI_Comm_rank_f08 wrapper before c calls'
 
