@@ -8,3 +8,12 @@
 
 integer, parameter :: LEN_MPI_COMM = 8
 integer, parameter :: LEN_MPI_DATATYPE = 8
+integer, parameter :: LEN_MPI_ERRHANDLER = 8
+integer, parameter :: LEN_MPI_FILE = 8
+integer, parameter :: LEN_MPI_GROUP = 8
+integer, parameter :: LEN_MPI_INFO = 8
+integer, parameter :: LEN_MPI_MESSAGE = 8
+integer, parameter :: LEN_MPI_OP = 8
+integer, parameter :: LEN_MPI_REQUEST = 8
+integer, parameter :: LEN_MPI_WIN = 8
+integer, parameter :: LEN_MPI_STATUS = 8

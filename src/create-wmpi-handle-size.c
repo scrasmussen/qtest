@@ -21,12 +21,37 @@ int main()
 
   
   fprintf(f, "integer, parameter :: LEN_MPI_COMM = %i\n", \
-          sizeof(MPI_COMM_WORLD));
+          sizeof(MPI_COMM_NULL));
 
-  MPI_Datatype datatype;
   fprintf(f, "integer, parameter :: LEN_MPI_DATATYPE = %i\n", \
-          sizeof(datatype));
+          sizeof(MPI_DATATYPE_NULL));
 
+  fprintf(f, "integer, parameter :: LEN_MPI_ERRHANDLER = %i\n", \
+          sizeof(MPI_ERRORS_ARE_FATAL));
+
+  fprintf(f, "integer, parameter :: LEN_MPI_FILE = %i\n", \
+          sizeof(MPI_FILE_NULL));
+
+  fprintf(f, "integer, parameter :: LEN_MPI_GROUP = %i\n", \
+          sizeof(MPI_GROUP_NULL));
+
+  fprintf(f, "integer, parameter :: LEN_MPI_INFO = %i\n", \
+          sizeof(MPI_INFO_NULL));
+
+  fprintf(f, "integer, parameter :: LEN_MPI_MESSAGE = %i\n", \
+          sizeof(MPI_MESSAGE_NULL));
+
+  fprintf(f, "integer, parameter :: LEN_MPI_OP = %i\n", \
+          sizeof(MPI_OP_NULL));
+
+  fprintf(f, "integer, parameter :: LEN_MPI_REQUEST = %i\n", \
+          sizeof(MPI_REQUEST_NULL));
+
+  fprintf(f, "integer, parameter :: LEN_MPI_WIN = %i\n", \
+          sizeof(MPI_WIN_NULL));
+
+  fprintf(f, "integer, parameter :: LEN_MPI_STATUS = %i\n", \
+          sizeof(MPI_STATUS_IGNORE));
 
 
   return 0;
