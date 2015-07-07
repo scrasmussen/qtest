@@ -40,3 +40,17 @@ int WMPI_Comm_rank(MPI_Comm comm, int * rank, int fflag)
 
   return ierror;
 }
+
+/* This direct call to PMPI_Send is temporary, should call WMPI_Send_ctool? */
+int WMPI_Send(void * buf, int count, MPI_Datatype datatype, int dest, int tag, MPI_Comm comm, int fflag)
+{
+  int ierror;
+
+  printf(" WMPI_Send: before PMPI_Send\n");
+
+  ierror = PMPI_Send(buf, count, datatype, dest, tag, comm);
+
+  printf(" WMPI_Send: after PMPI_Send, count==%d dest==%d tag==%d fflag==%d\n", count, dest, tag, fflag);
+
+  return ierror;
+}
