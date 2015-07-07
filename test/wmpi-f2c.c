@@ -23,3 +23,21 @@ MPI_Comm WMPI_Comm_f2c(MPI_Fint f_comm)
 
    return c_comm;
 }
+
+MPI_Datatype WMPI_Type_f2c(MPI_Fint f_datatype)
+{
+   MPI_Datatype c_datatype;
+
+   c_datatype = MPI_Type_f2c(f_datatype);
+
+   printf("f_datatype == %d, sizeof(MPI_Fint) == %ld\n", f_datatype, sizeof(MPI_Fint));
+   printf("sizeof(MPI_Datatype) == %ld\n", sizeof(MPI_Datatype));
+
+   if (c_datatype == f_datatype) {
+      printf("YEA!, F_DATATYPE==C_DATATYPE!\n");
+   } else {
+      printf("BOO!, F_DATATYPE!=C_DATATYPE!\n");
+   }
+
+   return c_datatype;
+}

@@ -8,6 +8,9 @@ program test_wmpi_types
    integer :: f_comm
    type(WMPI_Comm) :: c_comm
 
+   integer :: f_type
+   type(WMPI_Datatype) :: c_type
+
    call MPI_Init()
 
    ! check size of c_comm
@@ -18,6 +21,15 @@ program test_wmpi_types
    f_comm = WMPI_Comm_c2f(c_comm)
 
    print *, "(MPI_COMM_WORLD%MPI_VAL,f_comm)", MPI_COMM_WORLD%MPI_VAL, f_comm
+
+
+   ! check size of c_type
+   !
+   print *, c_type, c_sizeof(c_type)
+   !c_type = WMPI_Datatype_f2c(MPI_DATATYPE%MPI_VAL)
+   c_type = WMPI_Type_f2c(f_type)
+   !f_type = WMPI_Type_c2f(c_type)
+   !print *, "(MPI_DATATYPE%MPI_VAL,f_type)", MPI_DATATYPE%MPI_VAL, f_type
 
    call MPI_Finalize()
 
