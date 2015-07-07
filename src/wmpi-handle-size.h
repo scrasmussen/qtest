@@ -3,7 +3,7 @@
 !  and will calculate all of the sizes of the C handle types
 !  for a particular library.
 !
-!  WARNING: This file is LIBRARY DEPEDENT
+!  WARNING: This file is LIBRARY DEPENDENT
 !
 
 integer, parameter :: LEN_MPI_COMM = 8
@@ -16,4 +16,4 @@ integer, parameter :: LEN_MPI_MESSAGE = 8
 integer, parameter :: LEN_MPI_OP = 8
 integer, parameter :: LEN_MPI_REQUEST = 8
 integer, parameter :: LEN_MPI_WIN = 8
-integer, parameter :: LEN_MPI_STATUS = 8
+integer, parameter :: LEN_MPI_STATUS = 24

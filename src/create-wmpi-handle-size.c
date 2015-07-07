@@ -20,35 +20,35 @@ int main()
   fprintf(f, "!\n\n");
 
   
-  fprintf(f, "integer, parameter :: LEN_MPI_COMM = %i\n", \
-          sizeof(MPI_COMM_NULL));
+  fprintf(f, "integer, parameter :: LEN_MPI_COMM = %ld\n", \
+          sizeof(MPI_Comm));
 
-  fprintf(f, "integer, parameter :: LEN_MPI_DATATYPE = %i\n", \
-          sizeof(MPI_DATATYPE_NULL));
+  fprintf(f, "integer, parameter :: LEN_MPI_DATATYPE = %ld\n", \
+          sizeof(MPI_Datatype));
 
-  fprintf(f, "integer, parameter :: LEN_MPI_ERRHANDLER = %i\n", \
-          sizeof(MPI_ERRORS_ARE_FATAL));
+  fprintf(f, "integer, parameter :: LEN_MPI_ERRHANDLER = %ld\n", \
+          sizeof(MPI_Errhandler));
 
-  fprintf(f, "integer, parameter :: LEN_MPI_FILE = %i\n", \
-          sizeof(MPI_FILE_NULL));
+  fprintf(f, "integer, parameter :: LEN_MPI_FILE = %ld\n", \
+          sizeof(MPI_File));
 
-  fprintf(f, "integer, parameter :: LEN_MPI_GROUP = %i\n", \
-          sizeof(MPI_GROUP_NULL));
+  fprintf(f, "integer, parameter :: LEN_MPI_GROUP = %ld\n", \
+          sizeof(MPI_Group));
 
-  fprintf(f, "integer, parameter :: LEN_MPI_INFO = %i\n", \
-          sizeof(MPI_INFO_NULL));
+  fprintf(f, "integer, parameter :: LEN_MPI_INFO = %ld\n", \
+          sizeof(MPI_Info));
 
-  fprintf(f, "integer, parameter :: LEN_MPI_MESSAGE = %i\n", \
-          sizeof(MPI_MESSAGE_NULL));
+  fprintf(f, "integer, parameter :: LEN_MPI_MESSAGE = %ld\n", \
+          sizeof(MPI_Message));
 
-  fprintf(f, "integer, parameter :: LEN_MPI_OP = %i\n", \
-          sizeof(MPI_OP_NULL));
+  fprintf(f, "integer, parameter :: LEN_MPI_OP = %ld\n", \
+          sizeof(MPI_Op));
 
-  fprintf(f, "integer, parameter :: LEN_MPI_REQUEST = %i\n", \
-          sizeof(MPI_REQUEST_NULL));
+  fprintf(f, "integer, parameter :: LEN_MPI_REQUEST = %ld\n", \
+          sizeof(MPI_Request));
 
-  fprintf(f, "integer, parameter :: LEN_MPI_WIN = %i\n", \
-          sizeof(MPI_WIN_NULL));
+  fprintf(f, "integer, parameter :: LEN_MPI_WIN = %ld\n", \
+          sizeof(MPI_Win));
 
   fprintf(f, "integer, parameter :: LEN_MPI_STATUS = %ld\n", \
           sizeof(MPI_Status));
