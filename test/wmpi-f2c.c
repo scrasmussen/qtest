@@ -42,3 +42,22 @@ MPI_Datatype WMPI_Type_f2c(MPI_Fint f_datatype)
 
    return c_datatype;
 }
+
+MPI_Errhandler WMPI_Errhandler_f2c(MPI_Fint f_errhandler)
+{
+   MPI_Errhandler c_errhandler;
+
+   c_errhandler = MPI_Errhandler_f2c(f_errhandler);
+
+   printf("\nf_errhandler == %d, sizeof(MPI_Fint) == %ld\n", f_errhandler, sizeof(MPI_Fint));
+   printf("sizeof(MPI_Errhandler) == %ld\n", sizeof(MPI_Errhandler));
+
+   if (c_errhandler == MPI_ERRORS_ARE_FATAL) {
+      printf("YEA!, MPI_ERRORS_ARE_FATAL==MPI_ERRORS_ARE_FATAL!\n");
+   } else {
+      printf("BOO!, MPI_ERRORS_ARE_FATAL!=MPI_ERRORS_ARE_FATAL!\n");
+   }
+
+
+   return c_errhandler;
+}

@@ -59,6 +59,28 @@ module wmpi_f2c_interfaces
       integer :: f_datatype
     end function WMPI_Type_c2f
 
+! NOTE: This BINDC name should be changed to MPI_Errhandler_f2c after testing
+! is completed.
+
+    function WMPI_Errhandler_f2c(f_errhandler) result(c_errhandler) &
+      bind(C,name="WMPI_Errhandler_f2c")
+      use ISO_C_BINDING
+      use wmpi_types
+      implicit none
+      integer, value  :: f_errhandler
+      type(WMPI_Errhandler) :: c_errhandler
+    end function WMPI_Errhandler_f2c
+
+    function WMPI_Errhandler_c2f(c_errhandler) result(f_errhandler) &
+      bind(C,name="MPI_Errhandler_c2f")
+      use ISO_C_BINDING
+      use wmpi_types
+      implicit none
+      type(WMPI_Errhandler), value :: c_errhandler
+      integer :: f_errhandler
+    end function WMPI_Errhandler_c2f
+
+
   end interface      
 
 end module wmpi_f2c_interfaces
