@@ -10,7 +10,9 @@ FFLAGS = -I $(SRC_DIR)
 EXES = test-wmpi-types test-wmpi
 OBJS = wmpi-f2c.o
 SRC_OBJS = $(SRC_DIR)/wmpi-types.o $(SRC_DIR)/wmpi-f2c-interfaces.o \
-           $(SRC_DIR)/mpi-f08-ctools.o $(SRC_DIR)/wmpi_c.o
+           $(SRC_DIR)/mpi-f08-ctools.o \
+           $(SRC_DIR)/wmpi.o $(SRC_DIR)/wmpi_c.o \
+           $(SRC_DIR)/wmpi-ctools.o
 
 .SUFFIXES: .F90 .c .o
 
