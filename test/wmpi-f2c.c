@@ -151,3 +151,59 @@ MPI_Request WMPI_Request_f2c(MPI_Fint f_request)
 
    return c_request;
 }
+
+MPI_Win WMPI_Win_f2c(MPI_Fint f_win)
+{
+   MPI_Win c_win;
+
+   c_win = MPI_Win_f2c(f_win);
+
+   printf("\nf_win == %d, sizeof(MPI_Fint) == %ld\n", f_win, sizeof(MPI_Fint));
+   printf("sizeof(MPI_Win) == %ld\n", sizeof(MPI_Win));
+
+   if (c_win == MPI_WIN_NULL) {
+      printf("YEA!, MPI_WIN_NULL==MPI_WIN_NULL!\n");
+   } else {
+      printf("BOO!, MPI_WIN_NULL!=MPI_WIN_NULL!\n");
+   }
+
+   return c_win;
+}
+
+MPI_File WMPI_File_f2c(MPI_Fint f_file)
+{
+   MPI_File c_file;
+
+   c_file = MPI_File_f2c(f_file);
+
+   printf("\nf_file == %d, sizeof(MPI_Fint) == %ld\n", f_file, sizeof(MPI_Fint));
+   printf("sizeof(MPI_File) == %ld\n", sizeof(MPI_File));
+
+   if (c_file == MPI_FILE_NULL) {
+      printf("YEA!, MPI_FILE_NULL==MPI_FILE_NULL!\n");
+   } else {
+      printf("BOO!, MPI_FILE_NULL!=MPI_FILE_NULL!\n");
+   }
+
+   return c_file;
+}
+
+/*
+MPI_Status WMPI_Status_f2c(MPI_Fint f_status)
+{
+   MPI_Status c_status;
+
+   c_status = MPI_Status_f2c(f_status);
+
+   printf("\nf_status == %d, sizeof(MPI_Fint) == %ld\n", f_status, sizeof(MPI_Fint);
+   printf("sizeof(MPI_Status) == %ld\n", sizeof(MPI_Status));
+
+   if (c_status == MPI_STATUS_NULL) {
+      printf("YEA!, MPI_STATUS_NULL==MPI_STATUS_NULL!\n");
+   } else {
+      printf("BOO!, MPI_STATUS_NULL!=MPI_STATUS_NULL!\n");
+   }
+
+   return c_status;
+}
+*/

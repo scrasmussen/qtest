@@ -7,27 +7,26 @@ program test_wmpi_types
 
    integer :: f_comm, call_comm
    type(WMPI_Comm) :: c_comm
-
    integer :: f_type, call_type
    type(WMPI_Datatype) :: c_type
-
    integer :: f_errhandler, call_errhandler
    type(WMPI_Errhandler) :: c_errhandler
-
    integer :: f_group, call_group
    type(WMPI_Group) :: c_group
-
    integer :: f_info, call_info
    type(WMPI_Info) :: c_info
-
    integer :: f_message, call_message
    type(WMPI_Message) :: c_message
-
    integer :: f_op, call_op
    type(WMPI_Op) :: c_op
-
    integer :: f_request, call_request
    type(WMPI_Request) :: c_request
+   integer :: f_win, call_win
+   type(WMPI_Win) :: c_win
+   integer :: f_file, call_file
+   type(WMPI_File) :: c_file
+   integer :: f_status, call_status
+   type(WMPI_Status) :: c_status
 
    call_comm = 0
    call_type = 0
@@ -36,7 +35,10 @@ program test_wmpi_types
    call_info = 0
    call_message = 0
    call_op = 0
-   call_request = 1
+   call_request = 0
+   call_win = 0
+   call_file = 1
+   call_status = 1
 
 
    call MPI_Init()
@@ -110,6 +112,33 @@ program test_wmpi_types
       f_request = WMPI_Request_c2f(c_request)
       print *, "(MPI_REQUEST_NULL%MPI_VAL,f_request)", &
            MPI_REQUEST_NULL%MPI_VAL, f_request
+   end if
+
+   ! check size of c_win
+   if (call_win) then
+      print *, c_win, c_sizeof(c_win)
+      c_win = WMPI_Win_f2c(MPI_WIN_NULL%MPI_VAL)
+      f_win = WMPI_Win_c2f(c_win)
+      print *, "(MPI_WIN_NULL%MPI_VAL,f_win)", &
+           MPI_WIN_NULL%MPI_VAL, f_win
+   end if
+
+   ! check size of c_file
+   if (call_file) then
+      print *, c_file, c_sizeof(c_file)
+      c_file = WMPI_File_f2c(MPI_FILE_NULL%MPI_VAL)
+      f_file = WMPI_File_c2f(c_file)
+      print *, "(MPI_FILE_NULL%MPI_VAL,f_file)", &
+           MPI_FILE_NULL%MPI_VAL, f_file
+   end if
+
+   ! check size of c_status
+   if (call_status) then
+      print *, c_status, c_sizeof(c_status)
+      !c_status = WMPI_Status_f2c(MPI_STATUS_NULL%MPI_VAL)
+      !f_status = WMPI_Status_c2f(c_status)
+      !print *, "(MPI_STATUS_IGNORE%MPI_VAL,f_status)", &
+      !     MPI_STATUS_IGNORE%MPI_VAL, f_status
    end if
 
    call MPI_Finalize()
