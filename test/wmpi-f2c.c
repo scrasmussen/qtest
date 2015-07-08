@@ -97,3 +97,21 @@ MPI_Info WMPI_Info_f2c(MPI_Fint f_info)
 
    return c_info;
 }
+
+MPI_Message WMPI_Message_f2c(MPI_Fint f_message)
+{
+   MPI_Message c_message;
+
+   c_message = MPI_Message_f2c(f_message);
+
+   printf("\nf_message == %d, sizeof(MPI_Fint) == %ld\n", f_message, sizeof(MPI_Fint));
+   printf("sizeof(MPI_Message) == %ld\n", sizeof(MPI_Message));
+
+   if (c_message == MPI_MESSAGE_NULL) {
+      printf("YEA!, MPI_MESSAGE_NULL==MPI_MESSAGE_NULL!\n");
+   } else {
+      printf("BOO!, MPI_MESSAGE_NULL!=MPI_MESSAGE_NULL!\n");
+   }
+
+   return c_message;
+}

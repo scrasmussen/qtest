@@ -20,7 +20,6 @@ module wmpi_f2c_interfaces
 
 ! NOTE: This BINDC name should be changed to MPI_Comm_f2c after testing
 ! is completed.
-
     function WMPI_Comm_f2c(f_comm) result(c_comm) bind(C,name="WMPI_Comm_f2c")
       use ISO_C_BINDING
       use wmpi_types
@@ -40,7 +39,6 @@ module wmpi_f2c_interfaces
 
 ! NOTE: This BINDC name should be changed to MPI_Type_f2c after testing
 ! is completed.
-
     function WMPI_Type_f2c(f_datatype) result(c_datatype) &
       bind(C,name="WMPI_Type_f2c")
       use ISO_C_BINDING
@@ -61,7 +59,6 @@ module wmpi_f2c_interfaces
 
 ! NOTE: This BINDC name should be changed to MPI_Errhandler_f2c after testing
 ! is completed.
-
     function WMPI_Errhandler_f2c(f_errhandler) result(c_errhandler) &
       bind(C,name="WMPI_Errhandler_f2c")
       use ISO_C_BINDING
@@ -82,7 +79,6 @@ module wmpi_f2c_interfaces
 
 ! NOTE: This BINDC name should be changed to MPI_Group_f2c after testing
 ! is completed.
-
     function WMPI_Group_f2c(f_group) result(c_group) &
       bind(C,name="WMPI_Group_f2c")
       use ISO_C_BINDING
@@ -103,7 +99,6 @@ module wmpi_f2c_interfaces
 
 ! NOTE: This BINDC name should be changed to MPI_Info_f2c after testing
 ! is completed.
-
     function WMPI_Info_f2c(f_info) result(c_info) &
       bind(C,name="WMPI_Info_f2c")
       use ISO_C_BINDING
@@ -122,10 +117,30 @@ module wmpi_f2c_interfaces
       integer :: f_info
     end function WMPI_Info_c2f
 
+! NOTE: This BINDC name should be changed to MPI_Message_f2c after testing
+! is completed.
+    function WMPI_Message_f2c(f_message) result(c_message) &
+      bind(C,name="WMPI_Message_f2c")
+      use ISO_C_BINDING
+      use wmpi_types
+      implicit none
+      integer, value  :: f_message
+      type(WMPI_Message) :: c_message
+    end function WMPI_Message_f2c
+
+    function WMPI_Message_c2f(c_message) result(f_message) &
+      bind(C,name="MPI_Message_c2f")
+      use ISO_C_BINDING
+      use wmpi_types
+      implicit none
+      type(WMPI_Message), value :: c_message
+      integer :: f_message
+    end function WMPI_Message_c2f
+
 
 
 !
-! TODO: MPI_FILE, MPI_MESSAGE, MPI_OP, MPI_REQUEST, MPI_WIN,
+! TODO: MPI_FILE, MPI_OP, MPI_REQUEST, MPI_WIN,
 !       MPI_STATUS
 !
 

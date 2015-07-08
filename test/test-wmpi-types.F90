@@ -20,11 +20,15 @@ program test_wmpi_types
    integer :: f_info, call_info
    type(WMPI_Info) :: c_info
 
+   integer :: f_message, call_message
+   type(WMPI_Message) :: c_message
+
    call_comm = 0
    call_type = 0
    call_errhandler = 0
    call_group = 0
-   call_info = 1
+   call_info = 0
+   call_message = 1
 
 
    call MPI_Init()
@@ -73,8 +77,14 @@ program test_wmpi_types
            MPI_INFO_NULL%MPI_VAL, f_info
    end if
 
-
-
+   ! check size of c_message
+   if (call_message) then
+      print *, c_message, c_sizeof(c_message)
+      c_message = WMPI_Message_f2c(MPI_MESSAGE_NULL%MPI_VAL)
+      f_message = WMPI_Message_c2f(c_message)
+      print *, "(MPI_MESSAGE_NULL%MPI_VAL,f_message)", &
+           MPI_MESSAGE_NULL%MPI_VAL, f_message
+   end if
 
 
    call MPI_Finalize()
