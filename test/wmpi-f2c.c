@@ -77,6 +77,23 @@ MPI_Group WMPI_Group_f2c(MPI_Fint f_group)
       printf("BOO!, MPI_GROUP_NULL!=MPI_GROUP_NULL!\n");
    }
 
-
    return c_group;
+}
+
+MPI_Info WMPI_Info_f2c(MPI_Fint f_info)
+{
+   MPI_Info c_info;
+
+   c_info = MPI_Info_f2c(f_info);
+
+   printf("\nf_info == %d, sizeof(MPI_Fint) == %ld\n", f_info, sizeof(MPI_Fint));
+   printf("sizeof(MPI_Info) == %ld\n", sizeof(MPI_Info));
+
+   if (c_info == MPI_INFO_NULL) {
+      printf("YEA!, MPI_INFO_NULL==MPI_INFO_NULL!\n");
+   } else {
+      printf("BOO!, MPI_INFO_NULL!=MPI_INFO_NULL!\n");
+   }
+
+   return c_info;
 }

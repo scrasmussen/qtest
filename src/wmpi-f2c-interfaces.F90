@@ -101,10 +101,31 @@ module wmpi_f2c_interfaces
       integer :: f_group
     end function WMPI_Group_c2f
 
+! NOTE: This BINDC name should be changed to MPI_Info_f2c after testing
+! is completed.
+
+    function WMPI_Info_f2c(f_info) result(c_info) &
+      bind(C,name="WMPI_Info_f2c")
+      use ISO_C_BINDING
+      use wmpi_types
+      implicit none
+      integer, value  :: f_info
+      type(WMPI_Info) :: c_info
+    end function WMPI_Info_f2c
+
+    function WMPI_Info_c2f(c_info) result(f_info) &
+      bind(C,name="MPI_Info_c2f")
+      use ISO_C_BINDING
+      use wmpi_types
+      implicit none
+      type(WMPI_Info), value :: c_info
+      integer :: f_info
+    end function WMPI_Info_c2f
+
 
 
 !
-! TODO: MPI_FILE, MPI_GROUP, MPI_INFO, MPI_MESSAGE, MPI_OP, MPI_REQUEST, MPI_WIN,
+! TODO: MPI_FILE, MPI_MESSAGE, MPI_OP, MPI_REQUEST, MPI_WIN,
 !       MPI_STATUS
 !
 

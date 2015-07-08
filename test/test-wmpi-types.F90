@@ -17,10 +17,14 @@ program test_wmpi_types
    integer :: f_group, call_group
    type(WMPI_Group) :: c_group
 
+   integer :: f_info, call_info
+   type(WMPI_Info) :: c_info
+
    call_comm = 0
    call_type = 0
    call_errhandler = 0
-   call_group = 1
+   call_group = 0
+   call_info = 1
 
 
    call MPI_Init()
@@ -58,6 +62,15 @@ program test_wmpi_types
       f_group = WMPI_Group_c2f(c_group)
       print *, "(MPI_GROUP_NULL%MPI_VAL,f_group)", &
            MPI_GROUP_NULL%MPI_VAL, f_group
+   end if
+
+   ! check size of c_info
+   if (call_info) then
+      print *, c_info, c_sizeof(c_info)
+      c_info = WMPI_Info_f2c(MPI_INFO_NULL%MPI_VAL)
+      f_info = WMPI_Info_c2f(c_info)
+      print *, "(MPI_INFO_NULL%MPI_VAL,f_info)", &
+           MPI_INFO_NULL%MPI_VAL, f_info
    end if
 
 
