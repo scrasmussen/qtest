@@ -23,12 +23,20 @@ program test_wmpi_types
    integer :: f_message, call_message
    type(WMPI_Message) :: c_message
 
+   integer :: f_op, call_op
+   type(WMPI_Op) :: c_op
+
+   integer :: f_request, call_request
+   type(WMPI_Request) :: c_request
+
    call_comm = 0
    call_type = 0
    call_errhandler = 0
    call_group = 0
    call_info = 0
-   call_message = 1
+   call_message = 0
+   call_op = 0
+   call_request = 1
 
 
    call MPI_Init()
@@ -86,6 +94,23 @@ program test_wmpi_types
            MPI_MESSAGE_NULL%MPI_VAL, f_message
    end if
 
+   ! check size of c_op
+   if (call_op) then
+      print *, c_op, c_sizeof(c_op)
+      c_op = WMPI_Op_f2c(MPI_OP_NULL%MPI_VAL)
+      f_op = WMPI_Op_c2f(c_op)
+      print *, "(MPI_OP_NULL%MPI_VAL,f_op)", &
+           MPI_OP_NULL%MPI_VAL, f_op
+   end if
+
+   ! check size of c_request
+   if (call_request) then
+      print *, c_request, c_sizeof(c_request)
+      c_request = WMPI_Request_f2c(MPI_REQUEST_NULL%MPI_VAL)
+      f_request = WMPI_Request_c2f(c_request)
+      print *, "(MPI_REQUEST_NULL%MPI_VAL,f_request)", &
+           MPI_REQUEST_NULL%MPI_VAL, f_request
+   end if
 
    call MPI_Finalize()
 

@@ -115,3 +115,39 @@ MPI_Message WMPI_Message_f2c(MPI_Fint f_message)
 
    return c_message;
 }
+
+MPI_Op WMPI_Op_f2c(MPI_Fint f_op)
+{
+   MPI_Op c_op;
+
+   c_op = MPI_Op_f2c(f_op);
+
+   printf("\nf_op == %d, sizeof(MPI_Fint) == %ld\n", f_op, sizeof(MPI_Fint));
+   printf("sizeof(MPI_Op) == %ld\n", sizeof(MPI_Op));
+
+   if (c_op == MPI_OP_NULL) {
+      printf("YEA!, MPI_OP_NULL==MPI_OP_NULL!\n");
+   } else {
+      printf("BOO!, MPI_OP_NULL!=MPI_OP_NULL!\n");
+   }
+
+   return c_op;
+}
+
+MPI_Request WMPI_Request_f2c(MPI_Fint f_request)
+{
+   MPI_Request c_request;
+
+   c_request = MPI_Request_f2c(f_request);
+
+   printf("\nf_request == %d, sizeof(MPI_Fint) == %ld\n", f_request, sizeof(MPI_Fint));
+   printf("sizeof(MPI_Request) == %ld\n", sizeof(MPI_Request));
+
+   if (c_request == MPI_REQUEST_NULL) {
+      printf("YEA!, MPI_REQUEST_NULL==MPI_REQUEST_NULL!\n");
+   } else {
+      printf("BOO!, MPI_REQUEST_NULL!=MPI_REQUEST_NULL!\n");
+   }
+
+   return c_request;
+}
