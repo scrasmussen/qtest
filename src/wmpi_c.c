@@ -1,56 +1,25 @@
 #include <stdio.h>
 #include <mpi.h>
 
-/* This direct call to PMPI_Finalize is temporary, should call WMPI_Finalize_ctool? */
-int WMPI_Init(int fflag)
+#include "wmpi_f.h"
+
+/* This is called from WMPI_Comm_rank C function */
+int WMPI_Comm_rank_C(MPI_Comm comm, int * rank, int fflag)
 {
   int ierror;
+  int f_comm;
 
-  printf(" WMPI_Init: Before PMPI_Init\n");
-  ierror = PMPI_Init(0, NULL);
-  printf(" WMPI_Init: After PMPI_Init\n");
+  printf(" WMPI_Comm_rank_C: before calling WMPI_Comm_rank_F\n");
 
-  return ierror;
-}
+  if (fflag == 1) {
+    f_comm = MPI_Comm_c2f(comm);
+    WMPI_Comm_rank_F(f_comm, rank, &ierror);
+  }
+  else {
+    ierror = PMPI_Comm_rank(comm, rank);
+  }
 
-/* This direct call to PMPI_Finalize is temporary, should call WMPI_Finalize_ctool? */
-int WMPI_Finalize(int fflag)
-{
-  int ierror;
-
-  printf(" WMPI_Finalize: Before PMPI_Finalize\n");
-  ierror = PMPI_Finalize();
-  printf(" WMPI_Finalize: After PMPI_Finalize\n");
-
-  return ierror;
-}
-
-/* This direct call to PMPI_Comm_rank is temporary, should call WMPI_Comm_rank_ctool? */
-int WMPI_Comm_rank(MPI_Comm comm, int * rank, int fflag)
-{
-  int ierror;
-
-  printf(" WMPI_Comm_rank: before PMPI_Comm_rank\n");
-
-  ierror = PMPI_Comm_rank(comm, rank);
-
-  if (comm == MPI_COMM_WORLD) printf("HURRAY, comms equiv\n");
-
-  printf(" WMPI_Comm_rank: after PMPI_Comm_rank, rank==%d\n", *rank);
-
-  return ierror;
-}
-
-/* This direct call to PMPI_Send is temporary, should call WMPI_Send_ctool? */
-int WMPI_Send(void * buf, int count, MPI_Datatype datatype, int dest, int tag, MPI_Comm comm, int fflag)
-{
-  int ierror;
-
-  printf(" WMPI_Send: before PMPI_Send\n");
-
-  ierror = PMPI_Send(buf, count, datatype, dest, tag, comm);
-
-  printf(" WMPI_Send: after PMPI_Send, count==%d dest==%d tag==%d fflag==%d\n", count, dest, tag, fflag);
+  printf(" WMPI_Comm_rank_C: after WMPI_Comm_rank_F, rank==%d\n", *rank);
 
   return ierror;
 }
