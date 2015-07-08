@@ -13,7 +13,7 @@
 extern "C" {
 #endif
 
-
+int WMPI_Init_C(int fflag);
 int WMPI_Comm_rank_C(MPI_Comm comm, int * rank, int fflag);
 
 

@@ -10,7 +10,7 @@
 extern "C" {
 #endif
 
-
+void WMPI_Init_F(int * ierror);
 void WMPI_Comm_rank_F(int comm, int * rank, int * ierror);
 
 

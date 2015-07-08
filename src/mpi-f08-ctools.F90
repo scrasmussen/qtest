@@ -5,10 +5,11 @@ subroutine MPI_Init_f08(ierror)
   use wmpi_ctool_interfaces, only : WMPI_Init
   implicit none
   INTEGER, OPTIONAL, INTENT(OUT) :: ierror
-  INTEGER(C_INT) :: c_ierr
+
+  INTEGER(C_INT) :: c_ierror
 
   print *,'MPI_Init_f08 wrapper before c call'
-  c_ierr = WMPI_Init(1_C_INT)
+  c_ierror = WMPI_Init(1_C_INT)
   print *, 'MPI_Init_f08 wrapper after c call'
 end subroutine MPI_Init_f08
 
@@ -17,6 +18,7 @@ subroutine MPI_Finalize_f08(ierror)
   use wmpi_ctool_interfaces, only : WMPI_Finalize
   implicit none
   INTEGER, OPTIONAL, INTENT(OUT) :: ierror
+
   INTEGER(C_INT) :: c_ierr
 
   print *,'MPI_Finalize_f08 wrapper before c call'

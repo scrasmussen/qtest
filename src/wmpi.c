@@ -8,7 +8,9 @@ int WMPI_Init(int fflag)
   int ierror;
 
   printf(" WMPI_Init: Before PMPI_Init\n");
-  ierror = PMPI_Init(0, NULL);
+
+  ierror = WMPI_Init_C(fflag);
+
   printf(" WMPI_Init: After PMPI_Init\n");
 
   return ierror;
