@@ -1,7 +1,8 @@
 FC = mpifort
 CC = mpicc
 
-OBJS = wmpi-types.o wmpi-f2c-interfaces.o wmpi-ctool-interfaces.o mpi-f08-ctools.o wmpi_c.o
+OBJS = wmpi-types.o wmpi-f2c-interfaces.o wmpi-ctool-interfaces.o mpi-f08-ctools.o \
+       wmpi.o wmpi_c.o wmpi-ctools.o
 
 .SUFFIXES: .F90 .c .o
 
