@@ -20,39 +20,27 @@ int main()
   fprintf(f, "!\n\n");
 
   
-  fprintf(f, "integer, parameter :: LEN_MPI_COMM = %ld\n", \
-          sizeof(MPI_Comm));
+  fprintf(f, "integer, parameter :: LEN_MPI_COMM = %ld\n", sizeof(MPI_Comm));
 
-  fprintf(f, "integer, parameter :: LEN_MPI_DATATYPE = %ld\n", \
-          sizeof(MPI_Datatype));
+  fprintf(f, "integer, parameter :: LEN_MPI_DATATYPE = %ld\n", sizeof(MPI_Datatype));
 
-  fprintf(f, "integer, parameter :: LEN_MPI_ERRHANDLER = %ld\n", \
-          sizeof(MPI_Errhandler));
+  fprintf(f, "integer, parameter :: LEN_MPI_ERRHANDLER = %ld\n", sizeof(MPI_Errhandler));
 
-  fprintf(f, "integer, parameter :: LEN_MPI_FILE = %ld\n", \
-          sizeof(MPI_File));
+  fprintf(f, "integer, parameter :: LEN_MPI_FILE = %ld\n", sizeof(MPI_File));
 
-  fprintf(f, "integer, parameter :: LEN_MPI_GROUP = %ld\n", \
-          sizeof(MPI_Group));
+  fprintf(f, "integer, parameter :: LEN_MPI_GROUP = %ld\n", sizeof(MPI_Group));
 
-  fprintf(f, "integer, parameter :: LEN_MPI_INFO = %ld\n", \
-          sizeof(MPI_Info));
+  fprintf(f, "integer, parameter :: LEN_MPI_INFO = %ld\n", sizeof(MPI_Info));
 
-  fprintf(f, "integer, parameter :: LEN_MPI_MESSAGE = %ld\n", \
-          sizeof(MPI_Message));
+  fprintf(f, "integer, parameter :: LEN_MPI_MESSAGE = %ld\n", sizeof(MPI_Message));
 
-  fprintf(f, "integer, parameter :: LEN_MPI_OP = %ld\n", \
-          sizeof(MPI_Op));
+  fprintf(f, "integer, parameter :: LEN_MPI_OP = %ld\n", sizeof(MPI_Op));
 
-  fprintf(f, "integer, parameter :: LEN_MPI_REQUEST = %ld\n", \
-          sizeof(MPI_Request));
+  fprintf(f, "integer, parameter :: LEN_MPI_REQUEST = %ld\n", sizeof(MPI_Request));
 
-  fprintf(f, "integer, parameter :: LEN_MPI_WIN = %ld\n", \
-          sizeof(MPI_Win));
+  fprintf(f, "integer, parameter :: LEN_MPI_WIN = %ld\n", sizeof(MPI_Win));
 
-  fprintf(f, "integer, parameter :: LEN_MPI_STATUS = %ld\n", \
-          sizeof(MPI_Status));
-
+  fprintf(f, "integer, parameter :: LEN_MPI_STATUS = %ld\n", sizeof(MPI_Status));
 
   return 0;
 }
