@@ -188,22 +188,23 @@ MPI_File WMPI_File_f2c(MPI_Fint f_file)
    return c_file;
 }
 
-/*
+
 MPI_Status WMPI_Status_f2c(MPI_Fint f_status)
 {
-   MPI_Status c_status;
+   MPI_Status *c_status;
 
-   c_status = MPI_Status_f2c(f_status);
+   //c_status = MPI_Status_f2c(f_status);
+   MPI_Status_f2c(f_status, c_status);
 
-   printf("\nf_status == %d, sizeof(MPI_Fint) == %ld\n", f_status, sizeof(MPI_Fint);
+   printf("\nf_status == %d, sizeof(MPI_Fint) == %ld\n", f_status, sizeof(MPI_Fint));
    printf("sizeof(MPI_Status) == %ld\n", sizeof(MPI_Status));
 
-   if (c_status == MPI_STATUS_NULL) {
-      printf("YEA!, MPI_STATUS_NULL==MPI_STATUS_NULL!\n");
+   if (c_status == MPI_STATUS_IGNORE) {
+      printf("YEA!, MPI_STATUS_IGNORE==MPI_STATUS_IGNORE!\n");
    } else {
-      printf("BOO!, MPI_STATUS_NULL!=MPI_STATUS_NULL!\n");
-   }
+      printf("BOO!, MPI_STATUS_IGNORE!=MPI_STATUS_IGNORE!\n");
+      }
 
-   return c_status;
+   return *c_status;
 }
-*/
+

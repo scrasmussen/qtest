@@ -225,6 +225,7 @@ module wmpi_f2c_interfaces
       use wmpi_types
       implicit none
       integer, value  :: f_status
+      !type(WMPI_Status), value :: f_status
       type(WMPI_Status) :: c_status
     end function WMPI_Status_f2c
 

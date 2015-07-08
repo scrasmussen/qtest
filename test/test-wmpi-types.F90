@@ -135,8 +135,8 @@ program test_wmpi_types
    ! check size of c_status
    if (call_status) then
       print *, c_status, c_sizeof(c_status)
-      !c_status = WMPI_Status_f2c(MPI_STATUS_NULL%MPI_VAL)
-      !f_status = WMPI_Status_c2f(c_status)
+      c_status = WMPI_Status_f2c(MPI_STATUS_IGNORE%MPI_SOURCE)
+      f_status = WMPI_Status_c2f(c_status)
       !print *, "(MPI_STATUS_IGNORE%MPI_VAL,f_status)", &
       !     MPI_STATUS_IGNORE%MPI_VAL, f_status
    end if
