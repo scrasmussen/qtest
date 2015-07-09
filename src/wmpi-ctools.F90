@@ -55,3 +55,25 @@ subroutine WMPI_Comm_rank_F(comm,rank,ierror) &
   print *,'WMPI_Comm_rank_F wrapper after PMPI call'
 
 end subroutine WMPI_Comm_rank_F
+
+subroutine WMPI_Send_F(buf,count,datatype,dest,tag,comm,ierror) &
+  BIND(C,name="WMPI_Send_F")
+  use, intrinsic :: ISO_C_BINDING, only : C_INT
+  use :: mpi, only : PMPI_Send
+  implicit none
+  REAL, DIMENSION(*), INTENT(IN) :: buf
+  INTEGER(C_INT), INTENT(IN), VALUE :: count, dest, tag
+  INTEGER(C_INT), INTENT(IN), VALUE :: datatype
+  INTEGER(C_INT), INTENT(IN), VALUE :: comm
+  INTEGER(C_INT), INTENT(OUT) :: ierror
+  integer :: f_ierror
+
+  print *,'WMPI_Send_F wrapper before PMPI call'
+
+  call PMPI_Send(buf, count, datatype, dest, tag, comm, f_ierror)
+
+  ierror = f_ierror
+
+  print *,'WMPI_Send_F wrapper after PMPI call'
+
+end subroutine WMPI_Send_F

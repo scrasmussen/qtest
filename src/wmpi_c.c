@@ -50,8 +50,6 @@ int WMPI_Comm_rank_C(MPI_Comm comm, int * rank, int fflag)
   int ierror;
   int f_comm;
 
-
-
   if (fflag == 1) {
     printf(" WMPI_Comm_rank_C: before calling WMPI_Comm_rank_F\n");
     f_comm = MPI_Comm_c2f(comm);
@@ -63,6 +61,27 @@ int WMPI_Comm_rank_C(MPI_Comm comm, int * rank, int fflag)
   }
 
   printf(" WMPI_Comm_rank_C: after, rank==%d\n", *rank);
+  return ierror;
+}
 
+/* This is called from WMPI_Comm_rank C function */
+int WMPI_Send_C(void *buf, int count, MPI_Datatype datatype, int dest, int tag, MPI_Comm comm, int fflag)
+{
+  int ierror;
+  int f_comm, f_datatype;
+
+  if (fflag == 1) {
+    printf(" WMPI_Send_C: before calling WMPI_Send_F\n");
+    f_comm = MPI_Comm_c2f(comm);
+    f_datatype = MPI_Type_c2f(datatype);
+    WMPI_Send_F(buf, count, f_datatype, dest, tag, f_comm, &ierror);
+    //ierror = PMPI_Send(buf, count, datatype, dest, tag, comm);
+  }
+  else {
+    printf(" WMPI_Send_C: before calling PMPI_Send\n");
+    ierror = PMPI_Send(buf, count, datatype, dest, tag, comm);
+  }
+
+  printf(" WMPI_Send_C: after\n");
   return ierror;
 }

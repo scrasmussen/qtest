@@ -2,7 +2,8 @@
 
 subroutine MPI_Init_f08(ierror)
   use, intrinsic :: ISO_C_BINDING, only : C_INT
-  use wmpi_ctool_interfaces, only : WMPI_Init
+  use :: mpi_f08, only : MPI_Init
+  use :: wmpi_ctool_interfaces, only : WMPI_Init
   implicit none
   INTEGER, OPTIONAL, INTENT(OUT) :: ierror
 
@@ -15,7 +16,8 @@ end subroutine MPI_Init_f08
 
 subroutine MPI_Finalize_f08(ierror)
   use, intrinsic :: ISO_C_BINDING, only : C_INT
-  use wmpi_ctool_interfaces, only : WMPI_Finalize
+  use :: mpi_f08, only : MPI_Finalize
+  use :: wmpi_ctool_interfaces, only : WMPI_Finalize
   implicit none
   INTEGER, OPTIONAL, INTENT(OUT) :: ierror
 
@@ -71,7 +73,7 @@ subroutine MPI_Send_f08(buf,count,datatype,dest,tag,comm,ierror)
   type(WMPI_Datatype) :: c_datatype
   type(WMPI_Comm) :: c_comm
 
-  print *,'MPI_Comm_rank_f08 wrapper before c calls'
+  print *,'MPI_Send_f08 wrapper before c calls'
 
   c_count = count
   c_datatype = WMPI_Type_f2c(datatype%MPI_VAL)
@@ -83,4 +85,40 @@ subroutine MPI_Send_f08(buf,count,datatype,dest,tag,comm,ierror)
 
   if (present(ierror)) ierror = c_ierror
 
+  print *,'MPI_Send_f08 wrapper after c calls'
 end subroutine MPI_Send_f08
+
+!subroutine MPI_Recv_f08(buf,count,datatype,source,tag,comm,status,ierror)
+!  use, intrinsic :: ISO_C_BINDING, only : C_INT
+  !use :: wmpi_ctool_interfaces, only : WMPI_Recv
+!  use :: mpi_f08, only : MPI_Datatype, MPI_Comm, MPI_Status
+!  use :: wmpi_types, only : WMPI_Datatype, WMPI_Comm, WMPI_Status
+!  use :: wmpi_f2c_interfaces, only : WMPI_Type_f2c, WMPI_Comm_f2c, WMPI_Status_f2c
+!  implicit none
+!  REAL, DIMENSION(*), INTENT(IN) :: buf
+!  INTEGER, INTENT(IN) :: count, source, tag
+!  TYPE(MPI_Datatype), INTENT(IN) :: datatype
+!  TYPE(MPI_Comm), INTENT(IN) :: comm
+!  TYPE(MPI_Status) :: status
+!  INTEGER, OPTIONAL, INTENT(OUT) :: ierror
+
+!  integer(C_INT) :: c_count, c_source, c_tag, c_ierror
+!  type(WMPI_Datatype) :: c_datatype
+!  type(WMPI_Comm) :: c_comm
+!  type(MPI_Status) :: c_status
+
+!  print *,'MPI_Recv_f08 wrapper before c calls'
+!  c_count = count
+!  c_datatype = WMPI_Type_f2c(datatype%MPI_VAL)
+!  c_source = source
+!  c_tag = tag
+!  c_comm = WMPI_Comm_f2c(comm%MPI_VAL)
+!  c_status =  MPI_Status_f2c(status) ! WARNING WARNING WARNING !!!!!!!!! FIX THIS !!!!!!!!
+  
+!  call PMPI_Recv(buf,count,datatype,source,tag,comm,status,c_ierror)
+  !c_ierror = WMPI_Recv(buf,count,datatype,source,tag,comm,status,1_C_INT)
+
+!  if (present(ierror)) ierror = c_ierror
+
+!  print *,'MPI_Recv_f08 wrapper after c calls'
+!end subroutine MPI_Recv_f08
