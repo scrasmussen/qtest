@@ -19,10 +19,10 @@ subroutine MPI_Finalize_f08(ierror)
   implicit none
   INTEGER, OPTIONAL, INTENT(OUT) :: ierror
 
-  INTEGER(C_INT) :: c_ierr
+  INTEGER(C_INT) :: c_ierror
 
   print *,'MPI_Finalize_f08 wrapper before c call'
-  c_ierr = WMPI_Finalize(1_C_INT)
+  c_ierror = WMPI_Finalize(1_C_INT)
   print *, 'MPI_Finalize_f08 wrapper after c call'
 end subroutine MPI_Finalize_f08
 

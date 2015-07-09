@@ -7,11 +7,11 @@ int WMPI_Init(int fflag)
 {
   int ierror;
 
-  printf(" WMPI_Init: Before PMPI_Init\n");
+  printf(" WMPI_Init: before WMPI_Init_C\n");
 
   ierror = WMPI_Init_C(fflag);
 
-  printf(" WMPI_Init: After PMPI_Init\n");
+  printf(" WMPI_Init: after WMPI_Init_C\n");
 
   return ierror;
 }
@@ -21,9 +21,9 @@ int WMPI_Finalize(int fflag)
 {
   int ierror;
 
-  printf(" WMPI_Finalize: Before PMPI_Finalize\n");
-  ierror = PMPI_Finalize();
-  printf(" WMPI_Finalize: After PMPI_Finalize\n");
+  printf(" WMPI_Finalize: before WMPI_Finalize_C\n");
+  ierror = WMPI_Finalize_C(fflag);
+  printf(" WMPI_Finalize: after WMPI_Finalize_C\n");
 
   return ierror;
 }
@@ -33,7 +33,7 @@ int WMPI_Comm_rank(MPI_Comm comm, int * rank, int fflag)
 {
   int ierror;
 
-  printf(" WMPI_Comm_rank: before PMPI_Comm_rank\n");
+  printf(" WMPI_Comm_rank: before WMPI_Comm_rank_C\n");
 
   ierror = WMPI_Comm_rank_C(comm, rank, fflag);
 

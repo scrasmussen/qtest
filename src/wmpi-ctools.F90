@@ -17,6 +17,23 @@ subroutine WMPI_Init_F(ierror) &
 
 end subroutine WMPI_Init_F
 
+subroutine WMPI_Finalize_F(ierror) &
+  BIND(C,name="WMPI_Finalize_F")
+  use, intrinsic :: ISO_C_BINDING, only : C_INT
+  implicit none
+  INTEGER(C_INT), INTENT(OUT) :: ierror
+  integer :: f_ierror
+
+  print *,'WMPI_Finalize_F wrapper before PMPI call'
+
+  call PMPI_Finalize(f_ierror)
+
+  ierror = f_ierror
+
+  print *,'WMPI_Finalize_F wrapper after PMPI call'
+
+end subroutine WMPI_Finalize_F
+
 subroutine WMPI_Comm_rank_F(comm,rank,ierror) &
   BIND(C,name="WMPI_Comm_rank_F")
   use, intrinsic :: ISO_C_BINDING, only : C_INT
