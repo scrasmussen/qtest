@@ -219,25 +219,45 @@ module wmpi_f2c_interfaces
       integer :: f_file
     end function WMPI_File_c2f
 
+#ifdef COULD_BE_WRONG
 ! NOTE: This BINDC name should be changed to MPI_Status_f2c after testing
 ! is completed.
     function WMPI_Status_f2c(f_status) result(c_status) &
-      bind(C,name="WMPI_Status_f2c")
-      use ISO_C_BINDING
-      use wmpi_types
+      bind(C,name="MPI_Status_f2c")
+      use mpi_f08, only : MPI_Status
       implicit none
-      integer  :: f_status
-      type(WMPI_Status) :: c_status
+      type(MPI_Status), value :: f_status
+      type(MPI_Status) :: c_status
       !type(WMPI_Status) :: f_status
     end function WMPI_Status_f2c
 
     function WMPI_Status_c2f(c_status) result(f_status) &
       bind(C,name="MPI_Status_c2f")
-      use ISO_C_BINDING
-      use wmpi_types
+      use mpi_f08, only : MPI_Status
       implicit none
-      type(WMPI_Status), value :: c_status
-      integer :: f_status
+      type(MPI_Status), value :: c_status
+      type(MPI_Status) :: f_status
+    end function WMPI_Status_c2f
+#endif
+
+    function WMPI_Status_f2c(f_status, c_status) result(ierror) &
+      bind(C,name="MPI_Status_f2c")
+      use mpi_f08, only : MPI_Status
+      use wmpi_types, only : WMPI_Status
+      implicit none
+      type(MPI_Status)  :: f_status
+      type(WMPI_Status) :: c_status
+      integer :: ierror
+    end function WMPI_Status_f2c
+
+    function WMPI_Status_c2f(c_status, f_status) result(ierror) &
+      bind(C,name="MPI_Status_c2f")
+      use mpi_f08, only : MPI_Status
+      use wmpi_types, only : WMPI_Status
+      implicit none
+      type(WMPI_Status) :: c_status
+      type(MPI_Status)  :: f_status
+      integer :: ierror
     end function WMPI_Status_c2f
 
   end interface      
