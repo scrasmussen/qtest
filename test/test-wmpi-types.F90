@@ -25,8 +25,6 @@ program test_wmpi_types
    type(WMPI_Win) :: c_win
    integer :: f_file, call_file
    type(WMPI_File) :: c_file
-   integer :: f_status, call_status
-   type(WMPI_Status) :: c_status
 
    call_comm = 0
    call_type = 0
@@ -38,7 +36,6 @@ program test_wmpi_types
    call_request = 0
    call_win = 0
    call_file = 1
-   call_status = 1
 
 
    call MPI_Init()
@@ -132,14 +129,7 @@ program test_wmpi_types
            MPI_FILE_NULL%MPI_VAL, f_file
    end if
 
-   ! check size of c_status
-   if (call_status) then
-      print *, c_status, c_sizeof(c_status)
-      c_status = WMPI_Status_f2c(MPI_STATUS_IGNORE%MPI_SOURCE)
-      f_status = WMPI_Status_c2f(c_status)
-      !print *, "(MPI_STATUS_IGNORE%MPI_VAL,f_status)", &
-      !     MPI_STATUS_IGNORE%MPI_VAL, f_status
-   end if
+   ! removed WMPI_Status check because we now have a unit test for WMPI_Status_f2c and WMPI_Status_c2f
 
    call MPI_Finalize()
 
