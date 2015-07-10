@@ -1,3 +1,5 @@
+#undef VERBOSE
+
 !===== Fortran WRAPPER 2 =====
 
 subroutine WMPI_Init_F(ierror) &
@@ -5,15 +7,19 @@ subroutine WMPI_Init_F(ierror) &
   use, intrinsic :: ISO_C_BINDING, only : C_INT
   implicit none
   INTEGER(C_INT), INTENT(OUT) :: ierror
-  integer :: f_ierror
+  INTEGER :: f_ierror
 
+#ifdef VERBOSE
   print *,'WMPI_Init_F wrapper before PMPI call'
+#endif
 
   call PMPI_Init(f_ierror)
 
   ierror = f_ierror
 
+#ifdef VERBOSE
   print *,'WMPI_Init_F wrapper after PMPI call'
+#endif
 
 end subroutine WMPI_Init_F
 
@@ -22,15 +28,19 @@ subroutine WMPI_Finalize_F(ierror) &
   use, intrinsic :: ISO_C_BINDING, only : C_INT
   implicit none
   INTEGER(C_INT), INTENT(OUT) :: ierror
-  integer :: f_ierror
+  INTEGER :: f_ierror
 
+#ifdef VERBOSE
   print *,'WMPI_Finalize_F wrapper before PMPI call'
+#endif
 
   call PMPI_Finalize(f_ierror)
 
   ierror = f_ierror
 
+#ifdef VERBOSE
   print *,'WMPI_Finalize_F wrapper after PMPI call'
+#endif
 
 end subroutine WMPI_Finalize_F
 
@@ -42,17 +52,21 @@ subroutine WMPI_Comm_rank_F(comm,rank,ierror) &
   INTEGER(C_INT), INTENT(IN), VALUE :: comm
   INTEGER(C_INT), INTENT(OUT) :: rank
   INTEGER(C_INT), INTENT(OUT) :: ierror
-  integer :: f_ierror
-  integer :: f_rank
+  INTEGER :: f_ierror
+  INTEGER :: f_rank
 
+#ifdef VERBOSE
   print *,'WMPI_Comm_rank_F wrapper before PMPI call'
+#endif
 
   call PMPI_Comm_rank(comm, f_rank, f_ierror)
 
   rank = f_rank
   ierror = f_ierror
 
+#ifdef VERBOSE
   print *,'WMPI_Comm_rank_F wrapper after PMPI call'
+#endif
 
 end subroutine WMPI_Comm_rank_F
 
@@ -66,14 +80,18 @@ subroutine WMPI_Send_F(buf,count,datatype,dest,tag,comm,ierror) &
   INTEGER(C_INT), INTENT(IN), VALUE :: datatype
   INTEGER(C_INT), INTENT(IN), VALUE :: comm
   INTEGER(C_INT), INTENT(OUT) :: ierror
-  integer :: f_ierror
+  INTEGER :: f_ierror
 
+#ifdef VERBOSE
   print *,'WMPI_Send_F wrapper before PMPI call'
+#endif
 
   call PMPI_Send(buf, count, datatype, dest, tag, comm, f_ierror)
 
   ierror = f_ierror
 
+#ifdef VERBOSE
   print *,'WMPI_Send_F wrapper after PMPI call'
+#endif
 
 end subroutine WMPI_Send_F
