@@ -1,3 +1,5 @@
+#undef VERBOSE
+
 !===== WRAPPER 1 =====
 
 subroutine MPI_Init_f08(ierror)
@@ -9,9 +11,16 @@ subroutine MPI_Init_f08(ierror)
 
   INTEGER(C_INT) :: c_ierror
 
+#ifdef VERBOSE
   print *,'MPI_Init_f08 wrapper before c call'
+#endif
+
   c_ierror = WMPI_Init(1_C_INT)
+
+#ifdef VERBOSE
   print *, 'MPI_Init_f08 wrapper after c call'
+#endif
+
 end subroutine MPI_Init_f08
 
 subroutine MPI_Finalize_f08(ierror)
