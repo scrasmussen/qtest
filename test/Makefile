@@ -7,6 +7,7 @@ SRC_DIR = ../src
 
 FFLAGS = -I $(SRC_DIR)
 
+TESTS = test-mpi_status test-send_recv
 EXES = test-wmpi-types test-wmpi
 OBJS = wmpi-f2c.o
 SRC_OBJS = $(SRC_DIR)/wmpi-types.o $(SRC_DIR)/wmpi-f2c-interfaces.o \
@@ -22,7 +23,7 @@ SRC_OBJS = $(SRC_DIR)/wmpi-types.o $(SRC_DIR)/wmpi-f2c-interfaces.o \
 .c.o:
 	$(CC) -c $(@:.o=.c)
 
-all: $(OBJS) $(EXES)
+all: $(OBJS) $(EXES) $(TESTS)
 
 test-wmpi-types: test-wmpi-types.o $(OBJS)
 	$(FC) -o test-wmpi-types test-wmpi-types.o $(OBJS) $(SRC_OBJS)
@@ -30,11 +31,20 @@ test-wmpi-types: test-wmpi-types.o $(OBJS)
 test-wmpi: test-wmpi.o $(OBJS)
 	$(FC) -o test-wmpi test-wmpi.o $(OBJS) $(SRC_OBJS)
 
-check: test-wmpi-types test-wmpi
-	@mpirun -np 2 test-wmpi
+test-mpi_status: test-mpi_status.F90
+	$(FC) -o test-mpi_status $(FFLAGS) test-mpi_status.F90
+
+test-send_recv: test-send_recv.F90
+	$(FC) -o test-send_recv test-send_recv.F90
+
+check: $(TESTS)
+	@echo "\nRunning test-mpi_status ..."
+	@test-mpi_status
+	@echo "\nRunning test-send_recv ...\n"
+	@mpirun -np 1 test-send_recv
 
 job: moabjob
 	@msub -V moabjob
 
 clean:
-	rm -f $(OBJS) $(EXES) *.o output.moabjob
+	rm -f $(OBJS) $(EXES) $(TESTS) *.o output.moabjob
