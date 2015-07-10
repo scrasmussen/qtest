@@ -2,7 +2,7 @@
 #include <mpi.h>
 
 #include "wmpi_f.h"
-
+#undef VERBOSE
 
 /* This is called from WMPI_Init C function */
 int WMPI_Init_C(int fflag)
@@ -10,18 +10,23 @@ int WMPI_Init_C(int fflag)
   int ierror;
 
   if (fflag == 1) {
+    #ifdef VERBOSE
     printf(" WMPI_Init_C: before calling WMPI_Init_F\n");
+    #endif
     WMPI_Init_F(&ierror);
   }
   else {
     // CONFIRM THAT THIS IS HOW WE WANT TO HANDLE THIS CASE
+    #ifdef VERBOSE
     printf(" WMPI_Init_C: before calling PMPI_Init\n");
+    #endif
     int argc; char **argv;
     ierror = PMPI_Init(&argc, &argv);
   }
 
+  #ifdef VERBOSE
   printf(" WMPI_Init_C: after\n");
-
+  #endif
   return ierror;
 }
 
@@ -31,16 +36,20 @@ int WMPI_Finalize_C(int fflag)
   int ierror;
 
   if (fflag == 1) {
+    #ifdef VERBOSE
     printf(" WMPI_Finalize_C: before calling WMPI_Finalize_F\n");
+    #endif
     WMPI_Finalize_F(&ierror);
   }
   else {
+    #ifdef VERBOSE
     printf(" WMPI_Finalize_C: before calling PMPI_Finalize\n");
+    #endif
     ierror = PMPI_Finalize();
   }
-
+  #ifdef VERBOSE
   printf(" WMPI_Finalize_C: after\n");
-
+  #endif
   return ierror;
 }
 
@@ -51,16 +60,21 @@ int WMPI_Comm_rank_C(MPI_Comm comm, int * rank, int fflag)
   int f_comm;
 
   if (fflag == 1) {
+    #ifdef VERBOSE
     printf(" WMPI_Comm_rank_C: before calling WMPI_Comm_rank_F\n");
+    #endif
     f_comm = MPI_Comm_c2f(comm);
     WMPI_Comm_rank_F(f_comm, rank, &ierror);
   }
   else {
+    #ifdef VERBOSE
     printf(" WMPI_Comm_rank_C: before calling PMPI_Comm_rank\n");
+    #endif
     ierror = PMPI_Comm_rank(comm, rank);
   }
-
+  #ifdef VERBOSE
   printf(" WMPI_Comm_rank_C: after, rank==%d\n", *rank);
+  #endif
   return ierror;
 }
 
@@ -71,17 +85,22 @@ int WMPI_Send_C(void *buf, int count, MPI_Datatype datatype, int dest, int tag, 
   int f_comm, f_datatype;
 
   if (fflag == 1) {
+    #ifdef VERBOSE
     printf(" WMPI_Send_C: before calling WMPI_Send_F\n");
+    #endif
     f_comm = MPI_Comm_c2f(comm);
     f_datatype = MPI_Type_c2f(datatype);
     WMPI_Send_F(buf, count, f_datatype, dest, tag, f_comm, &ierror);
     //ierror = PMPI_Send(buf, count, datatype, dest, tag, comm);
   }
   else {
+    #ifdef VERBOSE
     printf(" WMPI_Send_C: before calling PMPI_Send\n");
+    #endif
     ierror = PMPI_Send(buf, count, datatype, dest, tag, comm);
   }
-
+  #ifdef VERBOSE
   printf(" WMPI_Send_C: after\n");
+  #endif
   return ierror;
 }
