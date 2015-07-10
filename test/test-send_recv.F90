@@ -1,10 +1,3 @@
-! -*- f90 -*-
-!
-! Copyright (c) 2010-2012 Cisco Systems, Inc.  All rights reserved.
-! Copyright (c) 2009-2012 Los Alamos National Security, LLC.
-!                         All rights reserved.
-! $COPYRIGHT$
-
 program test_send_recv
    use mpi_f08
    implicit none
@@ -68,6 +61,7 @@ program test_send_recv
    if (verbose) then
       print *, "rank=", rank, "sending to    ", next
       print *, "rank=", rank, "receiving from", prev
+      print *, "status=", status%MPI_SOURCE, status%MPI_TAG, status%MPI_ERROR
    end if
 
    if (rank == 0) then
@@ -90,6 +84,7 @@ program test_send_recv
 
    if (verbose) then
       print *, "rank=", rank, "received", dbl_scalar, " from", prev
+      print *, "status=", status%MPI_SOURCE, status%MPI_TAG, status%MPI_ERROR
    end if
 
    call MPI_Barrier(MPI_COMM_WORLD)
