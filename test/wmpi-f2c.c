@@ -189,12 +189,12 @@ MPI_File WMPI_File_f2c(MPI_Fint f_file)
 }
 
 
-MPI_Status WMPI_Status_f2c(MPI_Fint f_status)
+MPI_Status WMPI_Status_f2c(MPI_Status *f_status) //MPI_Fint f_status)
 {
    MPI_Status *c_status;
-
+   int err;
    //c_status = MPI_Status_f2c(f_status);
-   MPI_Status_f2c(f_status, c_status);
+   err = MPI_Status_f2c(f_status, c_status);
 
    printf("\nf_status == %d, sizeof(MPI_Fint) == %ld\n", f_status, sizeof(MPI_Fint));
    printf("sizeof(MPI_Status) == %ld\n", sizeof(MPI_Status));
