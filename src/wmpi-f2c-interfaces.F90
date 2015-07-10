@@ -20,7 +20,8 @@ module wmpi_f2c_interfaces
 
 ! NOTE: This BINDC name should be changed to MPI_Comm_f2c after testing
 ! is completed.
-    function WMPI_Comm_f2c(f_comm) result(c_comm) bind(C,name="WMPI_Comm_f2c")
+    function WMPI_Comm_f2c(f_comm) result(c_comm) &
+      bind(C,name="MPI_Comm_f2c")
       use ISO_C_BINDING
       use wmpi_types
       implicit none
@@ -28,7 +29,8 @@ module wmpi_f2c_interfaces
       type(WMPI_Comm) :: c_comm
     end function WMPI_Comm_f2c
 
-    function WMPI_Comm_c2f(c_comm) result(f_comm) bind(C,name="MPI_Comm_c2f")
+    function WMPI_Comm_c2f(c_comm) result(f_comm) &
+      bind(C,name="MPI_Comm_c2f")
       use ISO_C_BINDING
       use wmpi_types
       implicit none
@@ -40,7 +42,7 @@ module wmpi_f2c_interfaces
 ! NOTE: This BINDC name should be changed to MPI_Type_f2c after testing
 ! is completed.
     function WMPI_Type_f2c(f_datatype) result(c_datatype) &
-      bind(C,name="WMPI_Type_f2c")
+      bind(C,name="MPI_Type_f2c")
       use ISO_C_BINDING
       use wmpi_types
       implicit none
@@ -60,7 +62,7 @@ module wmpi_f2c_interfaces
 ! NOTE: This BINDC name should be changed to MPI_Errhandler_f2c after testing
 ! is completed.
     function WMPI_Errhandler_f2c(f_errhandler) result(c_errhandler) &
-      bind(C,name="WMPI_Errhandler_f2c")
+      bind(C,name="MPI_Errhandler_f2c")
       use ISO_C_BINDING
       use wmpi_types
       implicit none
@@ -80,7 +82,7 @@ module wmpi_f2c_interfaces
 ! NOTE: This BINDC name should be changed to MPI_Group_f2c after testing
 ! is completed.
     function WMPI_Group_f2c(f_group) result(c_group) &
-      bind(C,name="WMPI_Group_f2c")
+      bind(C,name="MPI_Group_f2c")
       use ISO_C_BINDING
       use wmpi_types
       implicit none
@@ -100,7 +102,7 @@ module wmpi_f2c_interfaces
 ! NOTE: This BINDC name should be changed to MPI_Info_f2c after testing
 ! is completed.
     function WMPI_Info_f2c(f_info) result(c_info) &
-      bind(C,name="WMPI_Info_f2c")
+      bind(C,name="MPI_Info_f2c")
       use ISO_C_BINDING
       use wmpi_types
       implicit none
@@ -120,7 +122,7 @@ module wmpi_f2c_interfaces
 ! NOTE: This BINDC name should be changed to MPI_Message_f2c after testing
 ! is completed.
     function WMPI_Message_f2c(f_message) result(c_message) &
-      bind(C,name="WMPI_Message_f2c")
+      bind(C,name="MPI_Message_f2c")
       use ISO_C_BINDING
       use wmpi_types
       implicit none
@@ -140,7 +142,7 @@ module wmpi_f2c_interfaces
 ! NOTE: This BINDC name should be changed to MPI_Op_f2c after testing
 ! is completed.
     function WMPI_Op_f2c(f_op) result(c_op) &
-      bind(C,name="WMPI_Op_f2c")
+      bind(C,name="MPI_Op_f2c")
       use ISO_C_BINDING
       use wmpi_types
       implicit none
@@ -160,7 +162,7 @@ module wmpi_f2c_interfaces
 ! NOTE: This BINDC name should be changed to MPI_Request_f2c after testing
 ! is completed.
     function WMPI_Request_f2c(f_request) result(c_request) &
-      bind(C,name="WMPI_Request_f2c")
+      bind(C,name="MPI_Request_f2c")
       use ISO_C_BINDING
       use wmpi_types
       implicit none
@@ -180,7 +182,7 @@ module wmpi_f2c_interfaces
 ! NOTE: This BINDC name should be changed to MPI_Win_f2c after testing
 ! is completed.
     function WMPI_Win_f2c(f_win) result(c_win) &
-      bind(C,name="WMPI_Win_f2c")
+      bind(C,name="MPI_Win_f2c")
       use ISO_C_BINDING
       use wmpi_types
       implicit none
@@ -200,7 +202,7 @@ module wmpi_f2c_interfaces
 ! NOTE: This BINDC name should be changed to MPI_File_f2c after testing
 ! is completed.
     function WMPI_File_f2c(f_file) result(c_file) &
-      bind(C,name="WMPI_File_f2c")
+      bind(C,name="MPI_File_f2c")
       use ISO_C_BINDING
       use wmpi_types
       implicit none
@@ -224,9 +226,9 @@ module wmpi_f2c_interfaces
       use ISO_C_BINDING
       use wmpi_types
       implicit none
-      integer, value  :: f_status
-      !type(WMPI_Status), value :: f_status
+      integer  :: f_status
       type(WMPI_Status) :: c_status
+      !type(WMPI_Status) :: f_status
     end function WMPI_Status_f2c
 
     function WMPI_Status_c2f(c_status) result(f_status) &

@@ -32,7 +32,7 @@ subroutine MPI_Comm_rank_f08(comm,rank,ierror)
   use, intrinsic :: ISO_C_BINDING, only : C_INT
   use :: mpi_f08, only : MPI_Comm
   use :: wmpi_ctool_interfaces, only : WMPI_Comm_rank
-  use :: wmpi_f2c_interfaces, only : WMPI_Comm_f2c
+  use :: wmpi_f2c_interfaces, only : WMPI_Comm_f2c, WMPI_Comm_c2f
   use :: wmpi_types, only : WMPI_Comm
   implicit none
   TYPE(MPI_Comm), INTENT(IN) :: comm
@@ -42,10 +42,15 @@ subroutine MPI_Comm_rank_f08(comm,rank,ierror)
   integer(C_INT) :: c_ierror
   integer(C_INT) :: c_rank
   type(WMPI_Comm) :: c_comm
+  integer(C_INT) :: new_comm
 
   print *,'MPI_Comm_rank_f08 wrapper before c calls'
 
   c_comm = WMPI_Comm_f2c(comm%MPI_VAL)
+  new_comm = WMPI_Comm_c2f(c_comm)
+  if (comm%MPI_VAL .ne. new_comm) then
+     print *, 'WARNING: comm != new_comm'
+  end if
 
   c_ierror = WMPI_Comm_rank(c_comm, c_rank, 1_C_INT)
   rank = c_rank
@@ -105,15 +110,16 @@ end subroutine MPI_Send_f08
 !  integer(C_INT) :: c_count, c_source, c_tag, c_ierror
 !  type(WMPI_Datatype) :: c_datatype
 !  type(WMPI_Comm) :: c_comm
-!  type(MPI_Status) :: c_status
+  !type(WMPI_Status) :: c_status
 
 !  print *,'MPI_Recv_f08 wrapper before c calls'
+
 !  c_count = count
 !  c_datatype = WMPI_Type_f2c(datatype%MPI_VAL)
 !  c_source = source
 !  c_tag = tag
 !  c_comm = WMPI_Comm_f2c(comm%MPI_VAL)
-!  c_status =  MPI_Status_f2c(status) ! WARNING WARNING WARNING !!!!!!!!! FIX THIS !!!!!!!!
+  !c_status = WMPI_Status_f2c(status) ! WARNING WARNING WARNING !!!!!!!!! FIX THIS !!!!!!!!
   
 !  call PMPI_Recv(buf,count,datatype,source,tag,comm,status,c_ierror)
   !c_ierror = WMPI_Recv(buf,count,datatype,source,tag,comm,status,1_C_INT)
