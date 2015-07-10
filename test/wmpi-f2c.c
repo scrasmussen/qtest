@@ -188,23 +188,23 @@ MPI_File WMPI_File_f2c(MPI_Fint f_file)
    return c_file;
 }
 
-
-MPI_Status WMPI_Status_f2c(MPI_Status *f_status) //MPI_Fint f_status)
+int WMPI_Status_f2c(MPI_Status *f_status, MPI_Status *c_status)
 {
-   MPI_Status *c_status;
    int err;
-   //c_status = MPI_Status_f2c(f_status);
-   err = MPI_Status_f2c(f_status, c_status);
 
-   printf("\nf_status == %d, sizeof(MPI_Fint) == %ld\n", f_status, sizeof(MPI_Fint));
-   printf("sizeof(MPI_Status) == %ld\n", sizeof(MPI_Status));
+   /*
+    * I don't know how and int* status works with MPI_Status.  I
+    * think that it really isn't an integer, but is declared as an
+    * array in "use mpi" code.
+    */
+   err = MPI_Status_f2c((int*) f_status, c_status);
 
    if (c_status == MPI_STATUS_IGNORE) {
-      printf("YEA!, MPI_STATUS_IGNORE==MPI_STATUS_IGNORE!\n");
+      printf("YEA!, C MPI_STATUS_IGNORE == Fortran MPI_STATUS_IGNORE!\n");
    } else {
-      printf("BOO!, MPI_STATUS_IGNORE!=MPI_STATUS_IGNORE!\n");
-      }
+      printf("BOO!, C MPI_STATUS_IGNORE != Fortran MPI_STATUS_IGNORE!\n");
+   }
 
-   return *c_status;
+   return err;
 }
 
