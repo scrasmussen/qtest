@@ -95,3 +95,27 @@ subroutine WMPI_Send_F(buf,count,datatype,dest,tag,comm,ierror) &
 #endif
 
 end subroutine WMPI_Send_F
+
+!!$subroutine WMPI_Recv_F(buf,count,datatype,source,tag,comm,status,ierror) &
+!!$  BIND(C,name='WMPI_Recv_F')
+!!$  use, intrinsic :: ISO_C_BINDING, only : C_INT
+!!$  use :: mpi_f08, only : MPI_Status
+!!$  use :: mpi, only : PMPI_Recv
+!!$  implicit none
+!!$  REAL, DIMENSION(*), INTENT(IN) :: buf
+!!$  INTEGER(C_INT), INTENT(IN), VALUE :: count, source, tag
+!!$  INTEGER(C_INT), INTENT(IN), VALUE :: datatype
+!!$  INTEGER(C_INT), INTENT(IN), VALUE :: comm
+!!$  INTEGER(C_INT), INTENT(IN), VALUE :: status
+!!$  INTEGER(C_INT), INTENT(OUT) :: ierror
+!!$  INTEGER :: f_ierror
+!!$
+!!$  print *,'WPMI_Recv_F wrapper before PMPI call'
+!!$
+!!$  !call PMPI_Recv(buf, count, datatype, source, tag, comm, status, f_ierror)
+!!$  f_ierror = 0
+!!$  ierror = f_ierror
+!!$
+!!$  print *,'WPMI_Recv_F wrapper after PMPI call'
+!!$
+!!$end subroutine WMPI_Recv_F

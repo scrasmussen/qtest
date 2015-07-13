@@ -58,22 +58,23 @@ function WMPI_Send(buf,count,datatype,dest,tag,comm,fflag) result(ierror) &
   INTEGER(C_INT) :: ierror
 end function WMPI_Send
 
-! WMPI_Recv
-function WMPI_Recv(buf,count,datatype,source,tag,comm,status,fflag) &
-  result(ierror) &
-  BIND(C,name='WMPI_Recv')
-  use, intrinsic :: ISO_C_BINDING, only : C_INT
-  use WMPI_types, only : WMPI_Datatype, WMPI_Comm
-  implicit none
-! TEMPORARY REPLACEMENT ONLY for compilers other than gfortran
-!  TYPE(*), DIMENSION(..), INTENT(IN) :: buf
-  REAL, DIMENSION(*), INTENT(IN) :: buf
-  INTEGER(C_INT), INTENT(IN), VALUE :: count, source, tag
-  TYPE(WMPI_DATATYPE), INTENT(IN), VALUE :: datatype
-  TYPE(WMPI_Comm), INTENT(IN), VALUE :: comm
-  TYPE(WMPI_Status) :: status
-  INTEGER(C_INT) :: ierror
-end function WMPI_Recv
+!!$! WMPI_Recv
+!!$function WMPI_Recv(buf,count,datatype,source,tag,comm,status,fflag) &
+!!$  result(ierror) &
+!!$  BIND(C,name='WMPI_Recv')
+!!$  use, intrinsic :: ISO_C_BINDING, only : C_INT
+!!$  use WMPI_types, only : WMPI_Datatype, WMPI_Comm, WMPI_Status
+!!$  implicit none
+!!$! TEMPORARY REPLACEMENT ONLY for compilers other than gfortran
+!!$!  TYPE(*), DIMENSION(..), INTENT(IN) :: buf
+!!$  REAL, DIMENSION(*), INTENT(IN) :: buf
+!!$  INTEGER(C_INT), INTENT(IN), VALUE :: count, source, tag
+!!$  TYPE(WMPI_DATATYPE), INTENT(IN), VALUE :: datatype
+!!$  TYPE(WMPI_Comm), INTENT(IN), VALUE :: comm
+!!$  TYPE(WMPI_Status) :: status
+!!$  INTEGER(C_INT), INTENT(IN), VALUE :: fflag
+!!$ma  INTEGER(C_INT) :: ierror
+!!$end function WMPI_Recv
 
 end interface
 

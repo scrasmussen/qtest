@@ -78,7 +78,7 @@ int WMPI_Comm_rank_C(MPI_Comm comm, int * rank, int fflag)
   return ierror;
 }
 
-/* This is called from WMPI_Comm_rank C function */
+/* This is called from WMPI_Recv C function */
 int WMPI_Send_C(void *buf, int count, MPI_Datatype datatype, int dest, int tag, MPI_Comm comm, int fflag)
 {
   int ierror;
@@ -104,3 +104,33 @@ int WMPI_Send_C(void *buf, int count, MPI_Datatype datatype, int dest, int tag, 
   #endif
   return ierror;
 }
+
+/* This is called from WMPI_Recv C function 
+int WMPI_Recv_C(void *buf, int count, MPI_Datatype datatype, int source, int tag, MPI_Comm comm, MPI_Status status, int fflag)
+{
+  int ierror, status_error;
+  int f_comm, f_datatype, f_status;
+
+  if (fflag == 1) {
+    //#ifdef VERBOSE
+    printf(" WMPI_Recv_C: before calling WMPI_Recv_F\n");
+    //#endif
+    f_comm = MPI_Comm_c2f(comm);
+    f_datatype = MPI_Type_c2f(datatype);
+    // WARNING!!! :: NEED TO MAKE SURE THIS WORKS CORRECTLY
+    status_error = MPI_Status_c2f(&status, &f_status);
+    WMPI_Recv_F(buf, count, f_datatype, source, tag, f_comm, f_status, &ierror);
+    //ierror = PMPI_Recv(buf, count, datatype, dest, tag, comm);
+  }
+  else {
+    #ifdef VERBOSE
+    printf(" WMPI_Recv_C: before calling PMPI_Recv\n");
+    #endif
+    ierror = PMPI_Recv(buf, count, datatype, source, tag, comm, &status);
+  }
+  //#ifdef VERBOSE
+  printf(" WMPI_Recv_C: after\n");
+  //#endif
+  return ierror;
+  }*/
+

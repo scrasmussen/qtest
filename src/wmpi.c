@@ -67,3 +67,19 @@ int WMPI_Send(void *buf, int count, MPI_Datatype datatype, int dest, int tag, MP
 
   return ierror;
 }
+
+/*  TO BE ADDED AFTER TESTIGN OF MPI_STATUS IS DONE
+int WMPI_Recv(void *buf, int count, MPI_Datatype datatype, int source, int tag, MPI_Comm comm, MPI_Status status, int fflag)
+{
+  int ierror;
+
+
+  printf(" WMPI_Recv: before WMPI_Recv_C\n");
+
+  ierror = WMPI_Recv_C(buf, count, datatype, source, tag, comm, status,fflag);
+
+  printf(" WMPI_Recv: before WMPI_Recv_C\n");
+
+  return ierror;
+}
+*/
