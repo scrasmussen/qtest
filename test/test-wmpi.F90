@@ -20,8 +20,7 @@ program test_wmpi_types
       call MPI_Send(data,1,MPI_INTEGER,0,7,MPI_COMM_WORLD,ierror)
    else
       print *, 'BEFORE MPI_RECV'
-      call MPI_Recv(data,1,MPI_INTEGER,1,7,MPI_COMM_WORLD,MPI_STATUS_IGNORE,&
-           ierror)
+      call MPI_Recv(data,1,MPI_INTEGER,1,7,MPI_COMM_WORLD,stat,ierror)
       print *, 'AFTER MPI_RECV'
    end if
 
