@@ -117,16 +117,17 @@ subroutine MPI_Recv_f08(buf,count,datatype,source,tag,comm,status,ierror)
   use :: wmpi_f2c_interfaces, only : WMPI_Type_f2c, WMPI_Comm_f2c, &
        WMPI_Status_f2c, WMPI_Status_c2f
   implicit none
-  REAL, DIMENSION(*), INTENT(IN) :: buf
+  REAL, DIMENSION(*), INTENT(OUT) :: buf
   INTEGER, INTENT(IN) :: count, source, tag
   TYPE(MPI_Datatype), INTENT(IN) :: datatype
   TYPE(MPI_Comm), INTENT(IN) :: comm
-  TYPE(MPI_Status) :: status, newstatus
+  TYPE(MPI_Status), INTENT(OUT) :: status
   INTEGER, OPTIONAL, INTENT(OUT) :: ierror
   INTEGER(C_INT) :: C_COUNT, C_SOURCE, c_tag, c_ierror
   TYPE(WMPI_Datatype) :: c_datatype
   TYPE(WMPI_Comm) :: c_comm
   TYPE(WMPI_Status) :: c_status
+  INTEGER(C_INT) :: c_test
 
   print *,'MPI_Recv_f08 wrapper before c calls'
   c_count = count
@@ -139,6 +140,7 @@ subroutine MPI_Recv_f08(buf,count,datatype,source,tag,comm,status,ierror)
   status%MPI_TAG = 14
   status%MPI_ERROR = 15
 
+  c_test = 1
 
   !print *, "old=", status%MPI_SOURCE, status%MPI_TAG, status%MPI_ERROR
   ierror = WMPI_Status_f2c(status, c_status) ! WARNING WARNING WARNING !!!!
@@ -147,7 +149,7 @@ subroutine MPI_Recv_f08(buf,count,datatype,source,tag,comm,status,ierror)
 !!$  print *, 'ERROR FOR STATUS II IS', ierror  
 
   print *,'about to enter with',1_C_INT
-  c_ierror = WMPI_Recv(buf,c_count,c_datatype,c_source,7,c_comm,c_status,1_C_INT)
+  c_ierror = WMPI_Recv(buf,c_count,c_datatype,c_source,7,c_comm,c_status,c_test)
 
   if (present(ierror)) ierror = c_ierror
 

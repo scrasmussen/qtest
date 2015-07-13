@@ -102,11 +102,11 @@ subroutine WMPI_Recv_F(buf,count,datatype,source,tag,comm,status,ierror) &
   use :: mpi_f08, only : MPI_Status
   use :: mpi, only : PMPI_Recv
   implicit none
-  REAL, DIMENSION(*), INTENT(IN) :: buf
+  REAL, DIMENSION(*), INTENT(OUT) :: buf
   INTEGER(C_INT), INTENT(IN), VALUE :: count, source, tag
   INTEGER(C_INT), INTENT(IN), VALUE :: datatype
   INTEGER(C_INT), INTENT(IN), VALUE :: comm
-  INTEGER(C_INT), INTENT(IN), VALUE :: status
+  INTEGER(C_INT), INTENT(OUT) :: status
   INTEGER(C_INT), INTENT(OUT) :: ierror
   INTEGER :: f_ierror
 

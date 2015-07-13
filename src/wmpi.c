@@ -68,14 +68,14 @@ int WMPI_Send(void *buf, int count, MPI_Datatype datatype, int dest, int tag, MP
   return ierror;
 }
 
-int WMPI_Recv(void *buf, int count, MPI_Datatype datatype, int source, int tag, MPI_Comm comm, MPI_Status status, int fflag)
+int WMPI_Recv(void *buf, int count, MPI_Datatype datatype, int source, int tag, MPI_Comm comm, MPI_Status *status, int fflag)
 {
   int ierror;
 
 
   printf(" WMPI_Recv: before WMPI_Recv_C\n");
-
-
+  printf(" status address %d \n",&status);  
+  printf(" fflag address %d \n",&fflag);  
   printf(" wmpi.c fflag = %d before\n",fflag);
 
   ierror = WMPI_Recv_C(buf, count, datatype, source, tag, comm, status,fflag);

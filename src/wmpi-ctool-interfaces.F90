@@ -67,11 +67,11 @@ function WMPI_Recv(buf,count,datatype,source,tag,comm,status,fflag) &
   implicit none
 ! TEMPORARY REPLACEMENT ONLY for compilers other than gfortran
 !  TYPE(*), DIMENSION(..), INTENT(IN) :: buf
-  REAL, DIMENSION(*), INTENT(IN) :: buf
+  REAL, DIMENSION(*), INTENT(OUT) :: buf
   INTEGER(C_INT), INTENT(IN), VALUE :: count, source, tag
   TYPE(WMPI_Datatype), INTENT(IN), VALUE :: datatype
   TYPE(WMPI_Comm), INTENT(IN), VALUE :: comm
-  TYPE(WMPI_Status) :: status
+  TYPE(WMPI_Status), INTENT(OUT) :: status
   INTEGER(C_INT), INTENT(IN), VALUE :: fflag
   INTEGER(C_INT) :: ierror
 end function WMPI_Recv

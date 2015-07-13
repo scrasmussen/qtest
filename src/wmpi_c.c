@@ -106,16 +106,16 @@ int WMPI_Send_C(void *buf, int count, MPI_Datatype datatype, int dest, int tag, 
 }
 
 /* This is called from WMPI_Recv C function */
-int WMPI_Recv_C(void *buf, int count, MPI_Datatype datatype, int source, int tag, MPI_Comm comm, MPI_Status status, int fflag)
+int WMPI_Recv_C(void *buf, int count, MPI_Datatype datatype, int source, int tag, MPI_Comm comm, MPI_Status *status, int fflag)
 {
   int ierror, status_error;
   int f_comm, f_datatype, f_status;
 
   MPI_Status sta;
 
-  printf(" THE LENGTH OF MPI_STATUS IS %d\n", sizeof(sta));
+    //#ifdef VERBOSE
   printf(" FFLAG IS %d\n", fflag);
-
+    //#endif
 
   if (fflag == 1) {
     //#ifdef VERBOSE
@@ -124,16 +124,14 @@ int WMPI_Recv_C(void *buf, int count, MPI_Datatype datatype, int source, int tag
     f_comm = MPI_Comm_c2f(comm);
     f_datatype = MPI_Type_c2f(datatype);
     // WARNING!!! :: NEED TO MAKE SURE THIS WORKS CORRECTLY
-    status_error = MPI_Status_c2f(&status, &f_status);
-    WMPI_Recv_F(buf, count, f_datatype, source, tag, f_comm, f_status, &ierror);
-    //ierror = PMPI_Recv(buf, count, datatype, dest, tag, comm);
+    status_error = MPI_Status_c2f(status, &f_status);
+    WMPI_Recv_F(&buf, count, f_datatype, source, tag, f_comm, f_status, &ierror);
   }
   else {
     //#ifdef VERBOSE
-    printf(" ENTERERD IMPOSSILBIT(TY!\n");
     printf(" WMPI_Recv_C: before calling PMPI_Recv\n");
     //#endif
-    ierror = PMPI_Recv(buf, count, datatype, source, tag, comm, &status);
+    ierror = PMPI_Recv(buf, count, datatype, source, tag, comm, status);
   }
   //#ifdef VERBOSE
   printf(" WMPI_Recv_C: after\n");
