@@ -113,6 +113,7 @@ subroutine MPI_Recv_f08(buf,count,datatype,source,tag,comm,status,ierror)
   !use :: wmpi_ctool_interfaces, only : WMPI_Recv
   use :: mpi_f08, only : MPI_Datatype, MPI_Comm, MPI_Status
   use :: wmpi_types, only : WMPI_Datatype, WMPI_Comm, WMPI_Status
+  use :: wmpi_ctool_interfaces, only : WMPI_Recv
   use :: wmpi_f2c_interfaces, only : WMPI_Type_f2c, WMPI_Comm_f2c, &
        WMPI_Status_f2c, WMPI_Status_c2f
   implicit none
@@ -120,32 +121,33 @@ subroutine MPI_Recv_f08(buf,count,datatype,source,tag,comm,status,ierror)
   INTEGER, INTENT(IN) :: count, source, tag
   TYPE(MPI_Datatype), INTENT(IN) :: datatype
   TYPE(MPI_Comm), INTENT(IN) :: comm
-  TYPE(MPI_Status) :: status
+  TYPE(MPI_Status) :: status, newstatus
   INTEGER, OPTIONAL, INTENT(OUT) :: ierror
   INTEGER(C_INT) :: C_COUNT, C_SOURCE, c_tag, c_ierror
   TYPE(WMPI_Datatype) :: c_datatype
   TYPE(WMPI_Comm) :: c_comm
   TYPE(WMPI_Status) :: c_status
 
-  TYPE(MPI_Status) :: temp
-
   print *,'MPI_Recv_f08 wrapper before c calls'
-
   c_count = count
   c_datatype = WMPI_Type_f2c(datatype%MPI_VAL)
   c_source = source
   c_tag = tag
   c_comm = WMPI_Comm_f2c(comm%MPI_VAL)
 
-  temp = status
-  !ierror = WMPI_Status_f2c(status, c_status) ! WARNING WARNING WARNING !!!!
-  print *, 'ERROR FOR STATUS IS', ierror
-  !ierror = WMPI_Status_c2f(c_status,status) ! WARNING WARNING WARNING !!!!
-  print *, 'ERROR FOR STATUS II IS', ierror  
+  status%MPI_SOURCE = 13
+  status%MPI_TAG = 14
+  status%MPI_ERROR = 15
 
-  
-  call PMPI_Recv(buf,count,datatype,source,tag,comm,temp,ierror)
-  !c_ierror = WMPI_Recv(buf,count,datatype,source,tag,comm,status,1_C_INT)
+
+  !print *, "old=", status%MPI_SOURCE, status%MPI_TAG, status%MPI_ERROR
+  ierror = WMPI_Status_f2c(status, c_status) ! WARNING WARNING WARNING !!!!
+!!$  print *, 'ERROR FOR STATUS IS', ierr
+!!$  ierror = WMPI_Status_c2f(c_status,status) ! WARNING WARNING WARNING !!!!
+!!$  print *, 'ERROR FOR STATUS II IS', ierror  
+
+  print *,'about to enter with',1_C_INT
+  c_ierror = WMPI_Recv(buf,c_count,c_datatype,c_source,7,c_comm,c_status,1_C_INT)
 
   if (present(ierror)) ierror = c_ierror
 
