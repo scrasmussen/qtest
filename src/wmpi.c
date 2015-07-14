@@ -74,8 +74,8 @@ int WMPI_Recv(void *buf, int count, MPI_Datatype datatype, int source, int tag, 
 
 
   printf(" WMPI_Recv: before WMPI_Recv_C\n");
-  printf(" status address %d \n",&status);  
-  printf(" fflag address %d \n",&fflag);  
+  printf(" status address 0x%p \n",&status);
+  printf(" fflag address 0x%p \n",&fflag);
   printf(" wmpi.c fflag = %d before\n",fflag);
 
   ierror = WMPI_Recv_C(buf, count, datatype, source, tag, comm, status,fflag);
