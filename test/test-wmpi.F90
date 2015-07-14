@@ -20,6 +20,7 @@ program test_wmpi_types
       call MPI_Send(data,1,MPI_INTEGER,0,7,MPI_COMM_WORLD,ierror)
    else
       print *, 'BEFORE MPI_RECV'
+      data = 2
       call MPI_Recv(data,1,MPI_INTEGER,1,7,MPI_COMM_WORLD,stat,ierror)
       print *, 'AFTER MPI_RECV'
    end if
@@ -27,6 +28,8 @@ program test_wmpi_types
    if (rank .eq. 0) then
       if (data .ne. 11) then
          print *, 'ERROR: data .ne. 11, data =', data
+      else
+         print *, 'SUCCESS: data .eq. 11'
       end if
    end if
 
