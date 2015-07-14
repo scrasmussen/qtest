@@ -127,7 +127,6 @@ subroutine MPI_Recv_f08(buf,count,datatype,source,tag,comm,status,ierror)
   TYPE(WMPI_Datatype) :: c_datatype
   TYPE(WMPI_Comm) :: c_comm
   TYPE(WMPI_Status) :: c_status
-  INTEGER(C_INT) :: c_test
 
   print *,'MPI_Recv_f08 wrapper before c calls'
   c_count = count
@@ -140,16 +139,12 @@ subroutine MPI_Recv_f08(buf,count,datatype,source,tag,comm,status,ierror)
   status%MPI_TAG = 14
   status%MPI_ERROR = 15
 
-  c_test = 1
-
   !print *, "old=", status%MPI_SOURCE, status%MPI_TAG, status%MPI_ERROR
   ierror = WMPI_Status_f2c(status, c_status) ! WARNING WARNING WARNING !!!!
-!!$  print *, 'ERROR FOR STATUS IS', ierr
-!!$  ierror = WMPI_Status_c2f(c_status,status) ! WARNING WARNING WARNING !!!!
-!!$  print *, 'ERROR FOR STATUS II IS', ierror  
 
   print *,'about to enter with',1_C_INT
-  c_ierror = WMPI_Recv(buf,c_count,c_datatype,c_source,7,c_comm,c_status,c_test)
+  print *,'about to eanter with buf = ',buf(1)
+  c_ierror = WMPI_Recv(buf,c_count,c_datatype,c_source,7,c_comm,c_status,1_C_INT)
 
   if (present(ierror)) ierror = c_ierror
 

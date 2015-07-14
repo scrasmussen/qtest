@@ -17,6 +17,7 @@ int WMPI_Init_C(int fflag);
 int WMPI_Finalize_C(int fflag);
 int WMPI_Comm_rank_C(MPI_Comm comm, int * rank, int fflag);
 int WMPI_Send_C(void *buf, int count, MPI_Datatype datatype, int dest, int tag, MPI_Comm comm, int fflag);
+int WMPI_Recv_C(void *buf, int count, MPI_Datatype datatype, int source, int tag, MPI_Comm comm, MPI_Status *status, int fflag);
 
 #if defined(c_plusplus) || defined(__cplusplus)
 }

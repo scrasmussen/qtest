@@ -99,23 +99,28 @@ end subroutine WMPI_Send_F
 subroutine WMPI_Recv_F(buf,count,datatype,source,tag,comm,status,ierror) &
   BIND(C,name='WMPI_Recv_F')
   use, intrinsic :: ISO_C_BINDING, only : C_INT
-  use :: mpi_f08, only : MPI_Status
-  use :: mpi, only : PMPI_Recv
+  use :: mpi_f08, only : MPI_Status, MPI_Comm, MPI_Datatype, PMPI_Recv
+  use :: mpi_f08_types
   implicit none
   REAL, DIMENSION(*), INTENT(OUT) :: buf
   INTEGER(C_INT), INTENT(IN), VALUE :: count, source, tag
-  INTEGER(C_INT), INTENT(IN), VALUE :: datatype
-  INTEGER(C_INT), INTENT(IN), VALUE :: comm
-  INTEGER(C_INT), INTENT(OUT) :: status
+  TYPE(MPI_Datatype), INTENT(IN), VALUE :: datatype
+  TYPE(MPI_Comm), INTENT(IN), VALUE :: comm
+  TYPE(MPI_Status), INTENT(OUT) :: status
   INTEGER(C_INT), INTENT(OUT) :: ierror
-  INTEGER :: f_ierror
-
+  INTEGER :: fierror
+  TYPE(MPI_Status) :: fstatus
   print *,'WPMI_Recv_F wrapper before PMPI call'
 
-  !call PMPI_Recv(buf, count, datatype, source, tag, comm, status, f_ierror)
-  f_ierror = 0
-  ierror = f_ierror
-
+  !fstatus = status
+  !print *,'STATUS%MPI_TAG',STATUS%MPI_TAG
+  fstatus = MPI_STATUS_IGNORE
+  print *,'DATATYPE =', datatype
+  print *,'SOURCE =', source
+  print *,'size of status =', sizeof(status)
+  call PMPI_Recv(buf, count, datatype, source, tag, comm, status, fierror)
+  ierror = fierror
+  print *,'IERROR AFTER =',ierror 
   print *,'WPMI_Recv_F wrapper after PMPI call'
 
 end subroutine WMPI_Recv_F

@@ -111,10 +111,8 @@ int WMPI_Recv_C(void *buf, int count, MPI_Datatype datatype, int source, int tag
   int ierror, status_error;
   int f_comm, f_datatype, f_status;
 
-  MPI_Status sta;
-
     //#ifdef VERBOSE
-  printf(" FFLAG IS %d\n", fflag);
+  
     //#endif
 
   if (fflag == 1) {
@@ -125,7 +123,8 @@ int WMPI_Recv_C(void *buf, int count, MPI_Datatype datatype, int source, int tag
     f_datatype = MPI_Type_c2f(datatype);
     // WARNING!!! :: NEED TO MAKE SURE THIS WORKS CORRECTLY
     status_error = MPI_Status_c2f(status, &f_status);
-    WMPI_Recv_F(&buf, count, f_datatype, source, tag, f_comm, f_status, &ierror);
+
+    WMPI_Recv_F(buf, count, f_datatype, source, tag, f_comm, &f_status, &ierror);
   }
   else {
     //#ifdef VERBOSE
