@@ -1,4 +1,5 @@
 #undef VERBOSE
+#undef STATUSVERBOSE
 
 !===== Fortran WRAPPER 2 =====
 
@@ -109,18 +110,22 @@ subroutine WMPI_Recv_F(buf,count,datatype,source,tag,comm,status,ierror) &
   TYPE(MPI_Status), INTENT(OUT) :: status
   INTEGER(C_INT), INTENT(OUT) :: ierror
   INTEGER :: fierror
-  TYPE(MPI_Status) :: fstatus
-  print *,'WPMI_Recv_F wrapper before PMPI call'
 
-  !fstatus = status
-  !print *,'STATUS%MPI_TAG',STATUS%MPI_TAG
-  fstatus = MPI_STATUS_IGNORE
+#ifdef STATUSVERBOSE
+  print *,'WPMI_Recv_F wrapper before PMPI call'
+  print *,'STATUS%MPI_SOURCE',STATUS%MPI_SOURCE
+  print *,'STATUS%MPI_TAG',STATUS%MPI_TAG
+  print *,'STATUS%MPI_ERROR',STATUS%MPI_ERROR
   print *,'DATATYPE =', datatype
   print *,'SOURCE =', source
-  print *,'size of status =', sizeof(status)
+#endif
+
   call PMPI_Recv(buf, count, datatype, source, tag, comm, status, fierror)
   ierror = fierror
+
+#ifdef STATUSVERBOSE
   print *,'IERROR AFTER =',ierror 
   print *,'WPMI_Recv_F wrapper after PMPI call'
+#endif
 
 end subroutine WMPI_Recv_F

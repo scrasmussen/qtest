@@ -1,4 +1,5 @@
 #undef VERBOSE
+#undef STATUSVERBOSE
 
 !===== WRAPPER 1 =====
 
@@ -15,6 +16,7 @@ subroutine MPI_Init_f08(ierror)
 #endif
 
   c_ierror = WMPI_Init(1_C_INT)
+  ierror = c_ierror
 
 #ifdef VERBOSE
   print *, 'MPI_Init_f08 wrapper after c call'
@@ -35,6 +37,7 @@ subroutine MPI_Finalize_f08(ierror)
 #endif
 
   c_ierror = WMPI_Finalize(1_C_INT)
+  ierror = c_ierror
 
 #ifdef VERBOSE
   print *, 'MPI_Finalize_f08 wrapper after c call'
@@ -128,7 +131,9 @@ subroutine MPI_Recv_f08(buf,count,datatype,source,tag,comm,status,ierror)
   TYPE(WMPI_Comm) :: c_comm
   TYPE(WMPI_Status) :: c_status
 
+#ifdef STATUSVERBOSE
   print *,'MPI_Recv_f08 wrapper before c calls'
+#endif
   c_count = count
   c_datatype = WMPI_Type_f2c(datatype%MPI_VAL)
   c_source = source
@@ -139,14 +144,20 @@ subroutine MPI_Recv_f08(buf,count,datatype,source,tag,comm,status,ierror)
   status%MPI_TAG = 14
   status%MPI_ERROR = 15
 
-  !print *, "old=", status%MPI_SOURCE, status%MPI_TAG, status%MPI_ERROR
-  ierror = WMPI_Status_f2c(status, c_status) ! WARNING WARNING WARNING !!!!
+  ierror = WMPI_Status_f2c(status, c_status)
 
+#ifdef STATUSVERBOSE
   print *,'about to enter with',1_C_INT
-  print *,'about to eanter with buf = ',buf(1)
+#endif 
+
   c_ierror = WMPI_Recv(buf,c_count,c_datatype,c_source,7,c_comm,c_status,1_C_INT)
 
   if (present(ierror)) ierror = c_ierror
 
+#ifdef STATUSVERBOSE
   print *,'MPI_Recv_f08 wrapper after c calls'
+  print *,'STATUS%MPI_SOURCE',STATUS%MPI_SOURCE
+  print *,'STATUS%MPI_TAG',STATUS%MPI_TAG
+  print *,'STATUS%MPI_ERROR',STATUS%MPI_ERROR
+#endif
 end subroutine MPI_Recv_f08

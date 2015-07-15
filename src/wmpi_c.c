@@ -3,6 +3,7 @@
 
 #include "wmpi_f.h"
 #undef VERBOSE
+#undef STATUSVERBOSE
 
 /* This is called from WMPI_Init C function */
 int WMPI_Init_C(int fflag)
@@ -111,14 +112,10 @@ int WMPI_Recv_C(void *buf, int count, MPI_Datatype datatype, int source, int tag
   int ierror, status_error;
   int f_comm, f_datatype, f_status;
 
-    //#ifdef VERBOSE
-  
-    //#endif
-
   if (fflag == 1) {
-    //#ifdef VERBOSE
+    #ifdef STATUSVERBOSE
     printf(" WMPI_Recv_C: before calling WMPI_Recv_F\n");
-    //#endif
+    #endif
     f_comm = MPI_Comm_c2f(comm);
     f_datatype = MPI_Type_c2f(datatype);
     // WARNING!!! :: NEED TO MAKE SURE THIS WORKS CORRECTLY
@@ -127,14 +124,14 @@ int WMPI_Recv_C(void *buf, int count, MPI_Datatype datatype, int source, int tag
     WMPI_Recv_F(buf, count, f_datatype, source, tag, f_comm, &f_status, &ierror);
   }
   else {
-    //#ifdef VERBOSE
+    #ifdef STATUSVERBOSE
     printf(" WMPI_Recv_C: before calling PMPI_Recv\n");
-    //#endif
+    #endif
     ierror = PMPI_Recv(buf, count, datatype, source, tag, comm, status);
   }
-  //#ifdef VERBOSE
+  #ifdef STATUSVERBOSE
   printf(" WMPI_Recv_C: after\n");
-  //#endif
+  #endif
   return ierror;
   }
 
