@@ -134,16 +134,15 @@ subroutine MPI_Recv_f08(buf,count,datatype,source,tag,comm,status,ierror)
 #ifdef STATUSVERBOSE
   print *,'MPI_Recv_f08 wrapper before c calls'
 #endif
+  status%MPI_SOURCE = 13
+  status%MPI_TAG = 14
+  status%MPI_ERROR = 15
+
   c_count = count
   c_datatype = WMPI_Type_f2c(datatype%MPI_VAL)
   c_source = source
   c_tag = tag
   c_comm = WMPI_Comm_f2c(comm%MPI_VAL)
-
-  status%MPI_SOURCE = 13
-  status%MPI_TAG = 14
-  status%MPI_ERROR = 15
-
   ierror = WMPI_Status_f2c(status, c_status)
 
 #ifdef STATUSVERBOSE
@@ -151,7 +150,6 @@ subroutine MPI_Recv_f08(buf,count,datatype,source,tag,comm,status,ierror)
 #endif 
 
   c_ierror = WMPI_Recv(buf,c_count,c_datatype,c_source,7,c_comm,c_status,1_C_INT)
-
   if (present(ierror)) ierror = c_ierror
 
 #ifdef STATUSVERBOSE
