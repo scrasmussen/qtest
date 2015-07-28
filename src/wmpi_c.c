@@ -92,7 +92,6 @@ int WMPI_Send_C(void *buf, int count, MPI_Datatype datatype, int dest, int tag, 
     f_comm = MPI_Comm_c2f(comm);
     f_datatype = MPI_Type_c2f(datatype);
     WMPI_Send_F(buf, count, f_datatype, dest, tag, f_comm, &ierror);
-    //ierror = PMPI_Send(buf, count, datatype, dest, tag, comm);
   }
   else {
     #ifdef VERBOSE
@@ -110,18 +109,26 @@ int WMPI_Send_C(void *buf, int count, MPI_Datatype datatype, int dest, int tag, 
 int WMPI_Recv_C(void *buf, int count, MPI_Datatype datatype, int source, int tag, MPI_Comm comm, MPI_Status *status, int fflag)
 {
   int ierror, status_error;
-  int f_comm, f_datatype, f_status;
+  /* Fortran status (use mpi version) must be an array to have proper size */
+  int f_comm, f_datatype, f_status[MPI_FORTRAN_STATUS_SIZE];
 
   if (fflag == 1) {
     #ifdef STATUSVERBOSE
     printf(" WMPI_Recv_C: before calling WMPI_Recv_F\n");
     #endif
+    printf("      fflag==%d\n", fflag);
     f_comm = MPI_Comm_c2f(comm);
+    printf("      fflag==%d\n", fflag);
     f_datatype = MPI_Type_c2f(datatype);
+    printf("      fflag==%d\n", fflag);
     // WARNING!!! :: NEED TO MAKE SURE THIS WORKS CORRECTLY
-    status_error = MPI_Status_c2f(status, &f_status);
+    // This call seems to be correct by returned status should be checked
+    status_error = MPI_Status_c2f(status, f_status);
+    if (status_error != MPI_SUCCESS) printf("ERROR: MPI_Status_c2f returned error value %d\n", status_error);
+    printf("      fflag==%d\n", fflag);
 
-    WMPI_Recv_F(buf, count, f_datatype, source, tag, f_comm, &f_status, &ierror);
+    WMPI_Recv_F(buf, count, f_datatype, source, tag, f_comm, f_status, &ierror);
+    printf("      fflag==%d\n", fflag);
   }
   else {
     #ifdef STATUSVERBOSE
