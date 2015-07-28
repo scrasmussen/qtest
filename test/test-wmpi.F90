@@ -11,18 +11,25 @@ program test_wmpi_types
    call MPI_Init(ierror)
 
    call MPI_Comm_rank(MPI_COMM_WORLD, rank, ierror)
+
    print *, "(rank,ierror)==", rank, ierror
-
-
+   call MPI_Barrier(MPI_COMM_WORLD)
+   if (rank == 0) then
+      print *, "MPI_STATUS_SIZE==", MPI_STATUS_SIZE
+      print *
+   end if
 
    if (rank .eq. 1) then
       data = 11
-      call MPI_Send(data,1,MPI_INTEGER,0,7,MPI_COMM_WORLD,ierror)
-   else
-      print *, 'BEFORE MPI_RECV'
+      call PMPI_Send(data,1,MPI_INTEGER,0,7,MPI_COMM_WORLD,ierror)
+   else if (rank .eq. 0) then
       data = 2
-      call MPI_Recv(data,1,MPI_INTEGER,1,7,MPI_COMM_WORLD,stat,ierror)
-      print *, 'AFTER MPI_RECV'
+      call PMPI_Recv(data,1,MPI_INTEGER,1,7,MPI_COMM_WORLD,stat,ierror)
+      ! TODO - WARNING status return value is currently INCORRECT
+      !      - should be (1, 7, 0)
+      print *, rank, "........", stat%mpi_source, stat%mpi_tag, stat%mpi_error
+   else
+      print *, 'ERROR: must run with exactly two MPI processes'
    end if
 
    if (rank .eq. 0) then
