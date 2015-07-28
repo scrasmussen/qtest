@@ -102,7 +102,6 @@ subroutine MPI_Send_f08(buf,count,datatype,dest,tag,comm,ierror)
   c_comm = WMPI_Comm_f2c(comm%MPI_VAL)
 
   c_ierror = WMPI_Send(buf,c_count,c_datatype,c_dest,c_tag,c_comm,1_C_INT)
-
   if (present(ierror)) ierror = c_ierror
 
 #ifdef VERBOSE
@@ -149,7 +148,7 @@ subroutine MPI_Recv_f08(buf,count,datatype,source,tag,comm,status,ierror)
   print *,'about to enter with',1_C_INT
 #endif 
 
-  c_ierror = WMPI_Recv(buf,c_count,c_datatype,c_source,7,c_comm,c_status,1_C_INT)
+  c_ierror = WMPI_Recv(buf,c_count,c_datatype,c_source,c_tag,c_comm,c_status,1_C_INT)
   if (present(ierror)) ierror = c_ierror
 
 #ifdef STATUSVERBOSE
