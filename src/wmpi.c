@@ -73,18 +73,18 @@ int WMPI_Recv(void *buf, int count, MPI_Datatype datatype, int source, int tag, 
 {
   int ierror;
 
-  #ifdef STATUSVERBOSE
-    printf(" WMPI_Recv: before WMPI_Recv_C\n");
-  #endif
-
-    //REMOVING THIS STATEMENT WILL CAUSE FATAL CRASHING
-  printf(" status address 0x%p \n",&status);
-
-  ierror = WMPI_Recv_C(buf, count, datatype, source, tag, comm, status,fflag);
-
-  #ifdef STATUSVERBOSE
+#ifdef STATUSVERBOSE
   printf(" WMPI_Recv: before WMPI_Recv_C\n");
-   #endif
+#endif
+
+  //REMOVING THIS STATEMENT WILL CAUSE FATAL CRASHING
+  //  printf(" status address 0x%p \n",&status);
+
+  ierror = WMPI_Recv_C(buf, count, datatype, source, tag, comm, status, fflag);
+
+#ifdef STATUSVERBOSE
+  printf(" WMPI_Recv: before WMPI_Recv_C\n");
+#endif
 
   return ierror;
 }
