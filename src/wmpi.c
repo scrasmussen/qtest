@@ -43,7 +43,7 @@ int WMPI_Comm_rank(MPI_Comm comm, int * rank, int fflag)
 
   ierror = WMPI_Comm_rank_C(comm, rank, fflag);
 
-  if (comm == MPI_COMM_WORLD) printf("HURRAY, comms equiv\n");
+  if (comm != MPI_COMM_WORLD) printf("ERROR, comms not equiv (MPI_COMM_WORLD)\n");
   
   #ifdef VERBOSE
   printf(" WMPI_Comm_rank: after WMPI_Comm_rank_C, rank==%d\n", *rank);
