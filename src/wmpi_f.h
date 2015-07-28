@@ -1,10 +1,14 @@
 /*
  * This file contains function prototypes for the final Fortran C tool wrapper
- * functions that call the corresponding PMPI Fortran procedures.
+ * functions that call the corresponding PMPI Fortran procedures.  It also contains
+ * the constant MPI_FORTRAN_STATUS_SIZE (WARNING, the value of this macro variable is
+ * dependent on the MPI library.
  */
 
 #ifndef WMPI_F_H
 #define WMPI_F_H
+
+#define MPI_FORTRAN_STATUS_SIZE 6
 
 #if defined(c_plusplus) || defined(__cplusplus)
 extern "C" {
