@@ -84,7 +84,7 @@ subroutine WMPI_Send_F(buf,count,datatype,dest,tag,comm,ierror) &
   INTEGER :: f_ierror
 
 #ifdef VERBOSE
-  print *,'WMPI_Send_F wrapper before PMPI call'
+  print *, 'WMPI_Send_F wrapper before PMPI call'
 #endif
 
   call PMPI_Send(buf, count, datatype, dest, tag, comm, f_ierror)
@@ -117,7 +117,9 @@ subroutine WMPI_Recv_F(buf,count,datatype,source,tag,comm,status,ierror) &
   print *,'STATUS%MPI_TAG',STATUS%MPI_TAG
   print *,'STATUS%MPI_ERROR',STATUS%MPI_ERROR
   print *,'DATATYPE =', datatype
-  print *,'SOURCE =', source
+  print *,'COUNT    =', count
+  print *,'SOURCE   =', source
+  print *,'TAG      =', tag
 #endif
 
   call PMPI_Recv(buf, count, datatype, source, tag, comm, status, fierror)
