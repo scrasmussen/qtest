@@ -5,15 +5,22 @@ program test_wmpi_types
    use mpi_f08
    implicit none
 
-   integer :: rank, ierror, data
+   integer :: rank, size, ierror, data
    type(MPI_STATUS) :: stat
 
    call MPI_Init(ierror)
 
-   call MPI_Comm_rank(MPI_COMM_WORLD, rank, ierror)
+   call MPI_Comm_rank(MPI_COMM_WORLD, rank)
+   call MPI_Comm_size(MPI_COMM_WORLD, size, ierror)
 
    print *, "(rank,ierror)==", rank, ierror
    call MPI_Barrier(MPI_COMM_WORLD)
+
+   if (size .ne. 2) then
+      print *, "ERROR: test_wmpi must be run with exactly 2 MPI processes"
+      go to 99
+   end if
+
    if (rank == 0) then
       print *, "MPI_STATUS_SIZE==", MPI_STATUS_SIZE
       print *
@@ -40,6 +47,6 @@ program test_wmpi_types
       end if
    end if
 
-   call MPI_Finalize(ierror)
+99 call MPI_Finalize(ierror)
 
 end program
