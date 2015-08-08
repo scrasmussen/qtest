@@ -158,3 +158,28 @@ subroutine MPI_Recv_f08(buf,count,datatype,source,tag,comm,status,ierror)
   print *,'STATUS%MPI_ERROR',STATUS%MPI_ERROR
 #endif
 end subroutine MPI_Recv_f08
+
+
+!! A test for passing character strings
+!
+subroutine MPI_Get_processor_name_f08(name,resultlen,ierror)
+  use, intrinsic :: ISO_C_BINDING, only : C_CHAR
+  use :: mpi_f08, only : MPI_MAX_PROCESSOR_NAME
+  implicit none
+  CHARACTER(LEN=MPI_MAX_PROCESSOR_NAME), INTENT(OUT) :: name
+  INTEGER, INTENT(OUT) :: resultlen
+  INTEGER, OPTIONAL, INTENT(OUT) :: ierror
+  CHARACTER(KIND=C_CHAR), INTENT(OUT) :: name(MPI_MAX_PROCESSOR_NAME+1)
+  INTEGER(C_INT) :: c_resultlen
+  INTEGER(C_INT) :: c_ierror
+
+  c_ierror = WMPI_Get_processor_name(c_name,c_resultlen,1_C_INT)
+  if (c_ierror != MPI_SUCCESS) goto 9
+  if (present(ierror)) ierror = c_ierror  ! you can reuse c_ierror now
+
+  name(1:c_resultlen) = c_name(1:c_resultlen)
+  resultlen = c_resultlen
+
+9 if (present(ierror)) ierror = c_ierror
+
+end subroutine MPI_Get_processor_name_f08
