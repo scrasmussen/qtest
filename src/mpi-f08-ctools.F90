@@ -180,6 +180,7 @@ subroutine MPI_Get_processor_name_f08(name,resultlen,ierror)
   name(1:c_resultlen) = c_name(1:c_resultlen)
   resultlen = c_resultlen
 
+  return
 9 if (present(ierror)) ierror = c_ierror
 
 end subroutine MPI_Get_processor_name_f08
