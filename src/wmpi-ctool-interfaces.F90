@@ -76,6 +76,19 @@ function WMPI_Recv(buf,count,datatype,source,tag,comm,status,fflag) &
   INTEGER(C_INT) :: ierror
 end function WMPI_Recv
 
+!! A test for passing character strings
+!
+function WMPI_Get_processor_name(name,resultlen,fflag) &
+  result(ierror) BIND(C,name='WMPI_Get_processor_name')
+  use, intrinsic :: ISO_C_BINDING, only : C_INT, C_CHAR
+  use :: mpi_f08, only : MPI_MAX_PROCESSOR_NAME
+  implicit none
+  CHARACTER(KIND=C_CHAR), INTENT(OUT) :: name(MPI_MAX_PROCESSOR_NAME+1)
+  INTEGER(C_INT), INTENT(OUT) :: resultlen
+  INTEGER(C_INT), INTENT(IN), VALUE :: fflag
+  INTEGER(C_INT) :: ierror
+end function WMPI_Get_processor_name
+
 end interface
 
 end module wmpi_ctool_interfaces
