@@ -163,24 +163,43 @@ end subroutine MPI_Recv_f08
 !! A test for passing character strings
 !
 subroutine MPI_Get_processor_name_f08(name,resultlen,ierror)
-  use, intrinsic :: ISO_C_BINDING, only : C_CHAR
+  use, intrinsic :: ISO_C_BINDING, only : C_INT, C_CHAR
   use :: mpi_f08, only : MPI_MAX_PROCESSOR_NAME
+  use :: wmpi_ctool_interfaces, only : WMPI_Get_processor_name
   implicit none
   CHARACTER(LEN=MPI_MAX_PROCESSOR_NAME), INTENT(OUT) :: name
   INTEGER, INTENT(OUT) :: resultlen
   INTEGER, OPTIONAL, INTENT(OUT) :: ierror
-  CHARACTER(KIND=C_CHAR), INTENT(OUT) :: name(MPI_MAX_PROCESSOR_NAME+1)
+  CHARACTER(KIND=C_CHAR) :: c_name(MPI_MAX_PROCESSOR_NAME+1)
   INTEGER(C_INT) :: c_resultlen
   INTEGER(C_INT) :: c_ierror
 
   c_ierror = WMPI_Get_processor_name(c_name,c_resultlen,1_C_INT)
-  if (c_ierror != MPI_SUCCESS) goto 9
+!  if (c_ierror != MPI_SUCCESS) goto 9
   if (present(ierror)) ierror = c_ierror  ! you can reuse c_ierror now
 
-  name(1:c_resultlen) = c_name(1:c_resultlen)
+!  name(1:c_resultlen) = c_name(1:c_resultlen)
+  name(1:c_resultlen) = "Woot"
   resultlen = c_resultlen
 
   return
 9 if (present(ierror)) ierror = c_ierror
 
 end subroutine MPI_Get_processor_name_f08
+
+#ifdef NOT_YET
+  PURE FUNCTION F_C_STRING_FUNC (F_STRING) RESULT (C_STRING)
+    USE, INTRINSIC :: ISO_C_BINDING, ONLY: C_CHAR, C_NULL_CHAR
+    IMPLICIT NONE
+    CHARACTER(LEN=*), INTENT(IN) :: F_STRING
+    CHARACTER(LEN=1,KIND=C_CHAR) :: C_STRING(LEN_TRIM(F_STRING)+1)
+    INTEGER                      :: N, I
+
+    N = LEN_TRIM(F_STRING)
+    DO I = 1, N
+      C_STRING(I) = F_STRING(I:I)
+    END DO
+    C_STRING(N + 1) = C_NULL_CHAR
+
+  END FUNCTION F_C_STRING_FUNC
+#endif
