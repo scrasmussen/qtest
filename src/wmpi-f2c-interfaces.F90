@@ -9,6 +9,8 @@
 !
 ! These handles (WMPI) are declared in wmpi-types.F90
 !
+! This file also interfaces for wmpi_string_f2c, wmpi_string_c2f.
+!
 
 !
 ! NOTE: Create this file by hand for all handles.
@@ -240,26 +242,22 @@ module wmpi_f2c_interfaces
     end function WMPI_Status_c2f
 #endif
 
-    function WMPI_Status_f2c(f_status, c_status) result(ierror) &
-      bind(C,name="MPI_Status_f2c")
-      use mpi_f08, only : MPI_Status
-      use wmpi_types, only : WMPI_Status
+    subroutine WMPI_string_f2c(f_string, c_string, length)
+      use, intrinsic :: ISO_C_BINDING, only : C_CHAR, C_NULL_CHAR
       implicit none
-      type(MPI_Status)  :: f_status
-      type(WMPI_Status) :: c_status
-      integer :: ierror
-    end function WMPI_Status_f2c
+      character(len=length), intent(in) :: f_string
+      character(len=1,kind=C_CHAR), intent(out) :: c_string(length+1)
+      integer, intent(in) :: length
+      integer :: i
+    end subroutine WMPI_string_f2c
 
-    function WMPI_Status_c2f(c_status, f_status) result(ierror) &
-      bind(C,name="MPI_Status_c2f")
-      use mpi_f08, only : MPI_Status
-      use wmpi_types, only : WMPI_Status
+    subroutine WMPI_string_c2f(c_string, f_string, length)
+      use, intrinsic :: ISO_C_BINDING, only : C_CHAR
       implicit none
-      type(WMPI_Status) :: c_status
-      type(MPI_Status)  :: f_status
-      integer :: ierror
-    end function WMPI_Status_c2f
-
-  end interface      
+      character(len=1,kind=C_CHAR), intent(in) :: c_string(length+1)
+      character(len=length), intent(out) :: f_string
+      integer, intent(in) :: length
+      integer :: i
+    end subroutine WMPI_string_c2f
 
 end module wmpi_f2c_interfaces
