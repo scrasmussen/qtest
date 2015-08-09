@@ -187,19 +187,17 @@ subroutine MPI_Get_processor_name_f08(name,resultlen,ierror)
 
 end subroutine MPI_Get_processor_name_f08
 
-#ifdef NOT_YET
-  PURE FUNCTION F_C_STRING_FUNC (F_STRING) RESULT (C_STRING)
+PURE FUNCTION F_C_STRING_FUNC(F_STRING, length) RESULT (C_STRING)
     USE, INTRINSIC :: ISO_C_BINDING, ONLY: C_CHAR, C_NULL_CHAR
     IMPLICIT NONE
-    CHARACTER(LEN=*), INTENT(IN) :: F_STRING
-    CHARACTER(LEN=1,KIND=C_CHAR) :: C_STRING(LEN_TRIM(F_STRING)+1)
-    INTEGER                      :: N, I
+    CHARACTER(LEN=length), INTENT(IN) :: F_STRING
+    integer, intent(in) :: length
+    CHARACTER(LEN=1,KIND=C_CHAR) :: C_STRING(length+1)
+    INTEGER                      :: I
 
-    N = LEN_TRIM(F_STRING)
-    DO I = 1, N
+    DO I = 1, length
       C_STRING(I) = F_STRING(I:I)
     END DO
-    C_STRING(N + 1) = C_NULL_CHAR
+    C_STRING(length + 1) = C_NULL_CHAR
 
-  END FUNCTION F_C_STRING_FUNC
-#endif
+END FUNCTION F_C_STRING_FUNC
