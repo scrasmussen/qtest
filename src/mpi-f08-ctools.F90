@@ -187,17 +187,37 @@ subroutine MPI_Get_processor_name_f08(name,resultlen,ierror)
 
 end subroutine MPI_Get_processor_name_f08
 
-PURE FUNCTION F_C_STRING_FUNC(F_STRING, length) RESULT (C_STRING)
-    USE, INTRINSIC :: ISO_C_BINDING, ONLY: C_CHAR, C_NULL_CHAR
-    IMPLICIT NONE
-    CHARACTER(LEN=length), INTENT(IN) :: F_STRING
-    integer, intent(in) :: length
-    CHARACTER(LEN=1,KIND=C_CHAR) :: C_STRING(length+1)
-    INTEGER                      :: I
 
-    DO I = 1, length
-      C_STRING(I) = F_STRING(I:I)
-    END DO
-    C_STRING(length + 1) = C_NULL_CHAR
+!
+! The following two procedures do string conversions between
+! Fortran style character strings and C style strings.
+!---------------------------------------------------------------
 
-END FUNCTION F_C_STRING_FUNC
+subroutine WMPI_string_f2c(f_string, c_string, length)
+  use, intrinsic :: ISO_C_BINDING, only : C_CHAR, C_NULL_CHAR
+  implicit none
+  character(len=length), intent(in) :: f_string
+  character(len=1,kind=C_CHAR), intent(out) :: c_string(length+1)
+  integer, intent(in) :: length
+  integer :: i
+
+  do i = 1, length
+    c_string(i) = f_string(i:i)
+  end do
+  c_string(length + 1) = C_NULL_CHAR
+
+end subroutine WMPI_string_f2c
+
+subroutine WMPI_string_c2f(c_string, f_string, length)
+  use, intrinsic :: ISO_C_BINDING, only : C_CHAR
+  implicit none
+  character(len=1,kind=C_CHAR), intent(in) :: c_string(length+1)
+  character(len=length), intent(out) :: f_string
+  integer, intent(in) :: length
+  integer :: i
+
+  do i = 1, length
+    f_string(i:i) = c_string(i)
+  end do
+
+end subroutine WMPI_string_c2f
