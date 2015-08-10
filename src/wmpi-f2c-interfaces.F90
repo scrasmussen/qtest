@@ -221,43 +221,44 @@ module wmpi_f2c_interfaces
       integer :: f_file
     end function WMPI_File_c2f
 
-#ifdef COULD_BE_WRONG
-! NOTE: This BINDC name should be changed to MPI_Status_f2c after testing
-! is completed.
-    function WMPI_Status_f2c(f_status) result(c_status) &
+    function WMPI_Status_f2c(f_status, c_status) result(ierror) &
       bind(C,name="MPI_Status_f2c")
       use mpi_f08, only : MPI_Status
+      use WMPI_types, only : WMPI_Status
       implicit none
-      type(MPI_Status), value :: f_status
-      type(MPI_Status) :: c_status
-      !type(WMPI_Status) :: f_status
+      type(WMPI_Status), intent(out) :: c_status
+      type(MPI_Status), intent(in), value :: f_status
+      integer :: ierror
     end function WMPI_Status_f2c
 
-    function WMPI_Status_c2f(c_status) result(f_status) &
+    function WMPI_Status_c2f(c_status, f_status) result(ierror) &
       bind(C,name="MPI_Status_c2f")
       use mpi_f08, only : MPI_Status
+      use WMPI_types, only : WMPI_Status
       implicit none
-      type(MPI_Status), value :: c_status
-      type(MPI_Status) :: f_status
+      type(WMPI_Status), intent(in), value :: c_status
+      type(MPI_Status), intent(out) :: f_status
+      integer :: ierror
     end function WMPI_Status_c2f
-#endif
 
-    subroutine WMPI_string_f2c(f_string, c_string, length)
+    subroutine WMPI_string_f2c(f_string, c_string, length, max_length)
       use, intrinsic :: ISO_C_BINDING, only : C_CHAR, C_NULL_CHAR
       implicit none
-      character(len=length), intent(in) :: f_string
-      character(len=1,kind=C_CHAR), intent(out) :: c_string(length+1)
-      integer, intent(in) :: length
+      character(len=max_length), intent(in) :: f_string
+      character(len=1,kind=C_CHAR), intent(out) :: c_string(max_length+1)
+      integer, intent(in) :: length, max_length
       integer :: i
     end subroutine WMPI_string_f2c
 
-    subroutine WMPI_string_c2f(c_string, f_string, length)
+    subroutine WMPI_string_c2f(c_string, f_string, length, max_length)
       use, intrinsic :: ISO_C_BINDING, only : C_CHAR
       implicit none
-      character(len=1,kind=C_CHAR), intent(in) :: c_string(length+1)
-      character(len=length), intent(out) :: f_string
-      integer, intent(in) :: length
+      character(len=1,kind=C_CHAR), intent(in) :: c_string(max_length+1)
+      character(len=max_length), intent(out) :: f_string
+      integer, intent(in) :: length, max_length
       integer :: i
     end subroutine WMPI_string_c2f
+
+  end interface
 
 end module wmpi_f2c_interfaces
