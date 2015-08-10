@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 #include <mpi.h>
 #include "wmpi_c.h"
 #undef VERBOSE
@@ -83,9 +84,28 @@ int WMPI_Recv(void *buf, int count, MPI_Datatype datatype, int source, int tag, 
   ierror = WMPI_Recv_C(buf, count, datatype, source, tag, comm, status, fflag);
 
 #ifdef STATUSVERBOSE
-  printf(" WMPI_Recv: before WMPI_Recv_C\n");
+  printf(" WMPI_Recv: after WMPI_Recv_C\n");
 #endif
 
   return ierror;
 }
 
+/*
+ * A test for passing character strings
+ */
+int WMPI_Get_processor_name(char * name, int * resultlen, int fflag)
+{
+  int ierror;
+
+#ifdef STATUSVERBOSE
+  printf(" WMPI_Get_processor_name: before WMPI_Get_processor_name_C\n");
+#endif
+
+  ierror = WMPI_Get_processor_name_C(name, resultlen, fflag);
+
+#ifdef STATUSVERBOSE
+  printf(" WMPI_Get_processor_name: len==%d, name==%s\n", *resultlen, name);
+#endif
+
+  return MPI_SUCCESS;
+}
