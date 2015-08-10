@@ -131,3 +131,34 @@ subroutine WMPI_Recv_F(buf,count,datatype,source,tag,comm,status,ierror) &
 #endif
 
 end subroutine WMPI_Recv_F
+
+!! A test for passing character strings
+!
+subroutine WMPI_Get_processor_name_F(c_name, c_resultlen, c_ierror) &
+  BIND(C,name='WMPI_Get_processor_name_F')
+  use, intrinsic :: ISO_C_BINDING, only : C_INT, C_CHAR
+  use :: mpi_f08, only : MPI_MAX_PROCESSOR_NAME
+  implicit none
+  CHARACTER(KIND=C_CHAR), INTENT(OUT) :: c_name(MPI_MAX_PROCESSOR_NAME+1)
+  INTEGER(C_INT), INTENT(OUT) :: c_resultlen
+  INTEGER(C_INT), INTENT(OUT) :: c_ierror
+
+  CHARACTER(LEN=MPI_MAX_PROCESSOR_NAME) :: name
+  INTEGER :: resultlen
+  INTEGER :: ierror
+
+#ifdef STATUSVERBOSE
+  print *, "WMPI_Get_processor_name_F"
+#endif
+
+  call PMPI_Get_processor_name(name,resultlen,ierror)
+
+  call wmpi_string_f2c(name, c_name, resultlen, MPI_MAX_PROCESSOR_NAME)
+  c_resultlen = resultlen
+  c_ierror = ierror
+
+#ifdef STATUSVERBOSE
+  print *, "WMPI_Get_processor_name_F::",trim(name),resultlen
+#endif
+
+end subroutine WMPI_Get_processor_name_F
