@@ -11,9 +11,11 @@ program test_init_finalize
     integer :: err
 
     ! Start up MPI
-    call MPI_Init()
+    call MPI_Init(err)
+    if (err /= MPI_SUCCESS) ERROR STOP "ERROR: MPI_Init"
 
     ! Shut down MPI
     call MPI_Finalize(err)
+    if (err /= MPI_SUCCESS) ERROR STOP "ERROR: MPI_Finalize"
 
 end program test_init_finalize
