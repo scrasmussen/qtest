@@ -131,14 +131,39 @@ int WMPI_Recv_C(void *buf, int count, MPI_Datatype datatype, int source, int tag
     printf("      fflag==%d\n", fflag);
   }
   else {
-    #ifdef STATUSVERBOSE
+#ifdef STATUSVERBOSE
     printf(" WMPI_Recv_C: before calling PMPI_Recv\n");
-    #endif
+#endif
     ierror = PMPI_Recv(buf, count, datatype, source, tag, comm, status);
   }
-  #ifdef STATUSVERBOSE
+
+#ifdef STATUSVERBOSE
   printf(" WMPI_Recv_C: after\n");
-  #endif
+#endif
+
   return ierror;
+}
+
+int WMPI_Get_processor_name_C(char * name, int * resultlen, int fflag)
+{
+  int ierror;
+
+  if (fflag == 1) {
+#ifdef STATUSVERBOSE
+    printf(" WMPI_Get_processor_name_C: before calling WMPI_Get_processor_name_F\n");
+#endif
+    WMPI_Get_processor_name_F(name, resultlen, &ierror);
+  }
+  else {
+#ifdef STATUSVERBOSE
+    printf(" WMPI_Get_processor_name_C: before calling PMPI_Get_processor_name\n");
+#endif
+    ierror = PMPI_Get_processor_name(name, resultlen);
   }
 
+#ifdef STATUSVERBOSE
+  printf(" WMPI_Get_processor_name_C: after\n");
+#endif
+
+  return ierror;
+}
