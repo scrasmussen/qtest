@@ -164,7 +164,7 @@ end subroutine MPI_Recv_f08
 !
 subroutine MPI_Get_processor_name_f08(name,resultlen,ierror)
   use, intrinsic :: ISO_C_BINDING, only : C_INT, C_CHAR
-  use :: mpi_f08, only : MPI_MAX_PROCESSOR_NAME
+  use :: mpi_f08, only : MPI_MAX_PROCESSOR_NAME, MPI_SUCCESS
   use :: wmpi_ctool_interfaces, only : WMPI_Get_processor_name
   implicit none
   CHARACTER(LEN=MPI_MAX_PROCESSOR_NAME), INTENT(OUT) :: name
@@ -174,12 +174,11 @@ subroutine MPI_Get_processor_name_f08(name,resultlen,ierror)
   INTEGER(C_INT) :: c_resultlen
   INTEGER(C_INT) :: c_ierror
 
-  c_ierror = WMPI_Get_processor_name(c_name,c_resultlen,1_C_INT)
-!  if (c_ierror != MPI_SUCCESS) goto 9
+  c_ierror=  WMPI_Get_processor_name(c_name,c_resultlen,1_C_INT)
+  if (c_ierror /= MPI_SUCCESS) goto 9
   if (present(ierror)) ierror = c_ierror  ! you can reuse c_ierror now
 
-!  name(1:c_resultlen) = c_name(1:c_resultlen)
-  name(1:c_resultlen) = "Woot"
+  call wmpi_string_c2f(c_name, name, c_resultlen, MPI_MAX_PROCESSOR_NAME)
   resultlen = c_resultlen
 
   return
@@ -193,12 +192,12 @@ end subroutine MPI_Get_processor_name_f08
 ! Fortran style character strings and C style strings.
 !---------------------------------------------------------------
 
-subroutine WMPI_string_f2c(f_string, c_string, length)
+subroutine WMPI_string_f2c(f_string, c_string, length, max_length)
   use, intrinsic :: ISO_C_BINDING, only : C_CHAR, C_NULL_CHAR
   implicit none
-  character(len=length), intent(in) :: f_string
-  character(len=1,kind=C_CHAR), intent(out) :: c_string(length+1)
-  integer, intent(in) :: length
+  character(len=max_length), intent(in) :: f_string
+  character(len=1,kind=C_CHAR), intent(out) :: c_string(max_length+1)
+  integer, intent(in) :: length, max_length
   integer :: i
 
   do i = 1, length
@@ -208,13 +207,17 @@ subroutine WMPI_string_f2c(f_string, c_string, length)
 
 end subroutine WMPI_string_f2c
 
-subroutine WMPI_string_c2f(c_string, f_string, length)
+subroutine WMPI_string_c2f(c_string, f_string, length, max_length)
   use, intrinsic :: ISO_C_BINDING, only : C_CHAR
   implicit none
-  character(len=1,kind=C_CHAR), intent(in) :: c_string(length+1)
-  character(len=length), intent(out) :: f_string
-  integer, intent(in) :: length
+  character(len=1,kind=C_CHAR), intent(in) :: c_string(max_length+1)
+  character(len=max_length), intent(out) :: f_string
+  integer, intent(in) :: length, max_length
   integer :: i
+
+  !! initialization here is necessary
+  !
+  f_string = ""
 
   do i = 1, length
     f_string(i:i) = c_string(i)
