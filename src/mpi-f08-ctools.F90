@@ -96,6 +96,7 @@ subroutine MPI_Send_f08(buf,count,datatype,dest,tag,comm,ierror)
   TYPE(WMPI_Datatype) :: c_datatype
   TYPE(WMPI_Comm) :: c_comm
 
+#define VERBOSE
 #ifdef VERBOSE
   print *,'MPI_Send_f08 wrapper before c calls'
 #endif

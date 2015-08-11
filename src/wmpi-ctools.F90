@@ -75,24 +75,33 @@ end subroutine WMPI_Comm_rank_F
 subroutine WMPI_Send_F(buf,count,datatype,dest,tag,comm,ierror) &
   BIND(C,name="WMPI_Send_F")
   use, intrinsic :: ISO_C_BINDING, only : C_INT
-  use :: mpi, only : PMPI_Send
+  use :: mpi, only : PMPI_Send, MPI_COMM_WORLD
   implicit none
 #ifdef F_INTEROP_TR
-  TYPE(*), DIMENSION(..), INTENT(IN) :: buf
+!  TYPE(*), DIMENSION(..), INTENT(IN) :: buf
 #else
   REAL, DIMENSION(*), INTENT(IN) :: buf
 #endif
+  double precision, DIMENSION(*), INTENT(IN) :: buf
+
+
   INTEGER(C_INT), INTENT(IN), VALUE :: count, dest, tag
   INTEGER(C_INT), INTENT(IN), VALUE :: datatype
   INTEGER(C_INT), INTENT(IN), VALUE :: comm
   INTEGER(C_INT), INTENT(OUT) :: ierror
   INTEGER :: f_ierror
 
+#define VERBOSE
 #ifdef VERBOSE
   print *, 'WMPI_Send_F wrapper before PMPI call'
+  print *, count, datatype, dest, tag, comm
 #endif
 
-  call PMPI_Send(buf, count, datatype, dest, tag, comm, f_ierror)
+print *, "MPI_COMM_WORLD", MPI_COMM_WORLD
+print *, "buf:", buf(1)
+
+   call PMPI_Send(buf, count, datatype, dest, tag, MPI_COMM_WORLD, f_ierror)
+!  call PMPI_Send(buf, count, datatype, dest, tag, comm, f_ierror)
 
   ierror = f_ierror
 
