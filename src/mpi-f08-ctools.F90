@@ -87,7 +87,7 @@ subroutine MPI_Send_f08(buf,count,datatype,dest,tag,comm,ierror)
 #ifdef F_INTEROP_TR
   TYPE(*), DIMENSION(..), INTENT(IN) :: buf
 #else
-  REAL, DIMENSION(*), INTENT(IN) :: buf
+  WMPI_CHOICE_BUFFER_TYPE, DIMENSION(*), INTENT(IN) :: buf
 #endif
   INTEGER, INTENT(IN) :: count, dest, tag
   TYPE(MPI_Datatype), INTENT(IN) :: datatype
@@ -129,7 +129,7 @@ subroutine MPI_Recv_f08(buf,count,datatype,source,tag,comm,status,ierror)
 #ifdef F_INTEROP_TR
   TYPE(*), DIMENSION(..) :: buf
 #else
-  REAL, DIMENSION(*) :: buf
+  WMPI_CHOICE_BUFFER_TYPE, DIMENSION(*) :: buf
 #endif
   INTEGER, INTENT(IN) :: count, source, tag
   TYPE(MPI_Datatype), INTENT(IN) :: datatype

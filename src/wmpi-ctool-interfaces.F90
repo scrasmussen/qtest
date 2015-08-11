@@ -55,7 +55,7 @@ function WMPI_Send(buf,count,datatype,dest,tag,comm,fflag) result(ierror) &
 #ifdef F_INTEROP_TR
   TYPE(*), DIMENSION(..), INTENT(IN) :: buf
 #else
-  REAL, DIMENSION(*), INTENT(IN) :: buf
+  WMPI_CHOICE_BUFFER_TYPE, DIMENSION(*), INTENT(IN) :: buf
 #endif
   INTEGER(C_INT), INTENT(IN), VALUE :: count, dest, tag
   TYPE(WMPI_Datatype), INTENT(IN), VALUE :: datatype
@@ -74,7 +74,7 @@ function WMPI_Recv(buf,count,datatype,source,tag,comm,status,fflag) &
 #ifdef F_INTEROP_TR
   TYPE(*), DIMENSION(..) :: buf
 #else
-  REAL, DIMENSION(*) :: buf
+  WMPI_CHOICE_BUFFER_TYPE, DIMENSION(*) :: buf
 #endif
   INTEGER(C_INT), INTENT(IN), VALUE :: count, source, tag
   TYPE(WMPI_Datatype), INTENT(IN), VALUE :: datatype
