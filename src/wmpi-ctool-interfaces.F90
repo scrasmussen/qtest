@@ -1,9 +1,11 @@
-#define F_INTEROP_TR
-
 !
 ! This file interfaces for WMPI wrappers to ctools
 !   - this file should be generated
 !
+
+!! Let the preprocessor include this file, breaks otherwise.
+!
+#include "preprocess-macros.h"
 
 module wmpi_ctool_interfaces
 

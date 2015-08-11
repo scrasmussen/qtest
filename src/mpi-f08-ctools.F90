@@ -1,6 +1,7 @@
-#define F_INTEROP_TR
-#undef VERBOSE
-#undef STATUSVERBOSE
+!! Let the preprocessor include this file, breaks otherwise.
+!
+#include "preprocess-macros.h"
+
 
 !===== WRAPPER 1 =====
 

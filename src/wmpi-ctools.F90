@@ -1,6 +1,7 @@
-#define F_INTEROP_TR
-#undef VERBOSE
-#undef STATUSVERBOSE
+!! Let the preprocessor include this file, breaks otherwise.
+!
+#include "preprocess-macros.h"
+
 
 !===== Fortran WRAPPER 2 =====
 
@@ -80,7 +81,7 @@ subroutine WMPI_Send_F(buf,count,datatype,dest,tag,comm,ierror) &
 #ifdef F_INTEROP_TR
 !  TYPE(*), DIMENSION(..), INTENT(IN) :: buf
 #else
-  REAL, DIMENSION(*), INTENT(IN) :: buf
+!  REAL, DIMENSION(*), INTENT(IN) :: buf
 #endif
   double precision, DIMENSION(*), INTENT(IN) :: buf
 
