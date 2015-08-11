@@ -1,0 +1,4 @@
+#undef F_INTEROP_TR
+
+#undef VERBOSE
+#undef STATUSVERBOSE
