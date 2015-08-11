@@ -1,3 +1,4 @@
+#define F_INTEROP_TR
 #undef VERBOSE
 #undef STATUSVERBOSE
 
@@ -82,7 +83,11 @@ subroutine MPI_Send_f08(buf,count,datatype,dest,tag,comm,ierror)
   use :: wmpi_f2c_interfaces, only : WMPI_Type_f2c, WMPI_Comm_f2c
   use :: wmpi_types, only : WMPI_Datatype, WMPI_Comm
   implicit none
+#ifdef F_INTEROP_TR
+  TYPE(*), DIMENSION(..), INTENT(IN) :: buf
+#else
   REAL, DIMENSION(*), INTENT(IN) :: buf
+#endif
   INTEGER, INTENT(IN) :: count, dest, tag
   TYPE(MPI_Datatype), INTENT(IN) :: datatype
   TYPE(MPI_Comm), INTENT(IN) :: comm
@@ -119,7 +124,11 @@ subroutine MPI_Recv_f08(buf,count,datatype,source,tag,comm,status,ierror)
   use :: wmpi_f2c_interfaces, only : WMPI_Type_f2c, WMPI_Comm_f2c, &
        WMPI_Status_f2c, WMPI_Status_c2f
   implicit none
-  REAL, DIMENSION(*), INTENT(OUT) :: buf
+#ifdef F_INTEROP_TR
+  TYPE(*), DIMENSION(..) :: buf
+#else
+  REAL, DIMENSION(*) :: buf
+#endif
   INTEGER, INTENT(IN) :: count, source, tag
   TYPE(MPI_Datatype), INTENT(IN) :: datatype
   TYPE(MPI_Comm), INTENT(IN) :: comm
