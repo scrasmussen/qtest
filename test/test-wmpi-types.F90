@@ -5,38 +5,41 @@ program test_wmpi_types
    use mpi_f08
    implicit none
 
-   integer :: f_comm, call_comm
+   integer :: f_comm
    type(WMPI_Comm) :: c_comm
-   integer :: f_type, call_type
+   integer :: f_type
    type(WMPI_Datatype) :: c_type
-   integer :: f_errhandler, call_errhandler
+   integer :: f_errhandler
    type(WMPI_Errhandler) :: c_errhandler
-   integer :: f_group, call_group
+   integer :: f_group
    type(WMPI_Group) :: c_group
-   integer :: f_info, call_info
+   integer :: f_info
    type(WMPI_Info) :: c_info
-   integer :: f_message, call_message
+   integer :: f_message
    type(WMPI_Message) :: c_message
-   integer :: f_op, call_op
+   integer :: f_op
    type(WMPI_Op) :: c_op
-   integer :: f_request, call_request
+   integer :: f_request
    type(WMPI_Request) :: c_request
-   integer :: f_win, call_win
+   integer :: f_win
    type(WMPI_Win) :: c_win
-   integer :: f_file, call_file
+   integer :: f_file
    type(WMPI_File) :: c_file
 
-   call_comm = 0
-   call_type = 0
-   call_errhandler = 0
-   call_group = 0
-   call_info = 0
-   call_message = 0
-   call_op = 0
-   call_request = 0
-   call_win = 0
-   call_file = 1
+   logical :: call_comm, call_type, call_errhandler, call_group,  &
+              call_info, call_message, call_op, call_request,     &
+              call_win, call_file
 
+   call_comm = .FALSE.
+   call_type = .FALSE.
+   call_errhandler = .FALSE.
+   call_group = .FALSE.
+   call_info = .FALSE.
+   call_message = .FALSE.
+   call_op = .FALSE.
+   call_request = .FALSE.
+   call_win = .FALSE.
+   call_file = .TRUE.
 
    call MPI_Init()
 
