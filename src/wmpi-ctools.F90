@@ -1,3 +1,4 @@
+#define F_INTEROP_TR
 #undef VERBOSE
 #undef STATUSVERBOSE
 
@@ -76,7 +77,11 @@ subroutine WMPI_Send_F(buf,count,datatype,dest,tag,comm,ierror) &
   use, intrinsic :: ISO_C_BINDING, only : C_INT
   use :: mpi, only : PMPI_Send
   implicit none
+#ifdef F_INTEROP_TR
+  TYPE(*), DIMENSION(..), INTENT(IN) :: buf
+#else
   REAL, DIMENSION(*), INTENT(IN) :: buf
+#endif
   INTEGER(C_INT), INTENT(IN), VALUE :: count, dest, tag
   INTEGER(C_INT), INTENT(IN), VALUE :: datatype
   INTEGER(C_INT), INTENT(IN), VALUE :: comm
@@ -100,30 +105,33 @@ end subroutine WMPI_Send_F
 subroutine WMPI_Recv_F(buf,count,datatype,source,tag,comm,status,ierror) &
   BIND(C,name='WMPI_Recv_F')
   use, intrinsic :: ISO_C_BINDING, only : C_INT
-  use :: mpi_f08, only : MPI_Status, MPI_Comm, MPI_Datatype, PMPI_Recv
-  use :: mpi_f08_types
+  use :: mpi, only : PMPI_Recv, MPI_STATUS_SIZE
   implicit none
-  REAL, DIMENSION(*), INTENT(OUT) :: buf
+#ifdef F_INTEROP_TR
+  TYPE(*), DIMENSION(..) :: buf
+#else
+  REAL, DIMENSION(*) :: buf
+#endif
   INTEGER(C_INT), INTENT(IN), VALUE :: count, source, tag
-  TYPE(MPI_Datatype), INTENT(IN), VALUE :: datatype
-  TYPE(MPI_Comm), INTENT(IN), VALUE :: comm
-  TYPE(MPI_Status), INTENT(OUT) :: status
+  INTEGER(C_INT), INTENT(IN), VALUE :: datatype
+  INTEGER(C_INT), INTENT(IN), VALUE :: comm
+  INTEGER(C_INT), INTENT(OUT) :: status(MPI_STATUS_SIZE)
   INTEGER(C_INT), INTENT(OUT) :: ierror
-  INTEGER :: fierror
+  INTEGER :: f_ierror
 
 #ifdef STATUSVERBOSE
   print *,'WPMI_Recv_F wrapper before PMPI call'
-  print *,'STATUS%MPI_SOURCE',STATUS%MPI_SOURCE
-  print *,'STATUS%MPI_TAG',STATUS%MPI_TAG
-  print *,'STATUS%MPI_ERROR',STATUS%MPI_ERROR
+  print *,'STATUS(1)',STATUS(1)
+  print *,'STATUS(2)',STATUS(2)
+  print *,'STATUS(3)',STATUS(3)
   print *,'DATATYPE =', datatype
   print *,'COUNT    =', count
   print *,'SOURCE   =', source
   print *,'TAG      =', tag
 #endif
 
-  call PMPI_Recv(buf, count, datatype, source, tag, comm, status, fierror)
-  ierror = fierror
+  call PMPI_Recv(buf, count, datatype, source, tag, comm, status, f_ierror)
+  ierror = f_ierror
 
 #ifdef STATUSVERBOSE
   print *,'IERROR AFTER =',ierror 
@@ -137,7 +145,7 @@ end subroutine WMPI_Recv_F
 subroutine WMPI_Get_processor_name_F(c_name, c_resultlen, c_ierror) &
   BIND(C,name='WMPI_Get_processor_name_F')
   use, intrinsic :: ISO_C_BINDING, only : C_INT, C_CHAR
-  use :: mpi_f08, only : MPI_MAX_PROCESSOR_NAME
+  use :: mpi, only : MPI_MAX_PROCESSOR_NAME
   implicit none
   CHARACTER(KIND=C_CHAR), INTENT(OUT) :: c_name(MPI_MAX_PROCESSOR_NAME+1)
   INTEGER(C_INT), INTENT(OUT) :: c_resultlen
