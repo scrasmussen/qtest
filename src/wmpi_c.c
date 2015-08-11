@@ -85,12 +85,14 @@ int WMPI_Send_C(void *buf, int count, MPI_Datatype datatype, int dest, int tag, 
   int ierror;
   int f_comm, f_datatype;
 
+#define VERBOSE
   if (fflag == 1) {
     #ifdef VERBOSE
     printf(" WMPI_Send_C: before calling WMPI_Send_F\n");
     #endif
     f_comm = MPI_Comm_c2f(comm);
     f_datatype = MPI_Type_c2f(datatype);
+    printf(" f_comm=%d %d %d %d %d\n", count, f_datatype, dest, tag, f_comm);
     WMPI_Send_F(buf, count, f_datatype, dest, tag, f_comm, &ierror);
   }
   else {
