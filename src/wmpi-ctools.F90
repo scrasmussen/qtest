@@ -130,7 +130,6 @@ subroutine WMPI_Recv_F(buf,count,datatype,source,tag,comm,status,ierror) &
   INTEGER(C_INT), INTENT(OUT) :: ierror
   INTEGER :: f_ierror
 
-#define VERBOSE
 #ifdef VERBOSE
   print *,'WPMI_Recv_F wrapper before PMPI call'
   print *,'ARGS =', count, datatype, source, tag, comm
