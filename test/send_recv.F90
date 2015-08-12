@@ -47,6 +47,7 @@ program test_send_recv
    prev = modulo(rank + size - 1, size)
 
    message(1) = rank
+   dbl_scalar = 13
 
    if (verbose) then
       print *, "rank=", rank, "sending to    ", next
@@ -56,23 +57,19 @@ program test_send_recv
    if (rank == 0) then
       call MPI_Send(message(1),1,MPI_DOUBLE_PRECISION,next,tag,comm,err)
       if (err /= MPI_SUCCESS) ERROR STOP "ERROR calling MPI_Send"
-!      call MPI_Recv(dbl_scalar,1,MPI_DOUBLE_PRECISION,prev,tag,comm,status,err)
+      call MPI_Recv(dbl_scalar,1,MPI_DOUBLE_PRECISION,prev,tag,comm,status,err)
       if (err /= MPI_SUCCESS) ERROR STOP "ERROR calling MPI_Recv"
    else
-!      call MPI_Recv(dbl_scalar,1,MPI_DOUBLE_PRECISION,prev,tag,comm,status,err)
+      call MPI_Recv(dbl_scalar,1,MPI_DOUBLE_PRECISION,prev,tag,comm,status,err)
       if (err /= MPI_SUCCESS) ERROR STOP "ERROR calling MPI_Recv"
-print *
-print *, ".............................."
-print *
       call MPI_Send(message   ,1,MPI_DOUBLE_PRECISION,next,tag,comm,err)
       if (err /= MPI_SUCCESS) ERROR STOP "ERROR calling MPI_Send"
    end if
 
-print *, "rank=", rank, "FINISHING"
+print *, "rank=", rank, "FINISHING", REAL(message(1)), REAL(dbl_scalar)
+goto 99
 
-call MPI_Finalize()
-stop
-
+#ifdef NOT_YET
    if (dbl_scalar .ne. prev) then
       print *, "ERROR test_send_recv: rank=", rank, "received", dbl_scalar, " from", prev
       call MPI_Finalize(err)
@@ -168,6 +165,7 @@ stop
    if (verbose) then
       print *, "str_recv (after recv)==", str_recv
    end if
+#endif
 
 ! THIS NEEDS TO BE FIXED (check results).
 ! Currently just to make sure sendrecv compiles and links
