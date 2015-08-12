@@ -78,32 +78,28 @@ subroutine WMPI_Send_F(buf,count,datatype,dest,tag,comm,ierror) &
   use, intrinsic :: ISO_C_BINDING, only : C_INT
   use :: mpi, only : PMPI_Send, MPI_COMM_WORLD
   implicit none
-#ifdef F_INTEROP_TR
-!  TYPE(*), DIMENSION(..), INTENT(IN) :: buf
+#ifdef USE_ASSUMED_TYPE
+  TYPE(*), DIMENSION(..), INTENT(IN) :: buf
 #else
-!  WMPI_CHOICE_BUFFER_TYPE, DIMENSION(*), INTENT(IN) :: buf
+  !DEC$ ATTRIBUTES NO_ARG_CHECK :: buf
+  !GCC$ ATTRIBUTES NO_ARG_CHECK :: buf
+  !$PRAGMA IGNORE_TKR buf
+  !DIR$ IGNORE_TKR buf
+  !IBM* IGNORE_TKR buf
+  WMPI_CHOICE_BUFFER_TYPE, DIMENSION(*), INTENT(IN) :: buf
 #endif
-  double precision, DIMENSION(*), INTENT(IN) :: buf
-
-
   INTEGER(C_INT), INTENT(IN), VALUE :: count, dest, tag
   INTEGER(C_INT), INTENT(IN), VALUE :: datatype
   INTEGER(C_INT), INTENT(IN), VALUE :: comm
   INTEGER(C_INT), INTENT(OUT) :: ierror
   INTEGER :: f_ierror
 
-#define VERBOSE
 #ifdef VERBOSE
   print *, 'WMPI_Send_F wrapper before PMPI call'
   print *, count, datatype, dest, tag, comm
 #endif
 
-print *, "MPI_COMM_WORLD", MPI_COMM_WORLD
-print *, "buf:", buf(1)
-
-   call PMPI_Send(buf, count, datatype, dest, tag, MPI_COMM_WORLD, f_ierror)
-!  call PMPI_Send(buf, count, datatype, dest, tag, comm, f_ierror)
-
+  call PMPI_Send(buf, count, datatype, dest, tag, comm, f_ierror)
   ierror = f_ierror
 
 #ifdef VERBOSE
@@ -117,9 +113,14 @@ subroutine WMPI_Recv_F(buf,count,datatype,source,tag,comm,status,ierror) &
   use, intrinsic :: ISO_C_BINDING, only : C_INT
   use :: mpi, only : PMPI_Recv, MPI_STATUS_SIZE
   implicit none
-#ifdef F_INTEROP_TR
+#ifdef F_INTEROP_ASSUMED_TYPE
   TYPE(*), DIMENSION(..) :: buf
 #else
+  !DEC$ ATTRIBUTES NO_ARG_CHECK :: buf
+  !GCC$ ATTRIBUTES NO_ARG_CHECK :: buf
+  !$PRAGMA IGNORE_TKR buf
+  !DIR$ IGNORE_TKR buf
+  !IBM* IGNORE_TKR buf
   WMPI_CHOICE_BUFFER_TYPE, DIMENSION(*) :: buf
 #endif
   INTEGER(C_INT), INTENT(IN), VALUE :: count, source, tag
@@ -129,23 +130,18 @@ subroutine WMPI_Recv_F(buf,count,datatype,source,tag,comm,status,ierror) &
   INTEGER(C_INT), INTENT(OUT) :: ierror
   INTEGER :: f_ierror
 
-#ifdef STATUSVERBOSE
+#define VERBOSE
+#ifdef VERBOSE
   print *,'WPMI_Recv_F wrapper before PMPI call'
-  print *,'STATUS(1)',STATUS(1)
-  print *,'STATUS(2)',STATUS(2)
-  print *,'STATUS(3)',STATUS(3)
-  print *,'DATATYPE =', datatype
-  print *,'COUNT    =', count
-  print *,'SOURCE   =', source
-  print *,'TAG      =', tag
+  print *,'ARGS =', count, datatype, source, tag, comm
 #endif
 
   call PMPI_Recv(buf, count, datatype, source, tag, comm, status, f_ierror)
   ierror = f_ierror
 
-#ifdef STATUSVERBOSE
-  print *,'IERROR AFTER =',ierror 
+#ifdef VERBOSE
   print *,'WPMI_Recv_F wrapper after PMPI call'
+  print *,'STATUS:', status(1), status(2), status(3)
 #endif
 
 end subroutine WMPI_Recv_F
