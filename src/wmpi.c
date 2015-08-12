@@ -74,16 +74,14 @@ int WMPI_Recv(void *buf, int count, MPI_Datatype datatype, int source, int tag, 
 {
   int ierror;
 
-#ifdef STATUSVERBOSE
+#define VERBOSE
+#ifdef  VERBOSE
   printf(" WMPI_Recv: before WMPI_Recv_C\n");
 #endif
 
-  //REMOVING THIS STATEMENT WILL CAUSE FATAL CRASHING
-  //  printf(" status address 0x%p \n",&status);
-
   ierror = WMPI_Recv_C(buf, count, datatype, source, tag, comm, status, fflag);
 
-#ifdef STATUSVERBOSE
+#ifdef VERBOSE
   printf(" WMPI_Recv: after WMPI_Recv_C\n");
 #endif
 
@@ -97,13 +95,13 @@ int WMPI_Get_processor_name(char * name, int * resultlen, int fflag)
 {
   int ierror;
 
-#ifdef STATUSVERBOSE
+#ifdef VERBOSE
   printf(" WMPI_Get_processor_name: before WMPI_Get_processor_name_C\n");
 #endif
 
   ierror = WMPI_Get_processor_name_C(name, resultlen, fflag);
 
-#ifdef STATUSVERBOSE
+#ifdef VERBOSE
   printf(" WMPI_Get_processor_name: len==%d, name==%s\n", *resultlen, name);
 #endif
 
