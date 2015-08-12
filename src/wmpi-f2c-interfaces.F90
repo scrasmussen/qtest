@@ -226,8 +226,8 @@ module wmpi_f2c_interfaces
       use mpi_f08, only : MPI_Status
       use WMPI_types, only : WMPI_Status
       implicit none
+      type(MPI_Status), intent(in) :: f_status
       type(WMPI_Status), intent(out) :: c_status
-      type(MPI_Status), intent(in), value :: f_status
       integer :: ierror
     end function WMPI_Status_f2c
 
@@ -236,7 +236,7 @@ module wmpi_f2c_interfaces
       use mpi_f08, only : MPI_Status
       use WMPI_types, only : WMPI_Status
       implicit none
-      type(WMPI_Status), intent(in), value :: c_status
+      type(WMPI_Status), intent(in) :: c_status
       type(MPI_Status), intent(out) :: f_status
       integer :: ierror
     end function WMPI_Status_c2f
@@ -258,6 +258,11 @@ module wmpi_f2c_interfaces
       integer, intent(in) :: length, max_length
       integer :: i
     end subroutine WMPI_string_c2f
+
+    subroutine print_addr(cptr) bind(C, name="print_addr")
+      use, intrinsic :: ISO_C_BINDING, only : C_PTR
+      type(C_PTR), value :: cptr
+    end subroutine print_addr
 
   end interface
 
