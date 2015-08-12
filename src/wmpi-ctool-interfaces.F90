@@ -52,9 +52,14 @@ function WMPI_Send(buf,count,datatype,dest,tag,comm,fflag) result(ierror) &
   use, intrinsic :: ISO_C_BINDING, only : C_INT
   use WMPI_types, only : WMPI_Datatype, WMPI_Comm
   implicit none
-#ifdef F_INTEROP_TR
+#ifdef USE_ASSUMED_TYPE
   TYPE(*), DIMENSION(..), INTENT(IN) :: buf
 #else
+  !DEC$ ATTRIBUTES NO_ARG_CHECK :: buf
+  !GCC$ ATTRIBUTES NO_ARG_CHECK :: buf
+  !$PRAGMA IGNORE_TKR buf
+  !DIR$ IGNORE_TKR buf
+  !IBM* IGNORE_TKR buf
   WMPI_CHOICE_BUFFER_TYPE, DIMENSION(*), INTENT(IN) :: buf
 #endif
   INTEGER(C_INT), INTENT(IN), VALUE :: count, dest, tag
@@ -71,9 +76,14 @@ function WMPI_Recv(buf,count,datatype,source,tag,comm,status,fflag) &
   use mpi_f08, only : MPI_Status
   use WMPI_types, only : WMPI_Datatype, WMPI_Comm, WMPI_Status
   implicit none
-#ifdef F_INTEROP_TR
+#ifdef USE_ASSUMED_TYPE
   TYPE(*), DIMENSION(..) :: buf
 #else
+  !DEC$ ATTRIBUTES NO_ARG_CHECK :: buf
+  !GCC$ ATTRIBUTES NO_ARG_CHECK :: buf
+  !$PRAGMA IGNORE_TKR buf
+  !DIR$ IGNORE_TKR buf
+  !IBM* IGNORE_TKR buf
   WMPI_CHOICE_BUFFER_TYPE, DIMENSION(*) :: buf
 #endif
   INTEGER(C_INT), INTENT(IN), VALUE :: count, source, tag
