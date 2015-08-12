@@ -21,7 +21,7 @@ program test_send_recv
    character(len=4) :: str_send, str_recv
 
    integer, parameter :: tag = 201
-   logical, parameter :: verbose = .true.   ! flag controlling output
+   logical, parameter :: verbose = .false.   ! flag controlling output
 
    comm = MPI_COMM_WORLD
 
@@ -59,17 +59,18 @@ program test_send_recv
       if (err /= MPI_SUCCESS) ERROR STOP "ERROR calling MPI_Send"
       call MPI_Recv(dbl_scalar,1,MPI_DOUBLE_PRECISION,prev,tag,comm,status,err)
       if (err /= MPI_SUCCESS) ERROR STOP "ERROR calling MPI_Recv"
+      if (status%MPI_SOURCE /= 1) ERROR STOP "ERROR in status source"
    else
       call MPI_Recv(dbl_scalar,1,MPI_DOUBLE_PRECISION,prev,tag,comm,status,err)
       if (err /= MPI_SUCCESS) ERROR STOP "ERROR calling MPI_Recv"
+      if (status%MPI_SOURCE /= 0) ERROR STOP "ERROR in status source"
       call MPI_Send(message   ,1,MPI_DOUBLE_PRECISION,next,tag,comm,err)
       if (err /= MPI_SUCCESS) ERROR STOP "ERROR calling MPI_Send"
    end if
 
-print *, "rank=", rank, "FINISHING", REAL(message(1)), REAL(dbl_scalar)
-goto 99
+   if (status%MPI_TAG /= tag) ERROR STOP "ERROR in status tag"
+   if (status%MPI_ERROR /= MPI_SUCCESS) ERROR STOP "ERROR in status error"
 
-#ifdef NOT_YET
    if (dbl_scalar .ne. prev) then
       print *, "ERROR test_send_recv: rank=", rank, "received", dbl_scalar, " from", prev
       call MPI_Finalize(err)
@@ -83,13 +84,14 @@ goto 99
    if (err /= MPI_SUCCESS) ERROR STOP "ERROR calling MPI_Barrier"
 
    if (verbose) then
-      print *, "rank=", rank, "received", dbl_scalar, " from", prev
+      print *, "rank=", rank, "received", REAL(dbl_scalar), " from", prev
       print *, "status=", status%MPI_SOURCE, status%MPI_TAG, status%MPI_ERROR
    end if
 
    call MPI_Barrier(MPI_COMM_WORLD, err)
    if (err /= MPI_SUCCESS) ERROR STOP "ERROR calling MPI_Barrier"
 
+#ifdef NOT_YET
    ! test sending other data types
    !
 
