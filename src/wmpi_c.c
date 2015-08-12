@@ -85,25 +85,24 @@ int WMPI_Send_C(void *buf, int count, MPI_Datatype datatype, int dest, int tag, 
   int ierror;
   int f_comm, f_datatype;
 
-#define VERBOSE
   if (fflag == 1) {
-    #ifdef VERBOSE
-    printf(" WMPI_Send_C: before calling WMPI_Send_F\n");
-    #endif
     f_comm = MPI_Comm_c2f(comm);
     f_datatype = MPI_Type_c2f(datatype);
-    printf(" f_comm=%d %d %d %d %d\n", count, f_datatype, dest, tag, f_comm);
+#ifdef VERBOSE
+    printf(" WMPI_Send_C: before calling WMPI_Send_F\n");
+    printf(" args=%d %d %d %d %d\n", count, f_datatype, dest, tag, f_comm);
+#endif
     WMPI_Send_F(buf, count, f_datatype, dest, tag, f_comm, &ierror);
   }
   else {
-    #ifdef VERBOSE
+#ifdef VERBOSE
     printf(" WMPI_Send_C: before calling PMPI_Send\n");
-    #endif
+#endif
     ierror = PMPI_Send(buf, count, datatype, dest, tag, comm);
   }
-  #ifdef VERBOSE
+#ifdef VERBOSE
   printf(" WMPI_Send_C: after\n");
-  #endif
+#endif
   return ierror;
 }
 
@@ -114,32 +113,35 @@ int WMPI_Recv_C(void *buf, int count, MPI_Datatype datatype, int source, int tag
   /* Fortran status (use mpi version) must be an array to have proper size */
   int f_comm, f_datatype, f_status[MPI_FORTRAN_STATUS_SIZE];
 
+#define VERBOSE
   if (fflag == 1) {
-    #ifdef STATUSVERBOSE
-    printf(" WMPI_Recv_C: before calling WMPI_Recv_F\n");
-    #endif
-    printf("      fflag==%d\n", fflag);
-    f_comm = MPI_Comm_c2f(comm);
-    printf("      fflag==%d\n", fflag);
     f_datatype = MPI_Type_c2f(datatype);
-    printf("      fflag==%d\n", fflag);
-    // WARNING!!! :: NEED TO MAKE SURE THIS WORKS CORRECTLY
-    // This call seems to be correct by returned status should be checked
+    f_comm = MPI_Comm_c2f(comm);
+#ifdef VERBOSE
+    printf(" WMPI_Recv_C: before calling WMPI_Recv_F\n");
+    printf(" args=%d %d %d %d %d\n", count, f_datatype, source, tag, f_comm);
+#endif
+
     status_error = MPI_Status_c2f(status, f_status);
     if (status_error != MPI_SUCCESS) printf("ERROR: MPI_Status_c2f returned error value %d\n", status_error);
-    printf("      fflag==%d\n", fflag);
 
     WMPI_Recv_F(buf, count, f_datatype, source, tag, f_comm, f_status, &ierror);
-    printf("      fflag==%d\n", fflag);
+
+    status_error = MPI_Status_f2c(f_status, status);
+    if (status_error != MPI_SUCCESS) printf("ERROR: MPI_Status_f2c returned error value %d\n", status_error);
+#ifdef VERBOSE
+    status_error = MPI_Status_c2f(status, f_status);
+    printf("f_status = %d %d %d\n", f_status[0], f_status[1], f_status[2]);
+#endif
   }
   else {
-#ifdef STATUSVERBOSE
+#ifdef VERBOSE
     printf(" WMPI_Recv_C: before calling PMPI_Recv\n");
 #endif
     ierror = PMPI_Recv(buf, count, datatype, source, tag, comm, status);
   }
 
-#ifdef STATUSVERBOSE
+#ifdef VERBOSE
   printf(" WMPI_Recv_C: after\n");
 #endif
 
