@@ -1,4 +1,4 @@
-#undef  F_INTEROP_TR
+#undef  USE_ASSUMED_TYPE
 #define WMPI_CHOICE_BUFFER_TYPE REAL
 
 #undef VERBOSE
