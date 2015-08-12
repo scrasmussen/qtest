@@ -7,6 +7,7 @@
 
 module WMPI_types
    use :: ISO_C_BINDING
+   use :: mpi_f08, only : MPI_STATUS_SIZE
    implicit none
 
    include "wmpi-handle-size.h"
@@ -64,7 +65,7 @@ module WMPI_types
    end type WMPI_Win
 
    type, BIND(C) :: WMPI_Status
-      integer(kind=C_SIGNED_CHAR) :: padding(LEN_MPI_STATUS)
+      integer :: padding(MPI_STATUS_SIZE)
    end type WMPI_Status
 
    ! Should all be filled in: *check* TODO - fill in the rest
