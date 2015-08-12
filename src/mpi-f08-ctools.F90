@@ -84,9 +84,14 @@ subroutine MPI_Send_f08(buf,count,datatype,dest,tag,comm,ierror)
   use :: wmpi_f2c_interfaces, only : WMPI_Type_f2c, WMPI_Comm_f2c
   use :: wmpi_types, only : WMPI_Datatype, WMPI_Comm
   implicit none
-#ifdef F_INTEROP_TR
+#ifdef USE_ASSUMED_TYPE
   TYPE(*), DIMENSION(..), INTENT(IN) :: buf
 #else
+  !DEC$ ATTRIBUTES NO_ARG_CHECK :: buf
+  !GCC$ ATTRIBUTES NO_ARG_CHECK :: buf
+  !$PRAGMA IGNORE_TKR buf
+  !DIR$ IGNORE_TKR buf
+  !IBM* IGNORE_TKR buf
   WMPI_CHOICE_BUFFER_TYPE, DIMENSION(*), INTENT(IN) :: buf
 #endif
   INTEGER, INTENT(IN) :: count, dest, tag
@@ -97,7 +102,6 @@ subroutine MPI_Send_f08(buf,count,datatype,dest,tag,comm,ierror)
   TYPE(WMPI_Datatype) :: c_datatype
   TYPE(WMPI_Comm) :: c_comm
 
-#define VERBOSE
 #ifdef VERBOSE
   print *,'MPI_Send_f08 wrapper before c calls'
 #endif
@@ -119,16 +123,20 @@ end subroutine MPI_Send_f08
 
 subroutine MPI_Recv_f08(buf,count,datatype,source,tag,comm,status,ierror)
   use, intrinsic :: ISO_C_BINDING, only : C_INT
-  !use :: wmpi_ctool_interfaces, only : WMPI_Recv
   use :: mpi_f08, only : MPI_Datatype, MPI_Comm, MPI_Status
   use :: wmpi_types, only : WMPI_Datatype, WMPI_Comm, WMPI_Status
   use :: wmpi_ctool_interfaces, only : WMPI_Recv
   use :: wmpi_f2c_interfaces, only : WMPI_Type_f2c, WMPI_Comm_f2c, &
        WMPI_Status_f2c, WMPI_Status_c2f
   implicit none
-#ifdef F_INTEROP_TR
+#ifdef USE_ASSUMED_TYPE
   TYPE(*), DIMENSION(..) :: buf
 #else
+  !DEC$ ATTRIBUTES NO_ARG_CHECK :: buf
+  !GCC$ ATTRIBUTES NO_ARG_CHECK :: buf
+  !$PRAGMA IGNORE_TKR buf
+  !DIR$ IGNORE_TKR buf
+  !IBM* IGNORE_TKR buf
   WMPI_CHOICE_BUFFER_TYPE, DIMENSION(*) :: buf
 #endif
   INTEGER, INTENT(IN) :: count, source, tag
@@ -141,12 +149,10 @@ subroutine MPI_Recv_f08(buf,count,datatype,source,tag,comm,status,ierror)
   TYPE(WMPI_Comm) :: c_comm
   TYPE(WMPI_Status) :: c_status
 
-#ifdef STATUSVERBOSE
+#define VERBOSE
+#ifdef VERBOSE
   print *,'MPI_Recv_f08 wrapper before c calls'
 #endif
-  status%MPI_SOURCE = 13
-  status%MPI_TAG = 14
-  status%MPI_ERROR = 15
 
   c_count = count
   c_datatype = WMPI_Type_f2c(datatype%MPI_VAL)
@@ -155,19 +161,20 @@ subroutine MPI_Recv_f08(buf,count,datatype,source,tag,comm,status,ierror)
   c_comm = WMPI_Comm_f2c(comm%MPI_VAL)
   ierror = WMPI_Status_f2c(status, c_status)
 
-#ifdef STATUSVERBOSE
-  print *,'about to enter with',1_C_INT
-#endif 
-
   c_ierror = WMPI_Recv(buf,c_count,c_datatype,c_source,c_tag,c_comm,c_status,1_C_INT)
   if (present(ierror)) ierror = c_ierror
 
-#ifdef STATUSVERBOSE
+  ierror = WMPI_Status_f2c(status, c_status)
+
+#ifdef VERBOSE
   print *,'MPI_Recv_f08 wrapper after c calls'
-  print *,'STATUS%MPI_SOURCE',STATUS%MPI_SOURCE
-  print *,'STATUS%MPI_TAG',STATUS%MPI_TAG
-  print *,'STATUS%MPI_ERROR',STATUS%MPI_ERROR
+  print *,'STATUS:', status%MPI_SOURCE, status%MPI_TAG, status%MPI_ERROR
+  print *, c_status
 #endif
+
+  return
+9 if (present(ierror)) ierror = c_ierror
+
 end subroutine MPI_Recv_f08
 
 
