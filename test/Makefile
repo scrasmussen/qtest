@@ -25,14 +25,17 @@ SRC_OBJS = $(SRC_DIR)/wmpi-types.o $(SRC_DIR)/wmpi-f2c-interfaces.o \
 
 all: $(OBJS) $(EXES) $(TESTS)
 
+wmpi-f2c.o: wmpi-f2c.c
+	$(CC) -g -c $<
+
 test-wmpi-types: test-wmpi-types.o $(OBJS)
 	$(FC) -o test-wmpi-types test-wmpi-types.o $(OBJS) $(SRC_OBJS)
 
 test-wmpi: test-wmpi.o $(OBJS)
 	$(FC) -o test-wmpi test-wmpi.o $(OBJS) $(SRC_OBJS)
 
-test-mpi_status: test-mpi_status.F90
-	$(FC) -o test-mpi_status $(FFLAGS) test-mpi_status.F90
+test-mpi_status: test-mpi_status.F90 wmpi-f2c.o
+	$(FC) -g -o test-mpi_status $(FFLAGS) test-mpi_status.F90 wmpi-f2c.o
 
 test_init_finalize: test_init_finalize.F90
 	$(FC) -o $@ $< $(SRC_OBJS)
