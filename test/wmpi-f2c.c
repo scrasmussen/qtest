@@ -188,23 +188,34 @@ MPI_File WMPI_File_f2c(MPI_Fint f_file)
    return c_file;
 }
 
-int WMPI_Status_f2c(MPI_Status *f_status, MPI_Status *c_status)
+int WMPI_Status_f2c(MPI_Fint *f_status, MPI_Fint *c_status)
 {
    int err;
 
-   /*
-    * I don't know how and int* status works with MPI_Status.  I
-    * think that it really isn't an integer, but is declared as an
-    * array in "use mpi" code.
-    */
-   err = MPI_Status_f2c((int*) f_status, c_status);
+   printf("WMPI_Status_f2c: call MPI_Status_f2c %p %p\n", f_status, c_status);
+   printf("   %d %d %d\n", f_status[0], f_status[1], f_status[2]);
+   printf("   %d %d %d\n", c_status[0], c_status[1], c_status[2]);
 
+   err = MPI_Status_f2c(f_status, (MPI_Status*) c_status);
+
+#ifdef NOT_YET
    if (c_status == MPI_STATUS_IGNORE) {
       printf("YEA!, C MPI_STATUS_IGNORE == Fortran MPI_STATUS_IGNORE!\n");
    } else {
       printf("BOO!, C MPI_STATUS_IGNORE != Fortran MPI_STATUS_IGNORE!\n");
    }
+#endif
 
    return err;
 }
 
+
+void print_addr(void * addr)
+{
+   int * iptr;
+
+   printf("addr == %p\n", addr);
+
+   iptr = (int*) addr;
+   printf(" val == %d %d %d\n", iptr[0], iptr[1], iptr[2]);
+}
